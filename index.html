@@ -1,0 +1,1670 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0F1F4B">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="description" content="MF Deportivo · Entrenamientos personalizados de fútbol. Evaluación y avances de jugadores, seguimiento de sesiones e informes para las familias.">
+<title>MF Deportivo</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 240'%3E%3Cpath d='M100 6 L190 32 V128 C190 190 142 224 100 236 C58 224 10 190 10 128 V32 Z' fill='%23D9A93C'/%3E%3Cpath d='M100 16 L180 39 V128 C180 182 138 212 100 224 C62 212 20 182 20 128 V39 Z' fill='%230F1F4B'/%3E%3Ctext x='100' y='150' text-anchor='middle' font-family='Arial Narrow,Arial' font-weight='900' font-style='italic' font-size='90' fill='%23D9A93C'%3EMF%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,600;0,700;0,800;1,800&family=Nunito+Sans:ital,opsz,wght@0,6..12,400;0,6..12,600;0,6..12,700;0,6..12,800;1,6..12,400&display=swap">
+<style>
+:root{
+  --ground:#F3F4F8; --surface:#FFFFFF; --surface-2:#F7F8FC; --surface-3:#EEF0F7;
+  --ink:#0F1A38; --muted:#56618A; --faint:#8A93B3;
+  --line:#DFE3EF; --line-strong:#C4CADF;
+  --navy:#0F1F4B; --navy-2:#1A3272; --navy-3:#24408C; --navy-ink:#FFFFFF;
+  --gold:#D9A93C; --gold-2:#F1C660; --gold-ink:#2A1E05; --gold-soft:#FBF1D6; --gold-line:#E9CF8A;
+  --up:#22945A; --up-soft:#E2F5EA; --down:#D3503B; --down-soft:#FBE6E2; --flat:#8A93B3; --warn:#D98A1F; --wa:#25D366; --wa-ink:#063B1E;
+  --s1:#D3503B; --s2:#E0813A; --s3:#D9A93C; --s4:#5FAE55; --s5:#22945A;
+  --hi:#1A3272;
+  --shadow:0 1px 2px rgba(15,26,56,.06), 0 10px 28px -18px rgba(15,26,56,.35);
+  --shadow-lift:0 2px 4px rgba(15,26,56,.08), 0 18px 40px -20px rgba(15,26,56,.45);
+  --r:14px; --r-sm:9px;
+  --display:'Barlow Condensed','Arial Narrow',system-ui,sans-serif;
+  --body:'Nunito Sans',system-ui,-apple-system,'Segoe UI',sans-serif;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --ground:#0A1226; --surface:#121C38; --surface-2:#182448; --surface-3:#1E2C57;
+    --ink:#EEF1FA; --muted:#A5AECB; --faint:#7C86A8;
+    --line:#243158; --line-strong:#33427A;
+    --navy:#1C2F66; --navy-2:#27408A; --navy-3:#3352A8; --navy-ink:#FFFFFF;
+    --gold:#E4B54B; --gold-2:#F5D078; --gold-ink:#2A1E05; --gold-soft:#3A2F12; --gold-line:#6E5820;
+    --up:#4CC783; --up-soft:#173A29; --down:#F07A64; --down-soft:#3F1F1B; --flat:#7C86A8; --warn:#F0A741;
+    --s1:#F07A64; --s2:#F09A55; --s3:#E4B54B; --s4:#7BC96F; --s5:#4CC783;
+    --hi:#F5D078;
+    --shadow:0 1px 2px rgba(0,0,0,.35), 0 12px 30px -18px rgba(0,0,0,.8);
+    --shadow-lift:0 2px 4px rgba(0,0,0,.4), 0 20px 44px -20px rgba(0,0,0,.9);
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#0A1226; --surface:#121C38; --surface-2:#182448; --surface-3:#1E2C57;
+  --ink:#EEF1FA; --muted:#A5AECB; --faint:#7C86A8;
+  --line:#243158; --line-strong:#33427A;
+  --navy:#1C2F66; --navy-2:#27408A; --navy-3:#3352A8; --navy-ink:#FFFFFF;
+  --gold:#E4B54B; --gold-2:#F5D078; --gold-ink:#2A1E05; --gold-soft:#3A2F12; --gold-line:#6E5820;
+  --up:#4CC783; --up-soft:#173A29; --down:#F07A64; --down-soft:#3F1F1B; --flat:#7C86A8; --warn:#F0A741;
+  --s1:#F07A64; --s2:#F09A55; --s3:#E4B54B; --s4:#7BC96F; --s5:#4CC783;
+  --hi:#F5D078;
+  --shadow:0 1px 2px rgba(0,0,0,.35), 0 12px 30px -18px rgba(0,0,0,.8);
+  --shadow-lift:0 2px 4px rgba(0,0,0,.4), 0 20px 44px -20px rgba(0,0,0,.9);
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{
+  background:var(--ground); color:var(--ink);
+  font-family:var(--body); font-size:15px; line-height:1.5;
+  -webkit-font-smoothing:antialiased; min-height:100vh;
+}
+img{max-width:100%}
+[hidden]{display:none!important}
+h1,h2,h3,h4{font-family:var(--display); margin:0; text-wrap:balance; letter-spacing:.005em; line-height:1.05}
+button,input,select,textarea{font:inherit; color:inherit}
+a{color:var(--hi)}
+:focus-visible{outline:2px solid var(--gold); outline-offset:2px; border-radius:4px}
+
+/* ---------- shell ---------- */
+.topbar{
+  position:sticky; top:0; z-index:30;
+  background:var(--navy);
+  background-image:linear-gradient(90deg, var(--navy) 0%, var(--navy-2) 60%, var(--navy-3) 100%);
+  color:var(--navy-ink);
+  box-shadow:0 2px 0 var(--gold), 0 8px 24px -14px rgba(0,0,0,.5);
+  padding-top:env(safe-area-inset-top,0px);
+}
+.topbar-in{
+  max-width:1120px; margin:0 auto; padding:9px 16px;
+  display:flex; align-items:center; gap:6px;
+}
+.brand{display:flex; align-items:center; gap:10px; margin-right:auto; min-width:0; cursor:pointer; background:none; border:0; padding:0; color:inherit; text-align:left}
+.brand .logo{width:40px; height:48px; flex:none; filter:drop-shadow(0 2px 3px rgba(0,0,0,.35))}
+.logo img, .logo svg{width:100%; height:100%; object-fit:contain; display:block}
+.brand-t{display:flex; flex-direction:column; line-height:1; min-width:0}
+.brand-t b{font-family:var(--display); font-weight:800; font-size:21px; letter-spacing:.01em; text-transform:uppercase; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+.brand-t span{font-family:var(--display); font-size:10.5px; font-weight:600; letter-spacing:.16em; text-transform:uppercase; color:var(--gold-2); margin-top:3px}
+.topbar .btn.ghost{color:rgba(255,255,255,.85)}
+.topbar .btn.ghost:hover{background:rgba(255,255,255,.12); color:#fff}
+.topbar .btn.ghost[aria-current="page"]{background:rgba(255,255,255,.16); color:#fff}
+main{max-width:1120px; margin:0 auto; padding-block:20px 72px; padding-inline:16px}
+@media (max-width:560px){ .topbar .btn.ghost .lbl{display:none} .topbar .btn.ghost{padding-inline:9px} }
+
+/* ---------- controls ---------- */
+.btn{
+  display:inline-flex; align-items:center; gap:7px; cursor:pointer;
+  background:var(--surface); color:var(--ink);
+  border:1px solid var(--line-strong); border-radius:10px;
+  padding:8px 14px; font-family:var(--display); font-weight:700; font-size:15px; letter-spacing:.02em;
+  transition:background .12s, border-color .12s, transform .08s;
+  text-decoration:none; white-space:nowrap;
+}
+.btn:hover{background:var(--surface-2); border-color:var(--faint)}
+.btn:active{transform:translateY(1px)}
+.btn.primary{background:var(--gold); color:var(--gold-ink); border-color:var(--gold)}
+.btn.primary:hover{background:var(--gold-2); border-color:var(--gold-2)}
+.btn.navy{background:var(--navy-2); color:var(--navy-ink); border-color:var(--navy-2)}
+.btn.navy:hover{background:var(--navy-3); border-color:var(--navy-3)}
+.btn.wa{background:var(--wa); color:var(--wa-ink); border-color:var(--wa)}
+.btn.wa:hover{filter:brightness(1.06)}
+.btn.ghost{background:transparent; border-color:transparent; color:var(--muted); padding-inline:10px}
+.btn.ghost:hover{background:var(--surface-3); color:var(--ink)}
+.btn.danger{color:var(--down); border-color:var(--line-strong)}
+.btn.danger:hover{background:var(--down-soft); border-color:var(--down)}
+.btn.sm{padding:5px 10px; font-size:13.5px; border-radius:8px}
+.btn[disabled]{opacity:.45; cursor:not-allowed}
+.btn svg{width:16px;height:16px;flex:none}
+input[type=text],input[type=email],input[type=tel],input[type=date],input[type=number],input[type=search],input[type=url],input[type=password],select,textarea{
+  width:100%; background:var(--surface); border:1px solid var(--line-strong);
+  border-radius:9px; padding:9px 11px; font-size:15px; color:var(--ink);
+}
+input:focus,select:focus,textarea:focus{border-color:var(--gold); box-shadow:0 0 0 3px color-mix(in srgb, var(--gold) 25%, transparent); outline:none}
+textarea{resize:vertical; min-height:64px; line-height:1.45}
+label.f{display:block}
+label.f>span{
+  display:block; font-family:var(--display); font-size:12px; font-weight:700;
+  letter-spacing:.1em; text-transform:uppercase; color:var(--faint); margin-bottom:4px;
+}
+label.f .hint{display:block; font-size:12px; color:var(--faint); margin-top:3px}
+.sect-title{
+  font-family:var(--display); font-size:12.5px; font-weight:700; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--faint); margin:0 0 10px; display:flex; align-items:center; gap:8px;
+}
+.sect-title::after{content:''; flex:1; height:1px; background:var(--line)}
+.legend{font-size:12.5px; color:var(--faint); margin:10px 0 0}
+.two{display:grid; grid-template-columns:1fr 1fr; gap:12px}
+@media (max-width:520px){ .two{grid-template-columns:1fr} }
+.filebtn{position:relative; overflow:hidden}
+.filebtn input{position:absolute; inset:0; opacity:0; cursor:pointer}
+
+/* ---------- hero (plantel) ---------- */
+.hero{
+  position:relative; overflow:hidden; border-radius:var(--r);
+  background:var(--navy); background-image:
+    radial-gradient(ellipse at 100% 0%, color-mix(in srgb, var(--navy-3) 70%, transparent) 0%, transparent 55%),
+    linear-gradient(135deg, var(--navy) 0%, var(--navy-2) 100%);
+  color:var(--navy-ink); padding:22px 22px 20px; margin-bottom:18px; box-shadow:var(--shadow-lift);
+}
+.hero::before{
+  content:''; position:absolute; inset:0; pointer-events:none; opacity:.14;
+  background:
+    radial-gradient(circle at 100% 50%, transparent 118px, #fff 118px, #fff 120px, transparent 121px),
+    linear-gradient(#fff,#fff) right 0 top 0 / 2px 100% no-repeat;
+}
+.hero-in{position:relative; display:flex; align-items:center; gap:18px; flex-wrap:wrap}
+.hero .logo{width:76px; height:92px; flex:none; filter:drop-shadow(0 4px 8px rgba(0,0,0,.4))}
+.hero h1{font-size:34px; font-weight:800; text-transform:uppercase; letter-spacing:.01em}
+.hero h1 em{font-style:normal; color:var(--gold-2)}
+.hero .lema{color:rgba(255,255,255,.78); font-size:14px; margin-top:2px}
+.hero .cta{margin-left:auto; display:flex; gap:8px; flex-wrap:wrap}
+.hero .btn.ghost{color:rgba(255,255,255,.9); border-color:rgba(255,255,255,.25)}
+.hero .btn.ghost:hover{background:rgba(255,255,255,.12)}
+.tiles{display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:10px; margin-top:18px; position:relative}
+.tile{background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.14); border-radius:11px; padding:10px 12px; min-width:0}
+.tile .k{font-family:var(--display); font-size:11.5px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:rgba(255,255,255,.7)}
+.tile .v{font-family:var(--display); font-size:30px; font-weight:800; line-height:1; margin-top:4px; font-variant-numeric:tabular-nums; color:#fff}
+.tile .v small{font-size:14px; font-weight:600; color:rgba(255,255,255,.65); margin-left:3px}
+.tile .v.gold{color:var(--gold-2)}
+.tile .sub{font-size:12px; color:rgba(255,255,255,.7); margin-top:2px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+
+/* ---------- roster ---------- */
+.page-head{display:flex; align-items:center; gap:12px; flex-wrap:wrap; margin-bottom:14px}
+.page-head h2{font-size:24px; font-weight:800; text-transform:uppercase}
+.page-head .sub{color:var(--muted); font-size:14px}
+.page-head .search{margin-left:auto; max-width:260px; flex:1 1 180px}
+.cards{display:grid; grid-template-columns:repeat(auto-fill,minmax(250px,1fr)); gap:12px}
+.pcard-r{
+  position:relative; display:grid; grid-template-columns:52px minmax(0,1fr); gap:12px; align-items:center;
+  background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  box-shadow:var(--shadow); padding:14px; cursor:pointer; text-align:left; width:100%; color:inherit;
+  transition:transform .12s, box-shadow .12s, border-color .12s;
+}
+.pcard-r:hover{transform:translateY(-2px); box-shadow:var(--shadow-lift); border-color:var(--gold-line)}
+.avatar{
+  width:52px; height:52px; border-radius:50%; display:grid; place-items:center; flex:none; overflow:hidden;
+  background:var(--navy-2); color:#fff; font-family:var(--display); font-weight:800; font-size:20px; letter-spacing:.02em;
+  box-shadow:0 0 0 2px var(--surface), 0 0 0 4px var(--gold);
+}
+.avatar img{width:100%; height:100%; object-fit:cover; display:block}
+.avatar.lg{width:72px; height:72px; font-size:28px}
+.avatar.xl{width:120px; height:120px; font-size:44px; box-shadow:0 0 0 3px var(--surface), 0 0 0 7px var(--gold)}
+.pcard-r .nm{font-family:var(--display); font-weight:700; font-size:20px; line-height:1.1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+.pcard-r .meta{font-size:12.5px; color:var(--muted); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; margin-top:1px}
+.pcard-r .score{grid-column:1/-1; display:flex; align-items:center; gap:9px; margin-top:2px}
+.score-num{font-family:var(--display); font-weight:800; font-size:20px; font-variant-numeric:tabular-nums; min-width:30px; line-height:1}
+.score-num.none{color:var(--faint); font-weight:600; font-size:14px}
+.bar{height:7px; border-radius:4px; background:var(--surface-3); flex:1; overflow:hidden; min-width:40px}
+.bar i{display:block; height:100%; background:linear-gradient(90deg, var(--gold), var(--gold-2)); border-radius:4px; transition:width .3s}
+.chip{
+  display:inline-flex; align-items:center; gap:4px; font-family:var(--display);
+  font-weight:700; font-size:12.5px; padding:2px 8px; border-radius:99px; letter-spacing:.02em;
+  border:1px solid var(--line-strong); color:var(--muted); font-variant-numeric:tabular-nums; white-space:nowrap;
+}
+.chip.up{color:var(--up); border-color:transparent; background:var(--up-soft)}
+.chip.down{color:var(--down); border-color:transparent; background:var(--down-soft)}
+.pcard-r .quick{position:absolute; top:10px; right:10px; display:flex; gap:4px}
+.iconbtn{
+  width:30px; height:30px; border-radius:8px; display:grid; place-items:center; border:1px solid transparent;
+  background:transparent; color:var(--faint); cursor:pointer; padding:0;
+}
+.iconbtn:hover{background:var(--surface-3); color:var(--ink)}
+.iconbtn.wa{color:var(--wa)}
+.iconbtn.wa:hover{background:color-mix(in srgb, var(--wa) 15%, transparent)}
+.iconbtn svg{width:17px;height:17px}
+
+/* ---------- player ---------- */
+.card{
+  background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
+  box-shadow:var(--shadow); padding:16px; margin-bottom:14px;
+}
+.phead{
+  background:var(--navy); background-image:linear-gradient(120deg, var(--navy) 0%, var(--navy-2) 70%, var(--navy-3) 100%);
+  color:#fff; border-radius:var(--r); padding:16px; margin-bottom:14px; box-shadow:var(--shadow-lift);
+  display:flex; gap:14px; align-items:center; flex-wrap:wrap;
+}
+.phead .avatar{box-shadow:0 0 0 3px var(--gold)}
+.phead h2{font-size:30px; font-weight:800; text-transform:uppercase; line-height:1}
+.phead .meta{font-size:13.5px; color:rgba(255,255,255,.78); margin-top:3px; display:flex; gap:6px 14px; flex-wrap:wrap}
+.phead .btn.ghost{color:rgba(255,255,255,.9); border-color:rgba(255,255,255,.28)}
+.phead .btn.ghost:hover{background:rgba(255,255,255,.12)}
+.phead .right{margin-left:auto; display:flex; gap:8px; flex-wrap:wrap}
+.tabs{display:flex; gap:4px; background:var(--surface-3); padding:4px; border-radius:11px; margin-bottom:14px; width:fit-content; max-width:100%; overflow:auto}
+.tab{
+  border:0; background:transparent; cursor:pointer; padding:7px 14px; border-radius:8px; color:var(--muted);
+  font-family:var(--display); font-weight:700; font-size:15px; letter-spacing:.03em; text-transform:uppercase; white-space:nowrap;
+}
+.tab[aria-selected="true"]{background:var(--surface); color:var(--ink); box-shadow:var(--shadow)}
+.tab .cnt{display:inline-block; min-width:18px; padding:0 5px; border-radius:99px; background:var(--gold); color:var(--gold-ink); font-size:12px; margin-left:6px; text-align:center}
+.periods{display:flex; gap:7px; flex-wrap:wrap; align-items:center}
+.ptab{
+  cursor:pointer; background:var(--surface); border:1px solid var(--line-strong);
+  border-radius:10px; padding:6px 12px; font-family:var(--display); font-weight:700; font-size:15px;
+  display:flex; flex-direction:column; align-items:flex-start; line-height:1.15;
+}
+.ptab small{font-weight:600; font-size:12px; color:var(--faint); letter-spacing:.04em}
+.ptab[aria-selected="true"]{background:var(--navy-2); color:#fff; border-color:var(--navy-2)}
+.ptab[aria-selected="true"] small{color:var(--gold-2)}
+
+.areas{display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:10px}
+.areabox{border:1px solid var(--line); border-radius:11px; padding:10px 12px; background:var(--surface-2)}
+.areabox .an{font-family:var(--display); font-size:12px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--muted)}
+.areabox .av{display:flex; align-items:baseline; gap:6px; margin:3px 0 7px}
+.areabox .av b{font-family:var(--display); font-size:26px; font-weight:800; font-variant-numeric:tabular-nums; line-height:1}
+.areabox .av span{font-size:12px; color:var(--faint)}
+.bignum{font-family:var(--display); font-size:44px; font-weight:800; font-variant-numeric:tabular-nums; line-height:1; color:var(--hi)}
+
+/* aspect rows */
+.agroup{border:1px solid var(--line); border-radius:11px; overflow:hidden; margin-bottom:10px; background:var(--surface)}
+.agroup>summary{
+  cursor:pointer; list-style:none; padding:11px 13px; background:var(--surface-2);
+  display:flex; align-items:center; gap:10px;
+  font-family:var(--display); font-size:15px; font-weight:700; letter-spacing:.06em; text-transform:uppercase;
+}
+.agroup>summary::-webkit-details-marker{display:none}
+.agroup>summary .arrow{color:var(--faint); transition:transform .15s; font-size:12px}
+.agroup[open]>summary .arrow{transform:rotate(90deg)}
+.agroup>summary .gv{margin-left:auto; font-variant-numeric:tabular-nums; letter-spacing:0; font-size:17px; color:var(--hi)}
+.agroup>summary .done{font-size:12px; color:var(--faint); letter-spacing:0; font-weight:600; text-transform:none; font-family:var(--body)}
+.asp{
+  display:grid; grid-template-columns:minmax(0,1fr) auto 40px 30px; align-items:center; gap:8px;
+  padding:7px 12px; border-top:1px solid var(--line);
+}
+.asp-name{font-size:14.5px}
+.scale{display:flex; gap:3px}
+.sc{
+  width:31px; height:31px; border-radius:8px; cursor:pointer;
+  border:1px solid var(--line-strong); background:var(--surface);
+  font-family:var(--display); font-weight:700; font-size:15px; font-variant-numeric:tabular-nums;
+  display:grid; place-items:center; padding:0; transition:transform .08s;
+}
+.sc:hover{border-color:var(--gold); color:var(--gold-ink); background:var(--gold-soft)}
+.sc:active{transform:scale(.93)}
+.sc[aria-pressed="true"]{color:#fff; border-color:transparent}
+.sc[aria-pressed="true"][data-v="1"]{background:var(--s1)}
+.sc[aria-pressed="true"][data-v="2"]{background:var(--s2)}
+.sc[aria-pressed="true"][data-v="3"]{background:var(--s3); color:var(--gold-ink)}
+.sc[aria-pressed="true"][data-v="4"]{background:var(--s4)}
+.sc[aria-pressed="true"][data-v="5"]{background:var(--s5)}
+.sc.clear{color:var(--faint); font-weight:500}
+.asp-delta{
+  font-family:var(--display); font-weight:800; font-size:14px; text-align:right;
+  font-variant-numeric:tabular-nums; color:var(--flat);
+}
+.asp-delta.up{color:var(--up)} .asp-delta.down{color:var(--down)}
+.notebtn{width:28px;height:28px;border-radius:7px;border:1px solid transparent;background:transparent;color:var(--faint);cursor:pointer;display:grid;place-items:center;padding:0}
+.notebtn:hover{background:var(--surface-3); color:var(--ink)}
+.notebtn.has{color:var(--gold); background:var(--gold-soft)}
+.notebtn svg{width:15px;height:15px}
+.asp-note{grid-column:1/-1; padding:0 0 4px}
+.asp-note textarea{min-height:52px; font-size:14px; background:var(--surface-2)}
+@media (max-width:600px){
+  .asp{grid-template-columns:minmax(0,1fr) 40px 30px; row-gap:6px}
+  .scale{grid-column:1/-1}
+  .sc{flex:1; width:auto}
+}
+.rows-sum{display:grid; gap:11px}
+@media (min-width:760px){ .rows-sum{grid-template-columns:1fr 1fr} }
+.escala{display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:6px 12px; margin-top:12px; font-size:12.5px; color:var(--muted)}
+.escala b{display:inline-grid; place-items:center; width:20px; height:20px; border-radius:6px; color:#fff; font-family:var(--display); font-size:12px; margin-right:6px; vertical-align:middle}
+
+/* seguimiento */
+.ses{display:grid; gap:10px}
+.ses-row{
+  border:1px solid var(--line); border-radius:11px; background:var(--surface-2); padding:12px 14px;
+  display:grid; grid-template-columns:110px minmax(0,1fr) auto; gap:6px 14px; align-items:start;
+}
+.ses-row .f{display:flex; flex-direction:column; gap:2px}
+.ses-row .fd{font-family:var(--display); font-weight:800; font-size:18px; line-height:1.1}
+.ses-row .fs{font-size:12.5px; color:var(--muted)}
+.ses-row .body{display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:6px 14px}
+.ses-row .k{font-family:var(--display); font-size:11px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--faint)}
+.ses-row .v{font-size:14px; overflow-wrap:anywhere}
+.ses-row .acts{display:flex; gap:4px}
+@media (max-width:640px){ .ses-row{grid-template-columns:1fr; } .ses-row .acts{justify-content:flex-end} }
+
+/* nosotros */
+.about-hero{
+  border-radius:var(--r); overflow:hidden; box-shadow:var(--shadow-lift); margin-bottom:14px;
+  background:var(--navy); background-image:linear-gradient(135deg, var(--navy) 0%, var(--navy-2) 60%, var(--navy-3) 100%); color:#fff;
+  padding:28px 24px; display:flex; gap:22px; align-items:center; flex-wrap:wrap; position:relative;
+}
+.about-hero::after{content:''; position:absolute; right:-60px; bottom:-90px; width:260px; height:260px; border-radius:50%; border:2px solid rgba(255,255,255,.12); pointer-events:none}
+.about-hero .logo{width:110px; height:132px; flex:none; filter:drop-shadow(0 6px 12px rgba(0,0,0,.45))}
+.about-hero h1{font-size:40px; font-weight:800; text-transform:uppercase}
+.about-hero h1 em{font-style:normal; color:var(--gold-2)}
+.about-hero p{margin:6px 0 0; color:rgba(255,255,255,.82); max-width:60ch; font-size:15.5px}
+.about-grid{display:grid; grid-template-columns:1fr; gap:14px}
+@media (min-width:820px){ .about-grid{grid-template-columns:1.2fr .8fr} }
+.prose{font-size:15.5px; line-height:1.65; max-width:68ch; white-space:pre-line}
+.prose p{margin:0 0 12px}
+.coach{display:flex; gap:16px; align-items:flex-start; flex-wrap:wrap}
+.coach .who{min-width:0; flex:1}
+.coach h3{font-size:24px; font-weight:800; text-transform:uppercase}
+.coach .role{font-family:var(--display); font-size:12.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--gold); font-weight:700}
+.values{display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:10px; margin-top:14px}
+.value{border:1px solid var(--line); border-radius:11px; padding:10px 12px; background:var(--surface-2)}
+.value b{display:block; font-family:var(--display); font-size:16px; text-transform:uppercase; letter-spacing:.04em}
+.value span{font-size:13px; color:var(--muted)}
+.contact{display:flex; gap:8px; flex-wrap:wrap; margin-top:12px}
+
+/* ajustes */
+.settings{display:grid; gap:14px}
+.settings .card h3{font-size:20px; text-transform:uppercase; margin-bottom:12px; display:flex; align-items:center; gap:10px}
+.settings .card h3::before{content:''; width:6px; height:20px; border-radius:3px; background:var(--gold)}
+.steps{margin:8px 0 0; padding-left:20px; font-size:14px; color:var(--muted)}
+.steps li{margin-bottom:4px}
+.steps code{background:var(--surface-3); padding:1px 6px; border-radius:5px; font-size:13px; color:var(--ink)}
+.savebar{position:sticky; bottom:0; background:color-mix(in srgb, var(--ground) 88%, transparent); backdrop-filter:blur(8px); padding:12px 0; display:flex; gap:8px; justify-content:flex-end; border-top:1px solid var(--line); margin-top:8px}
+.logo-prev{display:flex; align-items:center; gap:14px; padding:12px; border:1px dashed var(--line-strong); border-radius:11px; background:var(--surface-2); flex-wrap:wrap}
+.logo-prev .logo{width:56px;height:68px}
+.photo-row{display:flex; gap:14px; align-items:center; flex-wrap:wrap; padding:10px; border:1px dashed var(--line-strong); border-radius:11px; background:var(--surface-2)}
+
+/* ---------- misc ---------- */
+.empty{
+  border:1.5px dashed var(--line-strong); border-radius:var(--r);
+  padding:34px 18px; text-align:center; color:var(--muted); background:var(--surface-2);
+}
+.empty h3{font-size:22px; margin-bottom:5px; color:var(--ink); text-transform:uppercase}
+.empty .ball{font-size:34px; line-height:1; margin-bottom:8px}
+.note{
+  display:flex; gap:9px; align-items:flex-start; padding:10px 13px; border-radius:11px;
+  background:var(--gold-soft); border:1px solid var(--gold-line); font-size:13.5px; margin-bottom:14px; color:var(--ink);
+}
+.note.warn{background:color-mix(in srgb, var(--warn) 12%, var(--surface)); border-color:color-mix(in srgb, var(--warn) 45%, transparent)}
+.actions{display:flex; gap:8px; flex-wrap:wrap; align-items:center}
+.state{font-size:13.5px; color:var(--muted); flex-basis:100%}
+.state.err{color:var(--down)}
+dialog{
+  border:1px solid var(--line); border-radius:16px; background:var(--surface); color:var(--ink);
+  padding:0; max-width:540px; width:calc(100% - 32px); box-shadow:0 30px 70px -20px rgba(0,0,0,.5);
+}
+dialog::backdrop{background:rgba(6,12,30,.55); backdrop-filter:blur(2px)}
+.dlg-h{padding:14px 18px; border-bottom:1px solid var(--line); font-family:var(--display); font-weight:800; font-size:22px; text-transform:uppercase; display:flex; align-items:center; gap:10px}
+.dlg-h::before{content:''; width:6px; height:22px; border-radius:3px; background:var(--gold)}
+.dlg-b{padding:16px 18px; display:grid; gap:12px; max-height:66vh; overflow:auto}
+.dlg-f{padding:12px 18px; border-top:1px solid var(--line); display:flex; gap:8px; justify-content:flex-end; flex-wrap:wrap}
+.toast{
+  position:fixed; left:50%; transform:translateX(-50%); bottom:calc(18px + env(safe-area-inset-bottom,0px));
+  z-index:60; background:var(--navy); color:#fff; padding:11px 18px; border-radius:11px;
+  font-size:14px; font-weight:600; box-shadow:var(--shadow-lift); max-width:min(520px, calc(100% - 32px));
+  border-left:4px solid var(--gold);
+}
+.toast.err{background:var(--down); border-left-color:#fff}
+@media (prefers-reduced-motion:reduce){ *{transition:none!important} }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-in">
+    <button class="brand" id="brandBtn" title="Ir al plantel">
+      <span class="logo" id="brandLogo"></span>
+      <span class="brand-t"><b id="brandName">MF Deportivo</b><span id="brandSub">Entrenamientos personalizados</span></span>
+    </button>
+    <button class="btn ghost" id="navPlantel" onclick="go('roster')" title="Plantel">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0113 0"/><circle cx="17" cy="9" r="2.5"/><path d="M16 15.5a5 5 0 015.5 4.5"/></svg>
+      <span class="lbl">Plantel</span></button>
+    <button class="btn ghost" id="navNosotros" onclick="go('nosotros')" title="Nosotros">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 L20 6 V12 C20 17 16 20.5 12 22 C8 20.5 4 17 4 12 V6 Z"/></svg>
+      <span class="lbl">Nosotros</span></button>
+    <button class="btn ghost" id="navAjustes" onclick="go('ajustes')" title="Ajustes">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 00.3 1.8l.1.1a2 2 0 11-2.8 2.8l-.1-.1a1.7 1.7 0 00-1.8-.3 1.7 1.7 0 00-1 1.5V21a2 2 0 11-4 0v-.1a1.7 1.7 0 00-1.1-1.5 1.7 1.7 0 00-1.8.3l-.1.1a2 2 0 11-2.8-2.8l.1-.1a1.7 1.7 0 00.3-1.8 1.7 1.7 0 00-1.5-1H3a2 2 0 110-4h.1a1.7 1.7 0 001.5-1.1 1.7 1.7 0 00-.3-1.8l-.1-.1a2 2 0 112.8-2.8l.1.1a1.7 1.7 0 001.8.3H9a1.7 1.7 0 001-1.5V3a2 2 0 114 0v.1a1.7 1.7 0 001 1.5 1.7 1.7 0 001.8-.3l.1-.1a2 2 0 112.8 2.8l-.1.1a1.7 1.7 0 00-.3 1.8V9a1.7 1.7 0 001.5 1H21a2 2 0 110 4h-.1a1.7 1.7 0 00-1.5 1z"/></svg>
+      <span class="lbl">Ajustes</span></button>
+  </div>
+</div>
+<main id="app"></main>
+
+<dialog id="dlg">
+  <form method="dialog" id="dlgForm">
+    <div class="dlg-h" id="dlgTitle"></div>
+    <div class="dlg-b" id="dlgBody"></div>
+    <div class="dlg-f" id="dlgFoot"></div>
+  </form>
+</dialog>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+/* ============================ modelo (tomado de la ficha Excel) ============================ */
+const AREAS = [
+  {id:'tec', nombre:'Técnica', items:[
+    'Conducción con pie dominante','Conducción con pie no dominante','Control y recepción',
+    'Pase corto','Pase largo','Perfil corporal y primer control','Regate / 1 contra 1',
+    'Cambios de dirección con balón','Protección del balón','Finalización con pie dominante',
+    'Finalización con pie no dominante','Remate de cabeza','Centros / golpeo específico']},
+  {id:'tac', nombre:'Táctica / Juego', items:[
+    'Orientación y toma de información','Toma de decisiones','Ocupación de espacios',
+    'Desmarque y apoyo','1 contra 1 ofensivo','1 contra 1 defensivo','Transición ataque-defensa',
+    'Transición defensa-ataque','Comprensión del modelo de juego']},
+  {id:'fis', nombre:'Físico', items:[
+    'Velocidad','Aceleración','Resistencia','Fuerza','Potencia','Agilidad',
+    'Movilidad / flexibilidad','Capacidad de repetir esfuerzos']},
+  {id:'coo', nombre:'Coordinativo', items:[
+    'Coordinación general','Coordinación óculo-pédica','Equilibrio','Ritmo',
+    'Orientación espacial','Reacción','Cambios de dirección','Disociación de movimientos']},
+  {id:'men', nombre:'Mental / Conductual', items:[
+    'Concentración','Confianza','Motivación','Perseverancia','Manejo del error',
+    'Toma de decisiones bajo presión','Autonomía','Escucha y atención a instrucciones']},
+  {id:'per', nombre:'Personal / Social', items:[
+    'Respeto','Responsabilidad','Puntualidad','Disciplina','Trabajo en equipo',
+    'Comunicación','Actitud frente al entrenamiento','Relación con compañeros y entrenador']},
+];
+const KEYS = {};
+AREAS.forEach(a => KEYS[a.id] = a.items.map((n,i) => ({k:a.id+(i+1), nombre:n})));
+const ALLKEYS = AREAS.flatMap(a => KEYS[a.id].map(x => ({...x, area:a.id, areaNombre:a.nombre})));
+const ESCALA = [
+  ['1','Inicial','necesita acompañamiento constante.'],
+  ['2','En desarrollo','muestra avances, requiere apoyo frecuente.'],
+  ['3','Adecuado','ejecuta con regularidad en situaciones conocidas.'],
+  ['4','Bueno','ejecuta con seguridad y poca ayuda.'],
+  ['5','Muy desarrollado','ejecuta con seguridad, rapidez y adaptación.'],
+];
+const RESUMEN = [
+  ['inicio','Cómo inició el jugador'],
+  ['avances','Avances más importantes'],
+  ['fortalezas','Fortalezas actuales'],
+  ['mejorar','Aspectos prioritarios por mejorar'],
+  ['objetivo','Objetivo para el próximo periodo'],
+  ['casa','Recomendación para casa'],
+  ['comentario','Mensaje del entrenador para la familia'],
+];
+const SESION_CAMPOS = [
+  ['objetivo','Objetivo trabajado'],['evidencia','Evidencia del avance'],
+  ['dificultad','Dificultad encontrada'],['proximo','Próximo objetivo'],['observaciones','Observaciones'],
+];
+const POSICIONES = ['','Arquero','Defensa central','Lateral','Mediocampista','Volante','Extremo','Delantero'];
+const PLANTEL_INICIAL = ['Mateo','Andrés','Yeicot','Emanuel','Ariana','Dante','Andrés A','Tiago','Martín','Juan D','Chacón','Katet','Adrián','Eidan'];
+
+const CONFIG_DEF = {
+  club:'MF Deportivo',
+  lema:'Entrenamientos personalizados de fútbol',
+  entrenador:'Marlon Andrés Forero',
+  entrenadorRol:'Entrenador y fundador',
+  entrenadorFoto:'',
+  categoria:'',
+  telefono:'', correo:'', instagram:'', ciudad:'',
+  pais:'57',
+  logo:'',
+  resena:'MF Deportivo nace de una idea sencilla: cada niño aprende a su ritmo y merece un entrenamiento pensado para él. Trabajamos en grupos pequeños y sesiones individuales, con una planificación propia para cada jugador que cubre lo técnico, lo táctico, lo físico, lo coordinativo, lo mental y lo personal.\n\nEvaluamos con una ficha de 54 aspectos en escala de 1 a 5, comparamos cada periodo con el anterior y compartimos con las familias un informe claro de lo que mejoró y lo que sigue. Más que resultados, formamos jugadores disciplinados, seguros y felices con el balón.',
+  resenaEntrenador:'Marlon Andrés Forero es el entrenador y fundador de MF Deportivo. Apasionado por el fútbol formativo, diseña cada sesión a partir de la evaluación individual del jugador y acompaña de cerca su proceso: técnica, toma de decisiones, condición física y, sobre todo, actitud y valores.\n\nSu método combina exigencia y cercanía: objetivos claros por periodo, seguimiento sesión a sesión y comunicación constante con las familias.',
+  valores:'Disciplina|Constancia en cada entrenamiento.\nRespeto|Con compañeros, rivales y entrenador.\nConfianza|Jugadores seguros de sí mismos.\nAlegría|El fútbol se disfruta.',
+  ejsService:'', ejsTemplate:'', ejsKey:'',
+};
+
+/* ============================ estado ============================ */
+const S = {
+  jugadores:[], evals:[], sesiones:[], config:{...CONFIG_DEF},
+  route:{v:'roster', id:null, ev:null, tab:'eval'}, filtro:'', listo:false,
+};
+const uid = p => p + Math.random().toString(36).slice(2,9) + Date.now().toString(36).slice(-4);
+const esc = s => String(s??'').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const hoy = () => { const d = new Date(); return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0'); };
+const MESES = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+const MES3 = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+const fechaLarga = iso => { if(!iso) return '—'; const [y,m,d] = iso.split('-').map(Number); return d + ' de ' + MESES[(m||1)-1] + ' de ' + y; };
+const fechaCorta = iso => { if(!iso) return '—'; const [y,m,d] = iso.split('-').map(Number); return d + ' ' + MES3[(m||1)-1] + ' ' + y; };
+const periodoAuto = iso => { const [y,m] = (iso||hoy()).split('-').map(Number); const ini = m-2 < 0 ? 11 : m-2; return MES3[ini] + '–' + MES3[m-1] + ' ' + y; };
+const iniciales = n => String(n||'?').trim().split(/\s+/).slice(0,2).map(p => p[0]).join('').toUpperCase();
+const clubName = () => S.config.club || 'MF Deportivo';
+const avatarHtml = (j, cls='') => `<span class="avatar ${cls}">${j.foto ? `<img src="${j.foto}" alt="">` : esc(iniciales(j.nombre))}</span>`;
+
+/* ============================ logo ============================ */
+function logoSvg(){
+  return `<svg viewBox="0 0 200 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Escudo ${esc(clubName())}">
+  <defs>
+    <linearGradient id="lgS" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1F3A80"/><stop offset="1" stop-color="#0B1A44"/></linearGradient>
+    <linearGradient id="lgG" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#F6D67C"/><stop offset=".5" stop-color="#D9A93C"/><stop offset="1" stop-color="#B8852A"/></linearGradient>
+  </defs>
+  <path d="M100 6 L190 32 V128 C190 190 142 224 100 236 C58 224 10 190 10 128 V32 Z" fill="url(#lgG)"/>
+  <path d="M100 16 L180 39 V128 C180 182 138 212 100 224 C62 212 20 182 20 128 V39 Z" fill="url(#lgS)"/>
+  <path d="M100 16 L180 39 V60 L20 60 V39 Z" fill="#274A9C" opacity=".55"/>
+  <circle cx="100" cy="56" r="26" fill="#FFFFFF"/>
+  <path d="M100 42 L112 51 L107 66 L93 66 L88 51 Z" fill="#111827"/>
+  <path d="M100 30 L106 42 L94 42 Z M124 46 L113 51 L112 40 Z M76 46 L87 51 L88 40 Z M118 76 L108 66 L120 60 Z M82 76 L92 66 L80 60 Z" fill="#111827"/>
+  <text x="100" y="146" text-anchor="middle" font-family="'Barlow Condensed','Arial Narrow',Impact,sans-serif" font-weight="800" font-style="italic" font-size="84" fill="url(#lgG)" stroke="#FFFFFF" stroke-width="1.5" letter-spacing="-2">MF</text>
+  <rect x="26" y="156" width="148" height="22" rx="4" fill="url(#lgG)"/>
+  <text x="100" y="172" text-anchor="middle" font-family="'Barlow Condensed','Arial Narrow',sans-serif" font-weight="800" font-size="14.5" fill="#0B1A44" letter-spacing="1.2">ENTRENAMIENTOS</text>
+  <text x="100" y="194" text-anchor="middle" font-family="'Barlow Condensed','Arial Narrow',sans-serif" font-weight="700" font-size="13" fill="#FFFFFF" letter-spacing="1">PERSONALIZADOS</text>
+  <text x="100" y="211" text-anchor="middle" font-family="'Barlow Condensed','Arial Narrow',sans-serif" font-weight="700" font-size="12.5" fill="#F1C660" letter-spacing="1.4">DE FÚTBOL</text>
+</svg>`;
+}
+function logoHtml(){ return S.config.logo ? `<img src="${S.config.logo}" alt="Logo ${esc(clubName())}">` : logoSvg(); }
+let logoPngCache = {key:'', data:''};
+async function logoPng(){
+  const key = S.config.logo ? S.config.logo.slice(0,64) + S.config.logo.length : 'svg';
+  if(logoPngCache.key === key && logoPngCache.data) return logoPngCache.data;
+  const src = S.config.logo || ('data:image/svg+xml;charset=utf-8,' + encodeURIComponent(logoSvg()));
+  const data = await new Promise(res => {
+    const img = new Image();
+    img.onload = () => { try{
+      const c = document.createElement('canvas'); const s = 360;
+      const r = Math.min(s / img.naturalWidth, s / img.naturalHeight);
+      c.width = Math.round(img.naturalWidth * r); c.height = Math.round(img.naturalHeight * r);
+      c.getContext('2d').drawImage(img, 0, 0, c.width, c.height); res(c.toDataURL('image/png'));
+    }catch(e){ res(''); } };
+    img.onerror = () => res(''); img.src = src;
+  });
+  logoPngCache = {key, data}; return data;
+}
+/* Redimensiona una imagen a un cuadrado pequeño para guardarla en el navegador */
+function comprimirImagen(file, max = 320, png = false){
+  return new Promise((res, rej) => {
+    const img = new Image(); const url = URL.createObjectURL(file);
+    img.onload = () => {
+      try{
+        const r = Math.min(1, max / Math.max(img.naturalWidth, img.naturalHeight));
+        const c = document.createElement('canvas');
+        c.width = Math.max(1, Math.round(img.naturalWidth * r)); c.height = Math.max(1, Math.round(img.naturalHeight * r));
+        c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+        URL.revokeObjectURL(url);
+        res(png ? c.toDataURL('image/png') : c.toDataURL('image/jpeg', .84));
+      }catch(e){ rej(e); }
+    };
+    img.onerror = () => { URL.revokeObjectURL(url); rej(new Error('img')); };
+    img.src = url;
+  });
+}
+/* Recorta al cuadrado (foto de perfil) */
+function fotoPerfil(file, size = 320){
+  return new Promise((res, rej) => {
+    const img = new Image(); const url = URL.createObjectURL(file);
+    img.onload = () => {
+      try{
+        const m = Math.min(img.naturalWidth, img.naturalHeight);
+        const sx = (img.naturalWidth - m) / 2, sy = (img.naturalHeight - m) / 2;
+        const c = document.createElement('canvas'); c.width = c.height = size;
+        c.getContext('2d').drawImage(img, sx, sy, m, m, 0, 0, size, size);
+        URL.revokeObjectURL(url); res(c.toDataURL('image/jpeg', .85));
+      }catch(e){ rej(e); }
+    };
+    img.onerror = () => { URL.revokeObjectURL(url); rej(new Error('img')); };
+    img.src = url;
+  });
+}
+
+/* ============================ almacenamiento (en este dispositivo) ============================ */
+const LS = 'mf_deportivo_v3';
+function cargar(){
+  try{
+    const raw = localStorage.getItem(LS) || localStorage.getItem('mf_avances_v2') || localStorage.getItem('mf_avances_v1');
+    if(raw){ const d = JSON.parse(raw);
+      S.jugadores = d.jugadores || []; S.evals = d.evals || []; S.sesiones = d.sesiones || [];
+      S.config = {...CONFIG_DEF, ...(d.config || {})}; }
+  }catch(e){}
+  if(!S.jugadores.length){
+    S.jugadores = PLANTEL_INICIAL.map((n,i) => ({id:'j_' + n.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/\s+/g,'_'), nombre:n, orden:i+1, creado:Date.now()}));
+    guardar();
+  }
+  S.listo = true;
+}
+function guardar(){
+  try{ localStorage.setItem(LS, JSON.stringify({v:3, jugadores:S.jugadores, evals:S.evals, sesiones:S.sesiones, config:S.config, guardado:Date.now()})); return true; }
+  catch(e){ toast('No hay espacio para guardar en este navegador. Quita algunas fotos o exporta una copia de seguridad.', true); return false; }
+}
+function saveJugador(j){ S.jugadores = [...S.jugadores.filter(x => x.id !== j.id), j]; guardar(); refresh(); }
+function delJugador(id){
+  S.jugadores = S.jugadores.filter(x => x.id !== id);
+  S.evals = S.evals.filter(e => e.jugadorId !== id); S.sesiones = S.sesiones.filter(s => s.jugadorId !== id);
+  guardar();
+}
+function saveEval(ev){ S.evals = [...S.evals.filter(x => x.id !== ev.id), ev]; guardar(); }
+function delEval(id){ S.evals = S.evals.filter(x => x.id !== id); guardar(); }
+function saveSesion(s){ S.sesiones = [...S.sesiones.filter(x => x.id !== s.id), s]; guardar(); refresh(); }
+function delSesion(id){ S.sesiones = S.sesiones.filter(x => x.id !== id); guardar(); refresh(); }
+function saveConfig(c){ S.config = {...S.config, ...c}; logoPngCache = {key:'',data:''}; const ok = guardar(); pintarMarca(); refresh(); return ok; }
+
+/* copia de seguridad */
+function exportarRespaldo(){
+  const data = JSON.stringify({app:'MF Deportivo', v:3, exportado:new Date().toISOString(), jugadores:S.jugadores, evals:S.evals, sesiones:S.sesiones, config:S.config}, null, 1);
+  descargarBlob('Respaldo_' + clubName().replace(/\W+/g,'_') + '_' + hoy() + '.json', new Blob([data], {type:'application/json'}));
+  toast('Copia de seguridad descargada 💾');
+}
+async function importarRespaldo(input){
+  const f = input.files?.[0]; if(!f) return;
+  try{
+    const d = JSON.parse(await f.text());
+    if(!d.jugadores) throw new Error('formato');
+    const modo = await preguntar('Restaurar copia de seguridad', `El archivo tiene ${d.jugadores.length} jugadores, ${(d.evals||[]).length} avances y ${(d.sesiones||[]).length} sesiones.`,
+      [['reemplazar','Reemplazar todo lo de este dispositivo'], ['combinar','Combinar con lo que ya hay']]);
+    if(!modo) return;
+    if(modo === 'reemplazar'){ S.jugadores = d.jugadores; S.evals = d.evals || []; S.sesiones = d.sesiones || []; S.config = {...CONFIG_DEF, ...(d.config || {})}; }
+    else{
+      const merge = (a, b) => { const m = new Map(a.map(x => [x.id, x])); b.forEach(x => m.set(x.id, x)); return [...m.values()]; };
+      S.jugadores = merge(S.jugadores, d.jugadores); S.evals = merge(S.evals, d.evals || []); S.sesiones = merge(S.sesiones, d.sesiones || []);
+      S.config = {...S.config, ...(d.config || {})};
+    }
+    guardar(); pintarMarca(); go('roster'); toast('Copia restaurada ✅');
+  }catch(e){ toast('Ese archivo no es una copia de seguridad válida.', true); }
+  input.value = '';
+}
+
+/* ============================ cálculos ============================ */
+const evalsDe = id => S.evals.filter(e => e.jugadorId === id)
+  .sort((a,b) => (a.fecha||'').localeCompare(b.fecha||'') || (a.creado||0) - (b.creado||0));
+const sesionesDe = id => S.sesiones.filter(s => s.jugadorId === id)
+  .sort((a,b) => (b.fecha||'').localeCompare(a.fecha||'') || (b.creado||0) - (a.creado||0));
+const prom = vs => vs.length ? vs.reduce((a,b) => a+b, 0) / vs.length : null;
+const promArea = (ev, areaId) => ev ? prom(KEYS[areaId].map(x => ev.scores?.[x.k]).filter(v => typeof v === 'number' && v > 0)) : null;
+const promGeneral = ev => ev ? prom(ALLKEYS.map(x => ev.scores?.[x.k]).filter(v => typeof v === 'number' && v > 0)) : null;
+const evaluados = ev => ALLKEYS.filter(x => ev?.scores?.[x.k] > 0).length;
+const n1 = v => v == null ? '—' : v.toFixed(1);
+const signo = d => d == null ? '' : (d > 0 ? '+' : '') + d.toFixed(1);
+const cls = d => d == null ? '' : d > 0.05 ? 'up' : d < -0.05 ? 'down' : '';
+function evalPrevia(jid, ev){ const l = evalsDe(jid); const i = l.findIndex(x => x.id === ev.id); return i > 0 ? l[i-1] : null; }
+function resumenJugador(j){
+  const l = evalsDe(j.id); const ult = l[l.length-1], ant = l[l.length-2];
+  const p = promGeneral(ult), pa = promGeneral(ant);
+  return {ult, ant, p, d:(p != null && pa != null) ? p - pa : null, ses:sesionesDe(j.id)};
+}
+function telWa(j){
+  const raw = String(j.telefono || '').replace(/\D/g, ''); if(!raw) return '';
+  const pais = String(S.config.pais || '57').replace(/\D/g,'');
+  if(raw.length <= 10 && pais && !raw.startsWith(pais)) return pais + raw;
+  return raw;
+}
+
+/* ============================ router / render ============================ */
+const app = document.getElementById('app');
+let pendienteRender = false;
+const editando = () => {
+  const a = document.activeElement;
+  return a && (a.tagName === 'TEXTAREA' || (a.tagName === 'INPUT' && !['button','checkbox','file'].includes(a.type)) || a.tagName === 'SELECT') && app.contains(a);
+};
+function refresh(){ if(editando()){ pendienteRender = true; return; } render(); }
+document.addEventListener('focusout', () => setTimeout(() => { if(pendienteRender && !editando()){ pendienteRender = false; render(); } }, 80));
+function go(v, id, ev, tab){
+  if(S.route.v === 'ajustes' && v !== 'ajustes' && ajustesSucio && !confirm('Tienes cambios sin guardar en Ajustes. ¿Salir sin guardar?')) return;
+  ajustesSucio = false;
+  S.route = {v, id:id||null, ev:ev||null, tab:tab || S.route.tab || 'eval'}; window.scrollTo({top:0}); render();
+}
+function pintarMarca(){
+  document.getElementById('brandName').textContent = clubName();
+  document.getElementById('brandSub').textContent = S.config.lema || 'Entrenamientos personalizados';
+  document.getElementById('brandLogo').innerHTML = logoHtml();
+  document.title = clubName();
+}
+function render(){
+  ['Plantel','Nosotros','Ajustes'].forEach(n => document.getElementById('nav'+n).setAttribute('aria-current', S.route.v === n.toLowerCase() || (n === 'Plantel' && S.route.v === 'jugador') ? 'page' : 'false'));
+  if(!S.listo){ app.innerHTML = '<div class="empty"><div class="ball">⚽</div><h3>Cargando…</h3></div>'; return; }
+  app.innerHTML = S.route.v === 'jugador' ? vistaJugador() : S.route.v === 'nosotros' ? vistaNosotros() : S.route.v === 'ajustes' ? vistaAjustes() : vistaRoster();
+  document.querySelectorAll('.agroup').forEach(d => {
+    d.addEventListener('toggle', () => { try{ localStorage.setItem('mf_open_'+d.dataset.area, d.open?'1':'0'); }catch(e){} });
+  });
+  const s = document.getElementById('buscar'); if(s && S.filtro){ s.focus(); s.setSelectionRange(s.value.length, s.value.length); }
+}
+
+const ICONS = {
+  wa:`<svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.1-1.8-.9-2-1-.3-.1-.5-.1-.7.1-.2.3-.8 1-.9 1.2-.2.2-.3.2-.6.1-.3-.1-1.3-.5-2.4-1.5-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.5.1-.6l.5-.6c.1-.2.2-.3.3-.5.1-.2 0-.4 0-.5l-.9-2.2c-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.1.2 2.1 3.2 5.1 4.5.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.8-.7 2-1.4.2-.7.2-1.3.2-1.4-.1-.2-.3-.3-.6-.4zM12 2a10 10 0 00-8.6 15.1L2 22l5-1.3A10 10 0 1012 2zm0 18.2c-1.5 0-3-.4-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1112 20.2z"/></svg>`,
+  mail:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>`,
+  pdf:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H6a2 2 0 00-2 2v14a2 2 0 002 2h12a2 2 0 002-2V9z"/><path d="M14 3v6h6M12 12v6m0 0l-3-3m3 3l3-3"/></svg>`,
+  plus:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>`,
+  edit:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 013 3L7 19l-4 1 1-4z"/></svg>`,
+  note:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v12H8l-4 4z"/></svg>`,
+  trash:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14"/></svg>`,
+  back:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg>`,
+  cam:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg>`,
+  save:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3h11l3 3v15H5z"/><path d="M8 3v5h7V3M8 21v-6h8v6"/></svg>`,
+  csv:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 17v2a2 2 0 002 2h12a2 2 0 002-2v-2"/></svg>`,
+  ig:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>`,
+  pin:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s7-6.2 7-12a7 7 0 10-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg>`,
+};
+
+/* ---------- vista: plantel ---------- */
+function vistaRoster(){
+  const todos = S.jugadores.slice().sort((a,b) => (a.orden??99) - (b.orden??99) || (a.nombre||'').localeCompare(b.nombre||''));
+  const f = S.filtro.trim().toLowerCase();
+  const filas = f ? todos.filter(j => (j.nombre||'').toLowerCase().includes(f) || (j.categoria||'').toLowerCase().includes(f) || (j.posicion||'').toLowerCase().includes(f)) : todos;
+
+  const res = todos.map(j => ({j, ...resumenJugador(j)}));
+  const conProm = res.filter(r => r.p != null);
+  const promEquipo = prom(conProm.map(r => r.p));
+  const mes = hoy().slice(0,7);
+  const sesMes = S.sesiones.filter(s => (s.fecha||'').startsWith(mes)).reduce((a,s) => a + (Number(s.sesiones)||1), 0);
+  const mejor = res.filter(r => r.d != null).sort((a,b) => b.d - a.d)[0];
+  const evalMes = S.evals.filter(e => (e.fecha||'').startsWith(mes)).length;
+
+  const hero = `
+  <section class="hero">
+    <div class="hero-in">
+      <div class="logo">${logoHtml()}</div>
+      <div>
+        <h1>${esc(clubName())} <em>· Avances</em></h1>
+        <div class="lema">${esc(S.config.lema || 'Entrenamientos personalizados de fútbol')}${S.config.entrenador ? ' · ' + esc(S.config.entrenador) : ''}</div>
+      </div>
+      <div class="cta">
+        <button class="btn ghost" onclick="exportarCsv()" title="Exportar todo a Excel (CSV)">${ICONS.csv} CSV</button>
+        <button class="btn primary" onclick="nuevoJugador()">${ICONS.plus} Nuevo jugador</button>
+      </div>
+    </div>
+    <div class="tiles">
+      <div class="tile"><div class="k">Jugadores</div><div class="v">${todos.length}</div><div class="sub">${conProm.length} con avances registrados</div></div>
+      <div class="tile"><div class="k">Promedio del equipo</div><div class="v gold">${n1(promEquipo)}<small>/ 5</small></div><div class="sub">último periodo de cada jugador</div></div>
+      <div class="tile"><div class="k">Sesiones este mes</div><div class="v">${sesMes}</div><div class="sub">${evalMes} evaluaciones en ${MESES[Number(mes.slice(5))-1]}</div></div>
+      <div class="tile"><div class="k">Mayor avance</div><div class="v ${mejor ? 'gold' : ''}">${mejor ? signo(mejor.d) : '—'}</div><div class="sub">${mejor ? esc(mejor.j.nombre) + ' · ' + esc(mejor.ult.periodo || '') : 'Se calcula desde el 2.º avance'}</div></div>
+    </div>
+  </section>`;
+
+  if(!todos.length) return hero + `
+    <div class="empty"><div class="ball">⚽</div><h3>Empieza por el plantel</h3><p>Agrega a cada niño y luego registra su primer avance.</p>
+    <p><button class="btn primary" onclick="nuevoJugador()">${ICONS.plus} Agregar jugador</button></p></div>`;
+
+  const cards = filas.map(j => {
+    const r = resumenJugador(j);
+    const wa = telWa(j);
+    return `<button class="pcard-r" onclick="go('jugador','${j.id}')">
+      ${avatarHtml(j)}
+      <span style="min-width:0">
+        <span class="nm">${esc(j.nombre)}</span>
+        <span class="meta">${esc([j.categoria, j.posicion, j.edad ? j.edad + ' años' : ''].filter(Boolean).join(' · ') || 'Completa sus datos')}</span>
+      </span>
+      <span class="score">
+        <span class="score-num ${r.p == null ? 'none' : ''}">${r.p == null ? 'Sin avances' : n1(r.p)}</span>
+        <span class="bar"><i style="width:${r.p ? (r.p/5*100).toFixed(0) : 0}%"></i></span>
+        ${r.d != null ? `<span class="chip ${cls(r.d)}">${signo(r.d)}</span>` : r.ult ? `<span class="chip">${esc(r.ult.periodo || fechaCorta(r.ult.fecha))}</span>` : ''}
+      </span>
+      <span class="quick">
+        ${wa ? `<a class="iconbtn wa" href="https://wa.me/${wa}" target="_blank" rel="noopener" title="WhatsApp del acudiente" onclick="event.stopPropagation()">${ICONS.wa}</a>` : ''}
+        <span class="iconbtn" title="Editar datos y foto" onclick="event.stopPropagation();editarJugador('${j.id}')">${ICONS.edit}</span>
+      </span>
+    </button>`;
+  }).join('');
+
+  return hero + `
+    <div class="page-head">
+      <h2>Plantel</h2><span class="sub">${filas.length} de ${todos.length}</span>
+      <input class="search" id="buscar" type="search" placeholder="Buscar jugador…" value="${esc(S.filtro)}" oninput="S.filtro=this.value;render()">
+    </div>
+    <div class="cards">${cards || '<div class="empty" style="grid-column:1/-1">Ningún jugador coincide con la búsqueda.</div>'}</div>
+    <p class="legend">Toca un jugador para ver su ficha, calificar un avance, registrar sesiones o enviar el informe a la familia. Los datos se guardan en este dispositivo; haz una <a href="#" onclick="event.preventDefault();go('ajustes')">copia de seguridad</a> cada tanto.</p>`;
+}
+
+/* ---------- vista: jugador ---------- */
+function vistaJugador(){
+  const j = S.jugadores.find(x => x.id === S.route.id);
+  if(!j){ return `<div class="empty"><h3>Jugador no encontrado</h3><p><button class="btn" onclick="go('roster')">Volver al plantel</button></p></div>`; }
+  const l = evalsDe(j.id);
+  const ses = sesionesDe(j.id);
+  const ev = l.find(x => x.id === S.route.ev) || l[l.length-1] || null;
+  const wa = telWa(j);
+
+  const head = `
+  <div class="phead">
+    <button class="btn ghost sm" onclick="go('roster')" title="Volver al plantel">${ICONS.back} Plantel</button>
+    <span style="position:relative;cursor:pointer" onclick="editarJugador('${j.id}')" title="Cambiar foto">${avatarHtml(j,'lg')}</span>
+    <div style="min-width:0">
+      <h2>${esc(j.nombre)}</h2>
+      <div class="meta">
+        ${[j.categoria, j.posicion, j.edad ? j.edad + ' años' : '', j.pie ? 'Pie ' + j.pie.toLowerCase() : '', j.tiempo ? 'Entrena hace ' + j.tiempo : ''].filter(Boolean).map(esc).join('<span style="opacity:.5">·</span>') || 'Completa sus datos con “Editar”'}
+      </div>
+    </div>
+    <div class="right">
+      ${wa ? `<a class="btn ghost sm" href="https://wa.me/${wa}" target="_blank" rel="noopener">${ICONS.wa} ${esc(j.acudiente || 'Acudiente')}</a>` : ''}
+      <button class="btn ghost sm" onclick="editarJugador('${j.id}')">${ICONS.edit} Editar</button>
+    </div>
+  </div>
+  <div class="tabs" role="tablist">
+    <button class="tab" role="tab" aria-selected="${S.route.tab !== 'seg'}" onclick="go('jugador','${j.id}','${ev ? ev.id : ''}','eval')">Evaluación<span class="cnt">${l.length}</span></button>
+    <button class="tab" role="tab" aria-selected="${S.route.tab === 'seg'}" onclick="go('jugador','${j.id}','${ev ? ev.id : ''}','seg')">Seguimiento de sesiones<span class="cnt">${ses.length}</span></button>
+  </div>`;
+
+  if(S.route.tab === 'seg') return head + vistaSeguimiento(j, ses);
+
+  const tabs = l.map(e => `<button type="button" class="ptab" aria-selected="${ev && e.id === ev.id}" onclick="go('jugador','${j.id}','${e.id}')">
+      ${esc(e.periodo || fechaCorta(e.fecha))}<small>${n1(promGeneral(e))} / 5 · ${evaluados(e)}/${ALLKEYS.length}</small></button>`).join('');
+  const cabPeriodos = `
+  <div class="card">
+    <div class="sect-title">Periodos evaluados</div>
+    <div class="periods">
+      ${tabs || '<span style="color:var(--muted);font-size:14px">Todavía no hay avances registrados.</span>'}
+      <button type="button" class="btn primary" onclick="nuevoAvance('${j.id}')" style="margin-left:auto">${ICONS.plus} Nuevo avance</button>
+    </div>
+  </div>`;
+
+  if(!ev) return head + cabPeriodos + `<div class="empty"><div class="ball">📋</div><h3>Sin avances todavía</h3>
+    <p>El primer avance queda como <b>diagnóstico inicial</b>. A partir del segundo, la página calcula sola el avance de cada aspecto contra el periodo anterior.</p></div>`;
+
+  const prev = evalPrevia(j.id, ev);
+  const pg = promGeneral(ev), pgPrev = promGeneral(prev);
+  const dg = (pg != null && pgPrev != null) ? pg - pgPrev : null;
+
+  const areasHtml = AREAS.map(a => {
+    const p = promArea(ev, a.id), pp = promArea(prev, a.id);
+    const d = (p != null && pp != null) ? p - pp : null;
+    return `<div class="areabox" data-abox="${a.id}">
+      <div class="an">${esc(a.nombre)}</div>
+      <div class="av"><b>${n1(p)}</b><span>/ 5</span>${d != null ? `<span class="chip ${cls(d)}" style="margin-left:auto">${signo(d)}</span>` : ''}</div>
+      <div class="bar"><i style="width:${p ? (p/5*100).toFixed(0) : 0}%"></i></div>
+    </div>`;
+  }).join('');
+
+  const grupos = AREAS.map(a => {
+    let abierto = a.id === 'tec';
+    try{ const v = localStorage.getItem('mf_open_'+a.id); if(v !== null) abierto = v === '1'; }catch(e){}
+    const filas = KEYS[a.id].map(x => {
+      const v = ev.scores?.[x.k] || 0, pv = prev?.scores?.[x.k] || 0;
+      const d = (v && pv) ? v - pv : null;
+      const nota = ev.notas?.[x.k] || '';
+      const btns = [1,2,3,4,5].map(n => `<button type="button" class="sc" data-k="${x.k}" data-v="${n}" aria-pressed="${v === n}" aria-label="${esc(x.nombre)}: ${n}">${n}</button>`).join('')
+        + `<button type="button" class="sc clear" data-k="${x.k}" data-v="0" aria-label="Sin evaluar" title="Quitar calificación">–</button>`;
+      return `<div class="asp" data-row="${x.k}">
+        <span class="asp-name">${esc(x.nombre)}${pv ? `<span style="color:var(--faint);font-size:12px"> · antes ${pv}</span>` : ''}</span>
+        <span class="scale">${btns}</span>
+        <span class="asp-delta ${d == null ? '' : d > 0 ? 'up' : d < 0 ? 'down' : ''}" data-delta="${x.k}">${d == null ? '' : (d > 0 ? '+' : '') + d}</span>
+        <button type="button" class="notebtn ${nota ? 'has' : ''}" data-note="${x.k}" title="Observación: qué mejoró / qué debe mejorar">${ICONS.note}</button>
+        <div class="asp-note" data-notebox="${x.k}" ${nota ? '' : 'hidden'}><textarea data-nota="${x.k}" placeholder="Qué mejoró, qué debe mejorar, observaciones…">${esc(nota)}</textarea></div>
+      </div>`;
+    }).join('');
+    const p = promArea(ev, a.id);
+    const hechos = KEYS[a.id].filter(x => ev.scores?.[x.k]).length;
+    return `<details class="agroup" data-area="${a.id}" ${abierto ? 'open' : ''}>
+      <summary><span class="arrow">▶</span>${esc(a.nombre)} <span class="done" data-done="${a.id}">${hechos}/${KEYS[a.id].length}</span><span class="gv" data-gv="${a.id}">${n1(p)}</span></summary>${filas}</details>`;
+  }).join('');
+
+  const resumen = RESUMEN.map(([k,label]) => `<label class="f"><span>${label}</span>
+    <textarea data-res="${k}" placeholder="…">${esc(ev.resumen?.[k] || '')}</textarea></label>`).join('');
+  const porArea = AREAS.map(a => `<label class="f"><span>${esc(a.nombre)}</span>
+    <textarea data-res="ar_${a.id}" placeholder="Avances observados en ${esc(a.nombre.toLowerCase())}…" style="min-height:52px">${esc(ev.resumen?.['ar_'+a.id] || '')}</textarea></label>`).join('');
+  const correoListo = !!(S.config.ejsService && S.config.ejsTemplate && S.config.ejsKey);
+
+  return head + cabPeriodos + `
+  <div class="card" id="evalCard" data-ev="${ev.id}">
+    <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:14px">
+      <div style="min-width:0">
+        <div class="sect-title" style="margin-bottom:2px">Avance ${esc(ev.periodo || '')}</div>
+        <div style="font-size:13.5px;color:var(--muted)">${fechaLarga(ev.fecha)} · ${esc(ev.entrenador || S.config.entrenador || 'Sin entrenador')}${prev ? ' · comparado con <b>' + esc(prev.periodo || fechaCorta(prev.fecha)) + '</b>' : ' · <b>diagnóstico inicial</b>'}${ev.enviado ? ' · enviado el ' + fechaCorta(ev.enviado.fecha) : ''}</div>
+      </div>
+      <div style="margin-left:auto;display:flex;align-items:baseline;gap:8px">
+        <span class="bignum" id="pgVal">${n1(pg)}</span>
+        <span style="color:var(--faint);font-size:13px">/ 5</span>
+        ${dg != null ? `<span class="chip ${cls(dg)}" style="font-size:14px">${signo(dg)}</span>` : ''}
+      </div>
+      <div style="display:flex;gap:6px">
+        <button type="button" class="btn sm" onclick="editarAvance('${ev.id}')">${ICONS.edit} Periodo</button>
+        <button type="button" class="btn sm danger" onclick="borrarAvance('${ev.id}')">${ICONS.trash}</button>
+      </div>
+    </div>
+    <div class="areas">${areasHtml}</div>
+  </div>
+
+  <div class="card">
+    <div class="sect-title">Evaluación por aspecto · escala 1 a 5</div>
+    ${grupos}
+    <div class="escala">${ESCALA.map(([n,t,d]) => `<div><b style="background:var(--s${n})">${n}</b><strong>${t}:</strong> ${d}</div>`).join('')}</div>
+  </div>
+
+  <div class="card">
+    <div class="sect-title">Resumen del proceso</div>
+    <div class="rows-sum">${resumen}</div>
+    <div class="sect-title" style="margin-top:18px">Avances observados por área · para el informe a la familia</div>
+    <div class="rows-sum">${porArea}</div>
+  </div>
+
+  <div class="card">
+    <div class="sect-title">Informe para la familia</div>
+    <div class="actions">
+      <button type="button" class="btn navy" onclick="descargarPdf()">${ICONS.pdf} Descargar PDF</button>
+      <button type="button" class="btn primary" onclick="enviarCorreo()">${ICONS.mail} Enviar por correo</button>
+      <button type="button" class="btn wa" onclick="enviarWhatsApp()">${ICONS.wa} Enviar por WhatsApp</button>
+      <span id="mailState" class="state"></span>
+    </div>
+    <p class="legend">Destinatarios: ${j.email ? '<b>' + esc(j.email) + '</b>' : '<i>sin correo</i>'} · ${wa ? '<b>+' + wa + '</b>' : '<i>sin WhatsApp</i>'}${j.acudiente ? ' (' + esc(j.acudiente) + ')' : ''}.
+    ${correoListo ? 'El correo sale directo desde tu cuenta con el PDF adjunto.' : 'Sin correo configurado: el botón descarga el PDF y abre tu app de correo con el mensaje listo. Configúralo en <a href="#" onclick="event.preventDefault();go(\'ajustes\')">Ajustes → Correo</a> para que salga con el PDF adjunto automáticamente.'}</p>
+  </div>`;
+}
+
+/* ---------- vista: seguimiento de sesiones ---------- */
+function vistaSeguimiento(j, ses){
+  const total = ses.reduce((a,s) => a + (Number(s.sesiones)||1), 0);
+  const filas = ses.map(s => `<div class="ses-row">
+    <div class="f"><span class="fd">${fechaCorta(s.fecha)}</span><span class="fs">${Number(s.sesiones)||1} ${Number(s.sesiones) === 1 || !s.sesiones ? 'sesión' : 'sesiones'}</span></div>
+    <div class="body">${SESION_CAMPOS.filter(([k]) => (s[k]||'').trim()).map(([k,l]) => `<div><div class="k">${l}</div><div class="v">${esc(s[k])}</div></div>`).join('') || '<div class="v" style="color:var(--faint)">Sin detalle</div>'}</div>
+    <div class="acts"><button class="iconbtn" title="Editar" onclick="editarSesion('${s.id}')">${ICONS.edit}</button><button class="iconbtn" title="Borrar" onclick="borrarSesion('${s.id}')">${ICONS.trash}</button></div>
+  </div>`).join('');
+  return `
+  <div class="card">
+    <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:12px">
+      <div><div class="sect-title" style="margin-bottom:2px">Seguimiento de sesiones</div>
+        <div style="font-size:13.5px;color:var(--muted)">${ses.length} registros · <b>${total}</b> sesiones en total</div></div>
+      <button class="btn primary" style="margin-left:auto" onclick="nuevaSesion('${j.id}')">${ICONS.plus} Registrar sesión</button>
+    </div>
+    ${filas ? `<div class="ses">${filas}</div>` : `<div class="empty"><div class="ball">📅</div><h3>Sin sesiones registradas</h3><p>Anota aquí cada entrenamiento: qué se trabajó, qué evidencia de avance viste y cuál es el próximo objetivo. Es la hoja “Seguimiento” de la ficha.</p></div>`}
+  </div>`;
+}
+
+/* ---------- vista: nosotros ---------- */
+function vistaNosotros(){
+  const c = S.config;
+  const valores = String(c.valores || '').split('\n').map(l => l.split('|')).filter(v => v[0]?.trim());
+  const coach = {nombre:c.entrenador, foto:c.entrenadorFoto};
+  const parr = t => String(t || '').split(/\n{2,}/).map(p => `<p>${esc(p.trim())}</p>`).join('');
+  const wa = c.telefono ? String(c.telefono).replace(/\D/g,'') : '';
+  const waFull = wa ? ((wa.length <= 10 && !wa.startsWith(c.pais||'57')) ? (c.pais||'57') + wa : wa) : '';
+  return `
+  <section class="about-hero">
+    <div class="logo">${logoHtml()}</div>
+    <div style="min-width:0;position:relative">
+      <div class="role" style="font-family:var(--display);font-size:12.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold-2);font-weight:700">Nosotros</div>
+      <h1>${esc(clubName())}</h1>
+      <p>${esc(c.lema || '')}${c.ciudad ? ' · ' + esc(c.ciudad) : ''}</p>
+    </div>
+  </section>
+  <div class="about-grid">
+    <div class="card">
+      <div class="sect-title">La escuela</div>
+      <div class="prose" style="white-space:normal">${parr(c.resena) || '<p style="color:var(--faint)">Escribe la reseña de la escuela en Ajustes → Nosotros.</p>'}</div>
+      ${valores.length ? `<div class="values">${valores.map(([t,d]) => `<div class="value"><b>${esc(t)}</b><span>${esc(d || '')}</span></div>`).join('')}</div>` : ''}
+    </div>
+    <div>
+      <div class="card">
+        <div class="sect-title">El entrenador</div>
+        <div class="coach">
+          ${avatarHtml(coach, 'xl')}
+          <div class="who">
+            <div class="role">${esc(c.entrenadorRol || 'Entrenador')}</div>
+            <h3>${esc(c.entrenador || 'Entrenador')}</h3>
+            <div class="prose" style="white-space:normal;font-size:14.5px;margin-top:8px">${parr(c.resenaEntrenador)}</div>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="sect-title">Contacto</div>
+        <div class="contact">
+          ${waFull ? `<a class="btn wa sm" href="https://wa.me/${waFull}" target="_blank" rel="noopener">${ICONS.wa} WhatsApp</a>` : ''}
+          ${c.correo ? `<a class="btn sm" href="mailto:${esc(c.correo)}">${ICONS.mail} ${esc(c.correo)}</a>` : ''}
+          ${c.instagram ? `<a class="btn sm" href="https://instagram.com/${esc(String(c.instagram).replace('@',''))}" target="_blank" rel="noopener">${ICONS.ig} @${esc(String(c.instagram).replace('@',''))}</a>` : ''}
+          ${c.ciudad ? `<span class="btn sm ghost" style="cursor:default">${ICONS.pin} ${esc(c.ciudad)}</span>` : ''}
+          ${!waFull && !c.correo && !c.instagram ? '<span style="color:var(--faint);font-size:14px">Agrega WhatsApp, correo e Instagram en Ajustes.</span>' : ''}
+        </div>
+      </div>
+      <button class="btn ghost" onclick="go('ajustes')">${ICONS.edit} Editar esta sección</button>
+    </div>
+  </div>`;
+}
+
+/* ---------- vista: ajustes ---------- */
+let ajustesSucio = false;
+let logoPend, coachFotoPend;
+function vistaAjustes(){
+  const c = S.config; logoPend = undefined; coachFotoPend = undefined;
+  const inp = (name, label, val, tipo='text', ph='', hint='') => `<label class="f"><span>${label}</span><input type="${tipo}" name="${name}" value="${esc(val ?? '')}" placeholder="${esc(ph)}" oninput="ajustesSucio=true">${hint ? `<span class="hint">${hint}</span>` : ''}</label>`;
+  const ta = (name, label, val, alto=110, hint='') => `<label class="f"><span>${label}</span><textarea name="${name}" style="min-height:${alto}px" oninput="ajustesSucio=true">${esc(val ?? '')}</textarea>${hint ? `<span class="hint">${hint}</span>` : ''}</label>`;
+  const correoListo = !!(c.ejsService && c.ejsTemplate && c.ejsKey);
+  const uso = (() => { try{ return Math.round((localStorage.getItem(LS)||'').length / 1024); }catch(e){ return 0; } })();
+  return `
+  <form id="cfgForm" class="settings" onsubmit="event.preventDefault();guardarAjustes()">
+    <div class="page-head"><h2>Ajustes</h2><span class="sub">Todo lo que cambies aquí aparece en la página y en los PDF.</span></div>
+
+    <div class="card">
+      <h3>Escuela</h3>
+      <div class="settings">
+        <div class="two">${inp('club','Nombre de la escuela',c.club)}${inp('lema','Lema / subtítulo',c.lema,'text','Entrenamientos personalizados de fútbol')}</div>
+        <div class="two">${inp('ciudad','Ciudad / sede',c.ciudad,'text','Bogotá')}${inp('categoria','Categoría por defecto',c.categoria,'text','Sub-8, Sub-10…')}</div>
+        <div class="two">${inp('telefono','WhatsApp de la escuela',c.telefono,'tel','300 123 4567','Va en el PDF y en Nosotros.')}${inp('pais','Código de país para WhatsApp',c.pais || '57','text','57')}</div>
+        <div class="two">${inp('correo','Correo de la escuela',c.correo,'email','mfdeportivo@gmail.com')}${inp('instagram','Instagram',c.instagram,'text','@mfdeportivo')}</div>
+        <div class="logo-prev">
+          <div class="logo" id="cfgLogo">${logoHtml()}</div>
+          <div style="flex:1;min-width:200px">
+            <div style="font-family:var(--display);font-weight:700;text-transform:uppercase;letter-spacing:.05em">Logo</div>
+            <div style="font-size:12.5px;color:var(--muted)" id="cfgLogoTxt">${c.logo ? 'Usando tu imagen.' : 'Se usa el escudo dibujado. Sube tu imagen (PNG con fondo transparente se ve mejor).'}</div>
+            <div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap">
+              <span class="btn sm filebtn">${ICONS.cam} Subir imagen<input type="file" accept="image/*" onchange="cambiarLogo(this)"></span>
+              <button type="button" class="btn sm ghost" onclick="logoPend='';ajustesSucio=true;document.getElementById('cfgLogo').innerHTML=logoSvg();document.getElementById('cfgLogoTxt').textContent='Se volverá al escudo dibujado al guardar.'">Quitar imagen</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Nosotros</h3>
+      <div class="settings">
+        ${ta('resena','Reseña de la escuela',c.resena,150,'Separa párrafos con una línea en blanco.')}
+        ${ta('valores','Valores (uno por línea: Nombre|Descripción)',c.valores,90)}
+        <div class="photo-row">
+          <span id="cfgCoachFoto">${avatarHtml({nombre:c.entrenador, foto:c.entrenadorFoto},'lg')}</span>
+          <div style="flex:1;min-width:200px">
+            <div style="font-family:var(--display);font-weight:700;text-transform:uppercase;letter-spacing:.05em">Foto del entrenador</div>
+            <div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap">
+              <span class="btn sm filebtn">${ICONS.cam} ${c.entrenadorFoto ? 'Cambiar foto' : 'Subir foto'}<input type="file" accept="image/*" onchange="cambiarFotoCoach(this)"></span>
+              ${c.entrenadorFoto ? `<button type="button" class="btn sm ghost" onclick="coachFotoPend='';ajustesSucio=true;document.getElementById('cfgCoachFoto').innerHTML=avatarHtml({nombre:document.querySelector('[name=entrenador]').value},'lg')">Quitar</button>` : ''}
+            </div>
+          </div>
+        </div>
+        <div class="two">${inp('entrenador','Nombre del entrenador',c.entrenador,'text','Marlon Andrés Forero','También es el entrenador por defecto en cada avance.')}${inp('entrenadorRol','Cargo',c.entrenadorRol,'text','Entrenador y fundador')}</div>
+        ${ta('resenaEntrenador','Reseña del entrenador',c.resenaEntrenador,130)}
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Correo · envío automático con PDF adjunto</h3>
+      <div class="note ${correoListo ? '' : 'warn'}" style="margin-bottom:12px"><span>${correoListo ? '✅' : 'ℹ️'}</span><span>${correoListo ? 'Correo configurado: los informes salen desde tu Gmail con el PDF adjunto.' : 'Sin configurar. Mientras tanto, “Enviar por correo” descarga el PDF y abre tu app de correo con el mensaje listo (tú adjuntas el archivo).'}</span></div>
+      <p style="margin:0 0 6px;font-size:14px;color:var(--muted)">Usa <b>EmailJS</b> (gratis hasta 200 correos al mes; no necesita servidor). Configuración única, unos 5 minutos:</p>
+      <ol class="steps">
+        <li>Crea una cuenta en <a href="https://www.emailjs.com" target="_blank" rel="noopener">emailjs.com</a>.</li>
+        <li><b>Email Services → Add New Service → Gmail</b>, conecta la cuenta de la escuela y copia el <code>Service ID</code>.</li>
+        <li><b>Email Templates → Create New Template</b>. En <b>Settings</b> copia el <code>Template ID</code>. En <b>Content</b> pon:
+          <br>· To email: <code>{{to_email}}</code> &nbsp;· From name: <code>{{from_name}}</code> &nbsp;· Reply to: <code>{{reply_to}}</code> &nbsp;· Subject: <code>{{subject}}</code>
+          <br>· Content (modo código): <code>{{{message_html}}}</code></li>
+        <li>En la misma plantilla, <b>Attachments → Add Attachment → Variable Attachment</b>: Parameter Name <code>pdf</code>, Filename <code>{{filename}}</code>. Guarda.</li>
+        <li><b>Account → General</b>: copia la <code>Public Key</code>. Pega los tres valores aquí y guarda.</li>
+      </ol>
+      <div class="settings" style="margin-top:12px">
+        <div class="two">${inp('ejsService','Service ID',c.ejsService,'text','service_xxxxxxx')}${inp('ejsTemplate','Template ID',c.ejsTemplate,'text','template_xxxxxxx')}</div>
+        ${inp('ejsKey','Public Key',c.ejsKey,'text','xxxxxxxxxxxxxxxxx')}
+        <div><button type="button" class="btn sm" onclick="probarCorreo()">${ICONS.mail} Enviar correo de prueba a la escuela</button> <span id="testState" class="state" style="display:inline"></span></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Copia de seguridad</h3>
+      <p style="margin:0 0 10px;font-size:14px;color:var(--muted)">Los datos viven en este navegador (${uso} KB usados). Para pasarlos al celular o a otro computador, o por si cambias de equipo, descarga una copia y restáurala en el otro dispositivo.</p>
+      <div class="actions">
+        <button type="button" class="btn navy" onclick="exportarRespaldo()">${ICONS.save} Descargar copia (.json)</button>
+        <span class="btn filebtn">${ICONS.csv} Restaurar copia<input type="file" accept="application/json,.json" onchange="importarRespaldo(this)"></span>
+        <button type="button" class="btn" onclick="exportarCsv()">Exportar a Excel (CSV)</button>
+        <button type="button" class="btn danger sm" style="margin-left:auto" onclick="borrarTodo()">${ICONS.trash} Borrar todos los datos</button>
+      </div>
+    </div>
+
+    <div class="savebar">
+      <button type="button" class="btn" onclick="ajustesSucio=false;go('roster')">Cancelar</button>
+      <button type="submit" class="btn primary">${ICONS.save} Guardar ajustes</button>
+    </div>
+  </form>`;
+}
+async function cambiarLogo(input){
+  const f = input.files?.[0]; if(!f) return;
+  try{ logoPend = await comprimirImagen(f, 360, true); ajustesSucio = true;
+    document.getElementById('cfgLogo').innerHTML = `<img src="${logoPend}" alt="">`;
+    document.getElementById('cfgLogoTxt').textContent = 'Imagen lista. Se aplica al guardar.';
+  }catch(e){ toast('No se pudo leer esa imagen.', true); }
+}
+async function cambiarFotoCoach(input){
+  const f = input.files?.[0]; if(!f) return;
+  try{ coachFotoPend = await fotoPerfil(f, 360); ajustesSucio = true;
+    document.getElementById('cfgCoachFoto').innerHTML = avatarHtml({nombre:'', foto:coachFotoPend}, 'lg');
+  }catch(e){ toast('No se pudo leer esa imagen.', true); }
+}
+function guardarAjustes(){
+  const d = Object.fromEntries(new FormData(document.getElementById('cfgForm')).entries());
+  ['ejsService','ejsTemplate','ejsKey','instagram','correo','telefono','pais'].forEach(k => d[k] = (d[k] || '').trim());
+  if(logoPend !== undefined) d.logo = logoPend;
+  if(coachFotoPend !== undefined) d.entrenadorFoto = coachFotoPend;
+  ajustesSucio = false;
+  if(saveConfig(d)){ toast('Ajustes guardados ✅'); go('nosotros'); }
+}
+function borrarTodo(){
+  if(!confirm('Se borrarán TODOS los jugadores, avances, sesiones y ajustes de este dispositivo. ¿Descargaste una copia de seguridad?')) return;
+  if(!confirm('Última confirmación: borrar todo.')) return;
+  try{ localStorage.removeItem(LS); localStorage.removeItem('mf_avances_v2'); localStorage.removeItem('mf_avances_v1'); }catch(e){}
+  S.jugadores = []; S.evals = []; S.sesiones = []; S.config = {...CONFIG_DEF}; guardar(); pintarMarca(); go('roster'); toast('Datos borrados.');
+}
+
+/* ---------- interacción en la grilla ---------- */
+function evDeCard(){ const card = document.getElementById('evalCard'); if(!card) return null; return S.evals.find(x => x.id === card.dataset.ev) || null; }
+app.addEventListener('click', e => {
+  const nb = e.target.closest('.notebtn');
+  if(nb){ const box = document.querySelector(`[data-notebox="${nb.dataset.note}"]`); if(box){ box.hidden = !box.hidden; if(!box.hidden) box.querySelector('textarea').focus(); } return; }
+  const b = e.target.closest('.sc'); if(!b) return;
+  const ev = evDeCard(); if(!ev) return;
+  const k = b.dataset.k, v = Number(b.dataset.v);
+  const scores = {...(ev.scores || {})};
+  if(v === 0) delete scores[k]; else scores[k] = v;
+  const nuevo = {...ev, scores, actualizado: Date.now()};
+  S.evals = S.evals.map(x => x.id === ev.id ? nuevo : x);
+  b.parentElement.querySelectorAll('.sc').forEach(x => x.setAttribute('aria-pressed', String(Number(x.dataset.v) === v && v !== 0)));
+  actualizarDerivados(nuevo);
+  programarGuardado(nuevo);
+});
+app.addEventListener('input', e => {
+  const t = e.target.closest('[data-res],[data-nota]'); if(!t) return;
+  const ev = evDeCard(); if(!ev) return;
+  let nuevo;
+  if(t.dataset.res !== undefined) nuevo = {...ev, resumen:{...(ev.resumen || {}), [t.dataset.res]: t.value}, actualizado:Date.now()};
+  else{
+    const notas = {...(ev.notas || {})}; if(t.value.trim()) notas[t.dataset.nota] = t.value; else delete notas[t.dataset.nota];
+    nuevo = {...ev, notas, actualizado:Date.now()};
+    const nb = document.querySelector(`.notebtn[data-note="${t.dataset.nota}"]`); if(nb) nb.classList.toggle('has', !!t.value.trim());
+  }
+  S.evals = S.evals.map(x => x.id === ev.id ? nuevo : x);
+  programarGuardado(nuevo);
+});
+let tmr = null;
+function programarGuardado(ev){ clearTimeout(tmr); tmr = setTimeout(() => saveEval(ev), 500); }
+window.addEventListener('beforeunload', () => { if(tmr){ clearTimeout(tmr); const ev = evDeCard(); if(ev) saveEval(ev); } });
+function actualizarDerivados(ev){
+  const prev = evalPrevia(ev.jugadorId, ev);
+  AREAS.forEach(a => {
+    const p = promArea(ev, a.id), pp = promArea(prev, a.id);
+    const gv = document.querySelector(`[data-gv="${a.id}"]`); if(gv) gv.textContent = n1(p);
+    const dn = document.querySelector(`[data-done="${a.id}"]`); if(dn) dn.textContent = KEYS[a.id].filter(x => ev.scores?.[x.k]).length + '/' + KEYS[a.id].length;
+    const box = document.querySelector(`[data-abox="${a.id}"]`);
+    if(box){
+      box.querySelector('.av b').textContent = n1(p);
+      box.querySelector('.bar i').style.width = (p ? (p/5*100).toFixed(0) : 0) + '%';
+      const d = (p != null && pp != null) ? p - pp : null;
+      let chip = box.querySelector('.chip');
+      if(d == null){ if(chip) chip.remove(); }
+      else{
+        if(!chip){ chip = document.createElement('span'); chip.className = 'chip'; chip.style.marginLeft = 'auto'; box.querySelector('.av').appendChild(chip); }
+        chip.textContent = signo(d); chip.className = 'chip ' + cls(d);
+      }
+    }
+  });
+  ALLKEYS.forEach(x => {
+    const el = document.querySelector(`[data-delta="${x.k}"]`); if(!el) return;
+    const v = ev.scores?.[x.k] || 0, pv = prev?.scores?.[x.k] || 0;
+    const d = (v && pv) ? v - pv : null;
+    el.textContent = d == null ? '' : (d > 0 ? '+' : '') + d;
+    el.className = 'asp-delta ' + (d == null ? '' : d > 0 ? 'up' : d < 0 ? 'down' : '');
+  });
+  const pgEl = document.getElementById('pgVal'); if(pgEl) pgEl.textContent = n1(promGeneral(ev));
+}
+
+/* ============================ diálogos ============================ */
+const dlg = document.getElementById('dlg');
+function campoHtml(c){
+  if(c.tipo === 'select') return `<label class="f"><span>${c.label}</span><select name="${c.name}">${
+    c.opciones.map(o => `<option value="${esc(o)}" ${o === (c.valor ?? '') ? 'selected' : ''}>${esc(o || '—')}</option>`).join('')}</select></label>`;
+  if(c.tipo === 'textarea') return `<label class="f"><span>${c.label}</span><textarea name="${c.name}" placeholder="${esc(c.ph || '')}" style="min-height:${c.alto || 58}px">${esc(c.valor || '')}</textarea></label>`;
+  return `<label class="f"><span>${c.label}</span><input type="${c.tipo || 'text'}" name="${c.name}" value="${esc(c.valor ?? '')}" placeholder="${esc(c.ph || '')}" ${c.attrs || ''}></label>`;
+}
+function abrirDlg({titulo, campos, okTexto = 'Guardar', onOk, extra = '', pre = ''}){
+  document.getElementById('dlgTitle').textContent = titulo;
+  document.getElementById('dlgBody').innerHTML = pre + campos.map(c => Array.isArray(c) ? `<div class="two">${c.map(campoHtml).join('')}</div>` : campoHtml(c)).join('') + extra;
+  document.getElementById('dlgFoot').innerHTML =
+    `<button class="btn" value="cancel">Cancelar</button><button class="btn primary" value="ok">${esc(okTexto)}</button>`;
+  dlg.returnValue = '';
+  dlg.onclose = () => { if(dlg.returnValue === 'ok'){
+    const f = new FormData(document.getElementById('dlgForm'));
+    onOk(Object.fromEntries(f.entries()));
+  }};
+  dlg.showModal();
+}
+function preguntar(titulo, texto, opciones){
+  return new Promise(res => {
+    document.getElementById('dlgTitle').textContent = titulo;
+    document.getElementById('dlgBody').innerHTML = `<p style="margin:0">${esc(texto)}</p>`;
+    document.getElementById('dlgFoot').innerHTML = `<button class="btn" value="cancel">Cancelar</button>` + opciones.map(([v,l]) => `<button class="btn primary" value="${esc(v)}">${esc(l)}</button>`).join('');
+    dlg.returnValue = ''; dlg.onclose = () => res(dlg.returnValue && dlg.returnValue !== 'cancel' ? dlg.returnValue : null);
+    dlg.showModal();
+  });
+}
+let fotoPend;
+async function cambiarFotoJugador(input, nombre){
+  const f = input.files?.[0]; if(!f) return;
+  try{ fotoPend = await fotoPerfil(f, 320);
+    document.getElementById('dlgFoto').innerHTML = avatarHtml({nombre, foto:fotoPend}, 'lg');
+    document.getElementById('dlgFotoTxt').textContent = 'Foto lista. Se guarda al pulsar Guardar.';
+  }catch(e){ toast('No se pudo leer esa imagen.', true); }
+}
+const fotoExtra = j => `<div class="photo-row">
+  <span id="dlgFoto">${avatarHtml(j,'lg')}</span>
+  <div style="flex:1;min-width:180px">
+    <div style="font-family:var(--display);font-weight:700;text-transform:uppercase;letter-spacing:.05em">Foto del jugador</div>
+    <div style="font-size:12.5px;color:var(--muted)" id="dlgFotoTxt">${j.foto ? 'Puedes cambiarla o quitarla.' : 'Opcional. Se recorta al centro y se guarda pequeña.'}</div>
+    <div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap">
+      <span class="btn sm filebtn">${ICONS.cam} ${j.foto ? 'Cambiar foto' : 'Subir foto'}<input type="file" accept="image/*" capture="environment" onchange="cambiarFotoJugador(this, ${JSON.stringify(j.nombre || '')})"></span>
+      ${j.foto ? `<button type="button" class="btn sm ghost" onclick="fotoPend='';document.getElementById('dlgFoto').innerHTML=avatarHtml({nombre:${JSON.stringify(j.nombre||'')}},'lg');document.getElementById('dlgFotoTxt').textContent='La foto se quitará al guardar.'">Quitar</button>` : ''}
+    </div>
+  </div></div>`;
+const camposJugador = j => [
+  {name:'nombre', label:'Nombre del jugador', valor:j.nombre, ph:'Nombre y apellido'},
+  [{name:'edad', label:'Edad', tipo:'number', valor:j.edad, attrs:'min="3" max="25"'},
+   {name:'categoria', label:'Categoría', valor:j.categoria ?? S.config.categoria, ph:'Sub-8, Sub-10…'}],
+  [{name:'posicion', label:'Posición', tipo:'select', opciones:POSICIONES.includes(j.posicion || '') ? POSICIONES : [...POSICIONES, j.posicion], valor:j.posicion},
+   {name:'pie', label:'Pie dominante', tipo:'select', opciones:['','Derecho','Izquierdo','Ambos'], valor:j.pie}],
+  {name:'tiempo', label:'Tiempo entrenando', valor:j.tiempo, ph:'3 meses, 1 año…'},
+  {name:'acudiente', label:'Nombre del acudiente (papá / mamá)', valor:j.acudiente},
+  [{name:'telefono', label:'WhatsApp del acudiente', tipo:'tel', valor:j.telefono, ph:'300 123 4567'},
+   {name:'email', label:'Correo de la familia', tipo:'email', valor:j.email, ph:'familia@correo.com'}],
+];
+function nuevoJugador(){
+  fotoPend = undefined;
+  abrirDlg({titulo:'Nuevo jugador', pre:fotoExtra({}), campos:camposJugador({}), okTexto:'Agregar al plantel', onOk: d => {
+    if(!d.nombre.trim()) return toast('El jugador necesita un nombre.', true);
+    const orden = Math.max(0, ...S.jugadores.map(x => Number(x.orden) || 0)) + 1;
+    saveJugador({id:uid('j_'), ...d, nombre:d.nombre.trim(), foto:fotoPend || '', orden, creado:Date.now()});
+    toast(d.nombre.trim() + ' ya está en el plantel ⚽');
+  }});
+}
+function editarJugador(id){
+  const j = S.jugadores.find(x => x.id === id); if(!j) return;
+  fotoPend = undefined;
+  abrirDlg({titulo:'Datos de ' + j.nombre, pre:fotoExtra(j), campos:camposJugador(j), onOk: d => {
+    if(!d.nombre.trim()) return toast('El jugador necesita un nombre.', true);
+    saveJugador({...j, ...d, nombre:d.nombre.trim(), foto: fotoPend === undefined ? (j.foto || '') : fotoPend});
+    toast('Datos guardados.');
+  }, extra:`<div style="display:flex;justify-content:flex-start;margin-top:4px"><button type="button" class="btn sm danger" onclick="confirmarBorrarJugador('${j.id}')">${ICONS.trash} Eliminar jugador y todo su historial</button></div>`});
+}
+function confirmarBorrarJugador(id){
+  const j = S.jugadores.find(x => x.id === id);
+  if(!confirm('Eliminar a ' + j.nombre + ', sus avances y sus sesiones. Esta acción no se puede deshacer.')) return;
+  dlg.returnValue = 'cancel'; dlg.close();
+  delJugador(id); go('roster'); toast(j.nombre + ' fue eliminado del plantel.');
+}
+function nuevoAvance(jid){
+  const j = S.jugadores.find(x => x.id === jid);
+  const l = evalsDe(jid); const ult = l[l.length-1];
+  const f = hoy();
+  abrirDlg({titulo:'Nuevo avance · ' + j.nombre, campos:[
+    [{name:'fecha', label:'Fecha de evaluación', tipo:'date', valor:f},
+     {name:'periodo', label:'Periodo evaluado', valor:periodoAuto(f), ph:'Jul–Ago 2026'}],
+    {name:'entrenador', label:'Entrenador', valor:ult?.entrenador || S.config.entrenador},
+    {name:'copiar', label:'Punto de partida', tipo:'select', opciones: ult ? ['Empezar en blanco','Copiar las calificaciones del periodo anterior'] : ['Empezar en blanco'], valor:'Empezar en blanco'},
+  ], okTexto:'Crear avance', onOk: d => {
+    const scores = d.copiar?.startsWith('Copiar') && ult ? {...(ult.scores || {})} : {};
+    const ev = {id:uid('e_'), jugadorId:jid, fecha:d.fecha || hoy(), periodo:d.periodo || periodoAuto(d.fecha),
+                entrenador:d.entrenador || '', scores, notas:{}, resumen:{}, creado:Date.now()};
+    saveEval(ev); go('jugador', jid, ev.id, 'eval');
+  }, extra: ult ? `<p class="legend">Se comparará automáticamente con “${esc(ult.periodo || fechaCorta(ult.fecha))}”. Copiar las calificaciones te ahorra tiempo: solo cambias lo que mejoró.</p>` : '<p class="legend">Este primer avance queda como diagnóstico inicial.</p>'});
+}
+function editarAvance(id){
+  const ev = S.evals.find(x => x.id === id); if(!ev) return;
+  abrirDlg({titulo:'Editar periodo', campos:[
+    [{name:'fecha', label:'Fecha de evaluación', tipo:'date', valor:ev.fecha},
+     {name:'periodo', label:'Periodo', valor:ev.periodo}],
+    {name:'entrenador', label:'Entrenador', valor:ev.entrenador},
+  ], onOk: d => { saveEval({...ev, ...d}); render(); }});
+}
+function borrarAvance(id){
+  const ev = S.evals.find(x => x.id === id); if(!ev) return;
+  if(!confirm('Borrar el avance "' + (ev.periodo || ev.fecha) + '". No se puede deshacer.')) return;
+  const jid = ev.jugadorId;
+  delEval(id); go('jugador', jid, null, 'eval');
+}
+function camposSesion(s){ return [
+  [{name:'fecha', label:'Fecha', tipo:'date', valor:s.fecha || hoy()},
+   {name:'sesiones', label:'Sesiones realizadas', tipo:'number', valor:s.sesiones ?? 1, attrs:'min="1" max="30"'}],
+  ...SESION_CAMPOS.map(([k,l]) => ({name:k, label:l, tipo:'textarea', valor:s[k], alto: k === 'observaciones' ? 50 : 46})),
+]; }
+function nuevaSesion(jid){
+  const j = S.jugadores.find(x => x.id === jid);
+  abrirDlg({titulo:'Registrar sesión · ' + j.nombre, campos:camposSesion({}), okTexto:'Guardar sesión', onOk: d => {
+    saveSesion({id:uid('s_'), jugadorId:jid, ...d, sesiones:Number(d.sesiones)||1, creado:Date.now()}); toast('Sesión registrada ✅');
+  }});
+}
+function editarSesion(id){
+  const s = S.sesiones.find(x => x.id === id); if(!s) return;
+  abrirDlg({titulo:'Editar sesión · ' + fechaCorta(s.fecha), campos:camposSesion(s), onOk: d => saveSesion({...s, ...d, sesiones:Number(d.sesiones)||1})});
+}
+function borrarSesion(id){
+  const s = S.sesiones.find(x => x.id === id); if(!s) return;
+  if(!confirm('Borrar la sesión del ' + fechaCorta(s.fecha) + '?')) return;
+  delSesion(id);
+}
+
+/* ============================ PDF ============================ */
+const pdfTxt = s => String(s ?? '').replace(/–/g,'-').replace(/—/g,'-').replace(/[“”]/g,'"').replace(/’/g,"'").replace(/…/g,'...');
+async function construirPdf(j, ev){
+  const JS = window.jspdf && window.jspdf.jsPDF;
+  if(!JS) throw new Error('nolib');
+  const prev = evalPrevia(j.id, ev);
+  const doc = new JS({unit:'pt', format:'a4'});
+  const W = 595, H = 842, M = 46; let y = 0;
+  const navy = [15,31,75], navy2 = [26,50,114], gold = [217,169,60], gris = [86,97,138], tinta = [15,26,56], linea = [223,227,239], suave = [247,248,252];
+  const verde = [34,148,90], rojo = [211,80,59], flat = [138,147,179];
+  const colD = d => d == null ? gris : d > 0.05 ? verde : d < -0.05 ? rojo : flat;
+  const logo = await logoPng();
+  const club = pdfTxt(clubName());
+
+  const cabecera = () => {
+    doc.setFillColor(...navy); doc.rect(0, 0, W, 26, 'F');
+    doc.setFillColor(...gold); doc.rect(0, 26, W, 2, 'F');
+    doc.setFont('helvetica','bold').setFontSize(8).setTextColor(255,255,255);
+    doc.text(club.toUpperCase() + '   ·   INFORME DE AVANCE   ·   ' + pdfTxt(j.nombre), M, 17);
+    y = 48;
+  };
+  const salto = need => { if(y + need > H - 50){ doc.addPage(); cabecera(); } };
+  const titulo = t => { salto(30); doc.setFont('helvetica','bold').setFontSize(9).setTextColor(...navy2); doc.text(pdfTxt(t).toUpperCase(), M, y);
+    doc.setDrawColor(...gold).setLineWidth(1.2).line(M, y + 4, M + 28, y + 4); doc.setDrawColor(...linea).setLineWidth(.6).line(M + 28, y + 4, W - M, y + 4); y += 18; };
+  const parrafo = (label, texto, ancho = W - M*2) => {
+    const t = pdfTxt(texto).trim(); if(!t) return;
+    const lines = doc.setFont('helvetica','normal').setFontSize(9.5).splitTextToSize(t, ancho);
+    salto(16 + lines.length * 12);
+    doc.setFont('helvetica','bold').setFontSize(8).setTextColor(...gold).text(pdfTxt(label).toUpperCase(), M, y); y += 11;
+    doc.setFont('helvetica','normal').setFontSize(9.5).setTextColor(...tinta).text(lines, M, y); y += lines.length * 12 + 8;
+  };
+
+  // portada
+  doc.setFillColor(...navy); doc.rect(0, 0, W, 132, 'F');
+  doc.setFillColor(...navy2); doc.triangle(W, 0, W, 132, W - 220, 132, 'F');
+  doc.setFillColor(...gold); doc.rect(0, 132, W, 3, 'F');
+  if(logo) doc.addImage(logo, 'PNG', M, 24, 70, 84);
+  const tx = M + (logo ? 86 : 0);
+  doc.setTextColor(241,198,96).setFont('helvetica','bold').setFontSize(10); doc.text(club.toUpperCase(), tx, 46);
+  doc.setTextColor(255,255,255).setFontSize(26); doc.text('Informe de avance', tx, 74);
+  doc.setFont('helvetica','normal').setFontSize(12); doc.text(pdfTxt(j.nombre) + '   ·   ' + pdfTxt(ev.periodo || fechaLarga(ev.fecha)), tx, 94);
+  doc.setFontSize(9).setTextColor(200,208,235); doc.text(pdfTxt(S.config.lema || 'Entrenamientos personalizados de fútbol'), tx, 112);
+  if(j.foto){ try{ doc.setFillColor(...gold); doc.roundedRect(W - M - 74, 22, 74, 74, 8, 8, 'F'); doc.addImage(j.foto, 'JPEG', W - M - 71, 25, 68, 68); }catch(e){} }
+  y = 158;
+
+  // datos del jugador
+  titulo('Datos del jugador');
+  const datos = [['Edad', j.edad ? j.edad + ' años' : '-'], ['Posición', j.posicion || '-'],
+    ['Pie dominante', j.pie || '-'], ['Categoría', j.categoria || '-'],
+    ['Tiempo entrenando', j.tiempo || '-'], ['Entrenador', ev.entrenador || S.config.entrenador || '-'],
+    ['Fecha de evaluación', fechaLarga(ev.fecha)], ['Periodo anterior', prev ? (prev.periodo || fechaLarga(prev.fecha)) : 'Sin periodo previo (diagnóstico inicial)'],
+    ['Acudiente', j.acudiente || '-'], ['Contacto', [j.telefono, j.email].filter(Boolean).join('  ·  ') || '-']];
+  const colW = (W - M*2) / 2;
+  datos.forEach((d, i) => {
+    const x = M + (i % 2) * colW, yy = y + Math.floor(i/2) * 15;
+    doc.setFont('helvetica','normal').setFontSize(8).setTextColor(...gris).text(pdfTxt(d[0]) + ':', x, yy);
+    doc.setFont('helvetica','bold').setFontSize(9).setTextColor(...tinta).text(pdfTxt(d[1]).slice(0, i === 9 ? 44 : 34), x + 88, yy);
+  });
+  y += Math.ceil(datos.length/2) * 15 + 10;
+
+  // promedios
+  titulo('Promedio por área');
+  const pg = promGeneral(ev), pgp = promGeneral(prev);
+  doc.setFillColor(...suave); doc.roundedRect(M, y - 6, W - M*2, 40, 5, 5, 'F');
+  doc.setFont('helvetica','bold').setFontSize(24).setTextColor(...navy2); doc.text(n1(pg), M + 14, y + 20);
+  doc.setFontSize(9).setTextColor(...gris); doc.text('/ 5   promedio general', M + 14 + doc.getTextWidth(n1(pg)) + 6, y + 20);
+  if(pgp != null && pg != null){ doc.setFont('helvetica','bold').setFontSize(11).setTextColor(...colD(pg - pgp)); doc.text(signo(pg - pgp) + ' respecto al periodo anterior', M + 200, y + 20); }
+  const evTxt = evaluados(ev) + ' de ' + ALLKEYS.length + ' aspectos evaluados';
+  doc.setFont('helvetica','normal').setFontSize(8).setTextColor(...gris); doc.text(evTxt, W - M - 12 - doc.getTextWidth(evTxt), y + 20);
+  y += 50;
+  AREAS.forEach(a => {
+    const p = promArea(ev, a.id), pp = promArea(prev, a.id);
+    const d = (p != null && pp != null) ? p - pp : null;
+    doc.setFont('helvetica','normal').setFontSize(9).setTextColor(...tinta); doc.text(pdfTxt(a.nombre), M, y + 8);
+    const bx = M + 140, bw = 250;
+    doc.setFillColor(...linea); doc.roundedRect(bx, y + 1, bw, 8, 3, 3, 'F');
+    if(p){ doc.setFillColor(...gold); doc.roundedRect(bx, y + 1, Math.max(6, bw * (p/5)), 8, 3, 3, 'F'); }
+    doc.setFont('helvetica','bold').setFontSize(9.5).setTextColor(...tinta).text(n1(p), bx + bw + 12, y + 8);
+    if(d != null){ doc.setTextColor(...colD(d)).setFontSize(8.5).text(signo(d), bx + bw + 44, y + 8); }
+    y += 17;
+  });
+  y += 8;
+
+  // detalle
+  titulo('Detalle por aspecto');
+  AREAS.forEach(a => {
+    const filas = KEYS[a.id].filter(x => ev.scores?.[x.k]);
+    if(!filas.length) return;
+    salto(34 + filas.length * 13);
+    doc.setFillColor(...suave); doc.rect(M, y - 9, W - M*2, 15, 'F');
+    doc.setFont('helvetica','bold').setFontSize(8.5).setTextColor(...navy2); doc.text(pdfTxt(a.nombre).toUpperCase(), M + 5, y + 1);
+    doc.setTextColor(...gris).setFontSize(7.5);
+    doc.text('ANTES', W - M - 96, y + 1); doc.text('AHORA', W - M - 60, y + 1); doc.text('AVANCE', W - M - 28, y + 1);
+    y += 17;
+    filas.forEach(x => {
+      const v = ev.scores[x.k], pv = prev?.scores?.[x.k] || null;
+      const d = (v && pv) ? v - pv : null;
+      const nota = pdfTxt(ev.notas?.[x.k] || '').trim();
+      const nl = nota ? doc.setFont('helvetica','italic').setFontSize(8).splitTextToSize(nota, W - M*2 - 120) : [];
+      salto(13 + nl.length * 10);
+      doc.setFont('helvetica','normal').setFontSize(8.5).setTextColor(...tinta); doc.text(pdfTxt(x.nombre).slice(0,60), M + 5, y);
+      doc.setTextColor(...gris).text(pv ? String(pv) : '-', W - M - 90, y);
+      doc.setFont('helvetica','bold').setTextColor(...tinta).text(String(v), W - M - 54, y);
+      if(d != null){ doc.setTextColor(...colD(d)).text((d > 0 ? '+' : '') + d, W - M - 20, y); }
+      y += 12;
+      if(nl.length){ doc.setFont('helvetica','italic').setFontSize(8).setTextColor(...gris).text(nl, M + 14, y); y += nl.length * 10 + 2; }
+    });
+    y += 6;
+  });
+
+  // informe para la familia
+  const r = ev.resumen || {};
+  const porArea = AREAS.filter(a => (r['ar_'+a.id] || '').trim());
+  const conTexto = RESUMEN.filter(([k]) => (r[k] || '').trim());
+  if(conTexto.length || porArea.length){
+    y += 4; titulo('Informe para la familia');
+    parrafo('Cómo inició', r.inicio);
+    if(porArea.length){
+      salto(20); doc.setFont('helvetica','bold').setFontSize(8).setTextColor(...gold).text('AVANCES OBSERVADOS', M, y); y += 11;
+      porArea.forEach(a => {
+        const lines = doc.setFont('helvetica','normal').setFontSize(9.5).splitTextToSize(pdfTxt(r['ar_'+a.id]).trim(), W - M*2 - 100);
+        salto(lines.length * 12 + 4);
+        doc.setFont('helvetica','bold').setFontSize(9).setTextColor(...navy2).text(pdfTxt(a.nombre) + ':', M, y);
+        doc.setFont('helvetica','normal').setFontSize(9.5).setTextColor(...tinta).text(lines, M + 100, y); y += lines.length * 12 + 4;
+      });
+      y += 6;
+    }
+    parrafo('Avances más importantes', r.avances);
+    parrafo('Fortalezas actuales', r.fortalezas);
+    parrafo('Aspectos por mejorar', r.mejorar);
+    parrafo('Objetivos del siguiente periodo', r.objetivo);
+    parrafo('Recomendación para casa', r.casa);
+    if((r.comentario || '').trim()){
+      const lines = doc.setFont('helvetica','italic').setFontSize(10).splitTextToSize(pdfTxt(r.comentario).trim(), W - M*2 - 28);
+      salto(lines.length * 13 + 30);
+      doc.setFillColor(...suave); doc.roundedRect(M, y - 8, W - M*2, lines.length * 13 + 26, 6, 6, 'F');
+      doc.setFillColor(...gold); doc.rect(M, y - 8, 4, lines.length * 13 + 26, 'F');
+      doc.setFont('helvetica','bold').setFontSize(8).setTextColor(...gold).text('MENSAJE DEL ENTRENADOR', M + 14, y + 3);
+      doc.setFont('helvetica','italic').setFontSize(10).setTextColor(...tinta).text(lines, M + 14, y + 17); y += lines.length * 13 + 30;
+    }
+  }
+
+  // seguimiento
+  const ses = sesionesDe(j.id).filter(s => !ev.fecha || (s.fecha || '') <= ev.fecha).slice(0, 8);
+  if(ses.length){
+    y += 4; titulo('Seguimiento de sesiones');
+    ses.reverse().forEach(s => {
+      const partes = SESION_CAMPOS.filter(([k]) => (s[k]||'').trim()).map(([k,l]) => l + ': ' + pdfTxt(s[k]).trim());
+      const lines = doc.setFont('helvetica','normal').setFontSize(8.5).splitTextToSize(partes.join('   ·   ') || 'Sin detalle', W - M*2 - 92);
+      salto(lines.length * 11 + 8);
+      doc.setFont('helvetica','bold').setFontSize(9).setTextColor(...navy2).text(pdfTxt(fechaCorta(s.fecha)), M, y);
+      doc.setFont('helvetica','normal').setFontSize(7.5).setTextColor(...gris).text((Number(s.sesiones)||1) + (Number(s.sesiones) === 1 || !s.sesiones ? ' sesión' : ' sesiones'), M, y + 10);
+      doc.setFontSize(8.5).setTextColor(...tinta).text(lines, M + 92, y); y += Math.max(20, lines.length * 11) + 6;
+    });
+  }
+
+  // pies
+  const total = doc.getNumberOfPages();
+  for(let i = 1; i <= total; i++){
+    doc.setPage(i);
+    doc.setDrawColor(...linea).setLineWidth(.6).line(M, H - 34, W - M, H - 34);
+    doc.setFont('helvetica','normal').setFontSize(7.5).setTextColor(...gris);
+    doc.text('Escala 1 a 5:  1 inicial  ·  2 en desarrollo  ·  3 adecuado  ·  4 bueno  ·  5 muy desarrollado', M, H - 22);
+    const pie = club + (S.config.telefono ? '  ·  WhatsApp ' + pdfTxt(S.config.telefono) : '') + (S.config.correo ? '  ·  ' + pdfTxt(S.config.correo) : '') + '   ·   ' + i + ' / ' + total;
+    doc.text(pie, W - M - doc.getTextWidth(pie), H - 22);
+  }
+  return doc;
+}
+function nombreArchivo(j, ev){
+  const limpio = s => String(s || '').normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^A-Za-z0-9]+/g, '_').replace(/^_|_$/g, '');
+  return 'Informe_' + limpio(j.nombre) + '_' + limpio(ev.periodo || ev.fecha) + '.pdf';
+}
+function evalActual(){
+  const ev = evDeCard(); const j = S.jugadores.find(x => x.id === ev?.jugadorId);
+  return ev && j ? {ev, j} : null;
+}
+function descargarBlob(filename, blob){
+  try{
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a'); a.href = url; a.download = filename; document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 4000); return true;
+  }catch(e){ toast('Este navegador no permitió la descarga.', true); return false; }
+}
+const setEstado = (t, err) => { const el = document.getElementById('mailState'); if(el){ el.textContent = t; el.className = 'state' + (err ? ' err' : ''); } };
+async function descargarPdf(){
+  const a = evalActual(); if(!a) return;
+  setEstado('Generando el PDF…');
+  let doc;
+  try{ doc = await construirPdf(a.j, a.ev); }
+  catch(e){ return setEstado('No se pudo generar el PDF. Revisa la conexión a internet y recarga la página.', true); }
+  if(descargarBlob(nombreArchivo(a.j, a.ev), doc.output('blob'))){ setEstado(''); toast('PDF listo 📄'); } else setEstado('');
+}
+function textoInforme(a){
+  const pg = promGeneral(a.ev), prev = evalPrevia(a.j.id, a.ev), pgp = promGeneral(prev);
+  const areas = AREAS.map(x => { const p = promArea(a.ev, x.id), pp = promArea(prev, x.id); const d = (p != null && pp != null) ? p - pp : null;
+    return '• ' + x.nombre + ': ' + n1(p) + '/5' + (d != null ? ' (' + signo(d) + ')' : ''); }).join('\n');
+  return {
+    asunto:'Informe de avance · ' + a.j.nombre + ' · ' + (a.ev.periodo || a.ev.fecha),
+    saludo:'Buen día' + (a.j.acudiente ? ', ' + a.j.acudiente : '') + ',',
+    intro:'Les compartimos el informe de avance de ' + a.j.nombre + ' correspondiente al periodo ' + (a.ev.periodo || fechaLarga(a.ev.fecha)) + '.',
+    prom:'Promedio general: ' + n1(pg) + ' / 5' + (pgp != null && pg != null ? ' (' + signo(pg - pgp) + ' respecto al periodo anterior)' : ''),
+    areas, pg, prev, pgp,
+    firma:(a.ev.entrenador || S.config.entrenador || 'Entrenador') + '\n' + clubName(),
+  };
+}
+function htmlCorreo(a, t){
+  const filasArea = AREAS.map(x => {
+    const p = promArea(a.ev, x.id), pp = promArea(t.prev, x.id); const d = (p != null && pp != null) ? p - pp : null;
+    return '<tr><td style="padding:5px 12px 5px 0;border-bottom:1px solid #eee">' + esc(x.nombre) + '</td>' +
+      '<td style="padding:5px 12px;font-weight:700;border-bottom:1px solid #eee">' + n1(p) + ' / 5</td>' +
+      '<td style="padding:5px 0;border-bottom:1px solid #eee;color:' + (d > 0.05 ? '#22945A' : d < -0.05 ? '#D3503B' : '#8A93B3') + ';font-weight:600">' + (d != null ? signo(d) : '') + '</td></tr>';
+  }).join('');
+  const r = a.ev.resumen || {};
+  return `<div style="font-family:Arial,Helvetica,sans-serif;font-size:14px;color:#0F1A38;max-width:600px">
+    <div style="background:#0F1F4B;border-bottom:3px solid #D9A93C;padding:16px 20px;border-radius:8px 8px 0 0">
+      <div style="color:#F1C660;font-size:12px;letter-spacing:2px;font-weight:700">${esc(clubName().toUpperCase())}</div>
+      <div style="color:#fff;font-size:20px;font-weight:700;margin-top:4px">Informe de avance · ${esc(a.j.nombre)}</div>
+      <div style="color:#c8d0eb;font-size:13px">${esc(a.ev.periodo || fechaLarga(a.ev.fecha))}</div>
+    </div>
+    <div style="padding:18px 20px;border:1px solid #DFE3EF;border-top:0;border-radius:0 0 8px 8px">
+      <p>${esc(t.saludo)}</p>
+      <p>${esc(t.intro)}</p>
+      <p style="font-size:16px"><b>${esc(t.prom)}</b></p>
+      <table style="border-collapse:collapse;font-size:13px;width:100%">${filasArea}</table>
+      ${(r.avances || '').trim() ? '<p><b>Avances más importantes</b><br>' + esc(r.avances) + '</p>' : ''}
+      ${(r.casa || '').trim() ? '<p><b>Recomendación para casa</b><br>' + esc(r.casa) + '</p>' : ''}
+      ${(r.comentario || '').trim() ? '<p style="border-left:4px solid #D9A93C;padding-left:12px;font-style:italic">' + esc(r.comentario) + '</p>' : ''}
+      <p>El detalle completo va adjunto en PDF. Quedamos atentos a cualquier inquietud.</p>
+      <p style="color:#56618A">${esc(t.firma).replace('\n','<br>')}${S.config.telefono ? '<br>WhatsApp: ' + esc(S.config.telefono) : ''}</p>
+    </div></div>`;
+}
+function pedirContacto(a, campo, label, tipo, luego){
+  abrirDlg({titulo:label + ' de la familia de ' + a.j.nombre, campos:[{name:campo, label, tipo, valor:'', ph: tipo === 'email' ? 'familia@correo.com' : '300 123 4567'}],
+    okTexto:'Guardar y enviar', onOk: d => { if(!d[campo]) return; saveJugador({...a.j, [campo]:d[campo]}); setTimeout(luego, 250); }});
+}
+/* Envío con EmailJS (REST, sin librería). Devuelve texto de error o '' si salió bien. */
+async function enviarEmailJS(params){
+  const c = S.config;
+  const r = await fetch('https://api.emailjs.com/api/v1.0/email/send', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({service_id:c.ejsService, template_id:c.ejsTemplate, user_id:c.ejsKey, template_params:params}),
+  });
+  if(r.ok) return '';
+  const txt = await r.text().catch(() => '');
+  if(r.status === 400 && /attachment|size|large/i.test(txt)) return 'El PDF es demasiado grande para el plan gratuito de EmailJS. Quita la foto del jugador o envíalo por WhatsApp.';
+  if(r.status === 400 || r.status === 403) return 'EmailJS rechazó el envío: ' + (txt || 'revisa el Service ID, Template ID y Public Key en Ajustes.');
+  if(r.status === 429) return 'Se alcanzó el límite de correos del mes en EmailJS.';
+  return 'No se pudo enviar (' + r.status + '). ' + txt;
+}
+async function enviarCorreo(){
+  const a = evalActual(); if(!a) return;
+  if(!a.j.email) return pedirContacto(a, 'email', 'Correo', 'email', enviarCorreo);
+  const t = textoInforme(a);
+  const configurado = !!(S.config.ejsService && S.config.ejsTemplate && S.config.ejsKey);
+  const texto = t.saludo + '\n\n' + t.intro + '\n' + t.prom + '\n\n' + t.areas + '\n\nEl detalle completo va adjunto en PDF.\n\n' + t.firma;
+
+  setEstado('Generando el PDF…');
+  let doc;
+  try{ doc = await construirPdf(a.j, a.ev); }catch(e){ return setEstado('No se pudo generar el PDF.', true); }
+
+  if(!configurado){
+    descargarBlob(nombreArchivo(a.j, a.ev), doc.output('blob'));
+    window.location.href = 'mailto:' + encodeURIComponent(a.j.email) + '?subject=' + encodeURIComponent(t.asunto) + '&body=' + encodeURIComponent(texto);
+    return setEstado('PDF descargado y correo abierto: adjunta el archivo antes de enviar. Para que salga solo, configura el correo en Ajustes.');
+  }
+
+  setEstado('Enviando a ' + a.j.email + '…');
+  const dataUri = doc.output('datauristring');
+  const kb = Math.round(dataUri.length * 0.75 / 1024);
+  const err = await enviarEmailJS({
+    to_email:a.j.email, to_name:a.j.acudiente || ('Familia de ' + a.j.nombre),
+    from_name:clubName(), reply_to:S.config.correo || '',
+    subject:t.asunto, message:texto, message_html:htmlCorreo(a, t),
+    player:a.j.nombre, period:a.ev.periodo || a.ev.fecha,
+    filename:nombreArchivo(a.j, a.ev), pdf:dataUri,
+  }).catch(e => 'Sin conexión con EmailJS. Revisa internet e intenta de nuevo.');
+  if(err){ setEstado(err + (kb > 450 ? ' (El PDF pesa ' + kb + ' KB.)' : ''), true); return; }
+  setEstado('Enviado a ' + a.j.email + ' ✅');
+  toast('Informe enviado a ' + a.j.email);
+  saveEval({...a.ev, enviado:{fecha:hoy(), a:a.j.email}});
+}
+async function probarCorreo(){
+  const f = document.getElementById('cfgForm'); const d = Object.fromEntries(new FormData(f).entries());
+  const el = document.getElementById('testState');
+  const set = (t, e) => { if(el){ el.textContent = t; el.className = 'state' + (e ? ' err' : ''); el.style.display = 'inline'; } };
+  if(!d.ejsService || !d.ejsTemplate || !d.ejsKey) return set('Completa Service ID, Template ID y Public Key.', true);
+  if(!d.correo) return set('Escribe el correo de la escuela arriba: ahí llegará la prueba.', true);
+  const prevCfg = {...S.config}; S.config = {...S.config, ejsService:d.ejsService.trim(), ejsTemplate:d.ejsTemplate.trim(), ejsKey:d.ejsKey.trim()};
+  set('Enviando prueba…');
+  const JS = window.jspdf?.jsPDF; let pdf = '';
+  try{ if(JS){ const doc = new JS({unit:'pt', format:'a5'}); doc.setFontSize(16).text('Prueba de envío · ' + (d.club || 'MF Deportivo'), 40, 60); doc.setFontSize(10).text('Si ves este PDF adjunto, el correo quedó bien configurado.', 40, 90); pdf = doc.output('datauristring'); } }catch(e){}
+  const err = await enviarEmailJS({to_email:d.correo.trim(), to_name:d.entrenador || 'Entrenador', from_name:d.club || 'MF Deportivo', reply_to:d.correo.trim(),
+    subject:'Prueba · ' + (d.club || 'MF Deportivo'), message:'Este es un correo de prueba. Si lo recibes con el PDF adjunto, todo quedó configurado.',
+    message_html:'<p>Este es un correo de <b>prueba</b> de ' + esc(d.club || 'MF Deportivo') + '.</p><p>Si lo recibes con el PDF adjunto, todo quedó configurado ✅</p>',
+    player:'Prueba', period:hoy(), filename:'Prueba_MF.pdf', pdf}).catch(() => 'Sin conexión con EmailJS.');
+  S.config = prevCfg;
+  set(err || ('Prueba enviada a ' + d.correo + ' ✅ Revisa la bandeja (y spam). Recuerda guardar los ajustes.'), !!err);
+}
+async function enviarWhatsApp(){
+  const a = evalActual(); if(!a) return;
+  if(!telWa(a.j)) return pedirContacto(a, 'telefono', 'WhatsApp', 'tel', enviarWhatsApp);
+  const t = textoInforme(a);
+  const msg = '⚽ *' + clubName() + '*\n' + t.saludo + '\n\n' + t.intro + '\n\n*' + t.prom + '*\n\n' + t.areas +
+    ((a.ev.resumen?.casa || '').trim() ? '\n\n🏠 *Recomendación para casa:* ' + a.ev.resumen.casa.trim() : '') +
+    '\n\nLes adjuntamos el informe completo en PDF.\n\n' + t.firma;
+  const url = 'https://wa.me/' + telWa(a.j) + '?text=' + encodeURIComponent(msg);
+
+  setEstado('Generando el PDF…');
+  let blob;
+  try{ blob = (await construirPdf(a.j, a.ev)).output('blob'); }catch(e){ return setEstado('No se pudo generar el PDF.', true); }
+  const nombre = nombreArchivo(a.j, a.ev);
+
+  // En celular: compartir el PDF directo a WhatsApp con el mensaje.
+  try{
+    const file = new File([blob], nombre, {type:'application/pdf'});
+    if(navigator.canShare && navigator.canShare({files:[file]})){
+      await navigator.share({files:[file], title:t.asunto, text:msg});
+      setEstado('Compartido ✅'); saveEval({...a.ev, enviado:{fecha:hoy(), a:'WhatsApp'}}); return;
+    }
+  }catch(e){ if(e?.name === 'AbortError'){ setEstado(''); return; } }
+
+  // En computador: descarga el PDF y abre el chat con el mensaje listo; el PDF se adjunta desde WhatsApp.
+  descargarBlob(nombre, blob);
+  const w = window.open(url, '_blank', 'noopener');
+  const el = document.getElementById('mailState');
+  if(el){ el.className = 'state'; el.innerHTML = 'PDF descargado. ' + (w ? 'Se abrió el chat de WhatsApp; ' : '') + `<a href="${url}" target="_blank" rel="noopener" style="color:var(--wa);font-weight:700">abrir chat de WhatsApp</a> y adjunta el PDF desde el clip 📎.`; }
+}
+
+/* ============================ exportar CSV ============================ */
+function exportarCsv(){
+  const q = s => '"' + String(s ?? '').replace(/"/g, '""') + '"';
+  const cab = ['Jugador','Edad','Posicion','Pie','Categoria','Acudiente','Telefono','Correo','Periodo','Fecha','Entrenador','Area','Aspecto','Anterior','Actual','Avance','Observacion'];
+  const lineas = [cab.map(q).join(',')];
+  S.jugadores.forEach(j => evalsDe(j.id).forEach(ev => {
+    const prev = evalPrevia(j.id, ev);
+    ALLKEYS.forEach(x => {
+      const v = ev.scores?.[x.k]; if(!v) return;
+      const pv = prev?.scores?.[x.k] || '';
+      lineas.push([j.nombre, j.edad, j.posicion, j.pie, j.categoria, j.acudiente, j.telefono, j.email, ev.periodo, ev.fecha,
+        ev.entrenador, x.areaNombre, x.nombre, pv, v, pv ? v - pv : '', ev.notas?.[x.k] || ''].map(q).join(','));
+    });
+  }));
+  const cab2 = ['Jugador','Fecha','Sesiones','Objetivo trabajado','Evidencia del avance','Dificultad encontrada','Proximo objetivo','Observaciones'];
+  const l2 = [cab2.map(q).join(',')];
+  S.jugadores.forEach(j => sesionesDe(j.id).forEach(s => l2.push([j.nombre, s.fecha, s.sesiones, s.objetivo, s.evidencia, s.dificultad, s.proximo, s.observaciones].map(q).join(','))));
+  if(lineas.length === 1 && l2.length === 1) return toast('Todavía no hay evaluaciones ni sesiones para exportar.', true);
+  const csv = '﻿' + lineas.join('\r\n') + '\r\n\r\n' + l2.join('\r\n');
+  if(descargarBlob('Avances_' + clubName().replace(/\W+/g,'_') + '_' + hoy() + '.csv', new Blob([csv], {type:'text/csv;charset=utf-8'}))) toast('CSV guardado. Ábrelo con Excel.');
+}
+
+/* ============================ toast ============================ */
+let toastT = null;
+function toast(msg, err){
+  document.querySelectorAll('.toast').forEach(t => t.remove());
+  const el = document.createElement('div');
+  el.className = 'toast' + (err ? ' err' : ''); el.textContent = msg; el.setAttribute('role','status');
+  document.body.appendChild(el);
+  clearTimeout(toastT); toastT = setTimeout(() => el.remove(), err ? 6500 : 3200);
+}
+
+/* ============================ arranque ============================ */
+Object.assign(window, {go, S, render, nuevoJugador, editarJugador, confirmarBorrarJugador, nuevoAvance, editarAvance, borrarAvance,
+  nuevaSesion, editarSesion, borrarSesion, descargarPdf, enviarCorreo, enviarWhatsApp, exportarCsv, exportarRespaldo, importarRespaldo,
+  cambiarFotoJugador, cambiarLogo, cambiarFotoCoach, guardarAjustes, borrarTodo, probarCorreo, avatarHtml, logoSvg, toast});
+document.getElementById('brandBtn').onclick = () => go('roster');
+cargar(); pintarMarca(); render();
+</script>
+</body>
+</html>
