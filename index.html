@@ -408,15 +408,23 @@ dialog::backdrop{background:rgba(6,12,30,.55); backdrop-filter:blur(2px)}
       <span class="logo" id="brandLogo"></span>
       <span class="brand-t"><b id="brandName">MF Deportivo</b><span id="brandSub">Entrenamientos personalizados</span></span>
     </button>
+    <button class="btn ghost" id="navNosotros" onclick="go(S.admin ? 'nosotros' : 'inicio')" title="Nosotros">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 L20 6 V12 C20 17 16 20.5 12 22 C8 20.5 4 17 4 12 V6 Z"/></svg>
+      <span class="lbl">Nosotros</span></button>
+    <span id="navAdmin" style="display:contents">
     <button class="btn ghost" id="navPlantel" onclick="go('roster')" title="Plantel">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0113 0"/><circle cx="17" cy="9" r="2.5"/><path d="M16 15.5a5 5 0 015.5 4.5"/></svg>
       <span class="lbl">Plantel</span></button>
-    <button class="btn ghost" id="navNosotros" onclick="go('nosotros')" title="Nosotros">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 L20 6 V12 C20 17 16 20.5 12 22 C8 20.5 4 17 4 12 V6 Z"/></svg>
-      <span class="lbl">Nosotros</span></button>
     <button class="btn ghost" id="navAjustes" onclick="go('ajustes')" title="Ajustes">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 00.3 1.8l.1.1a2 2 0 11-2.8 2.8l-.1-.1a1.7 1.7 0 00-1.8-.3 1.7 1.7 0 00-1 1.5V21a2 2 0 11-4 0v-.1a1.7 1.7 0 00-1.1-1.5 1.7 1.7 0 00-1.8.3l-.1.1a2 2 0 11-2.8-2.8l.1-.1a1.7 1.7 0 00.3-1.8 1.7 1.7 0 00-1.5-1H3a2 2 0 110-4h.1a1.7 1.7 0 001.5-1.1 1.7 1.7 0 00-.3-1.8l-.1-.1a2 2 0 112.8-2.8l.1.1a1.7 1.7 0 001.8.3H9a1.7 1.7 0 001-1.5V3a2 2 0 114 0v.1a1.7 1.7 0 001 1.5 1.7 1.7 0 001.8-.3l.1-.1a2 2 0 112.8 2.8l-.1.1a1.7 1.7 0 00-.3 1.8V9a1.7 1.7 0 001.5 1H21a2 2 0 110 4h-.1a1.7 1.7 0 00-1.5 1z"/></svg>
       <span class="lbl">Ajustes</span></button>
+    <button class="btn ghost" onclick="cerrarSesion()" title="Cerrar sesión">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 17l5-5-5-5M15 12H3M13 3h6a2 2 0 012 2v14a2 2 0 01-2 2h-6"/></svg>
+      <span class="lbl">Salir</span></button>
+    </span>
+    <button class="btn ghost" id="navLogin" onclick="go('login')" title="Acceso del entrenador" hidden>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 018 0v3"/></svg>
+      <span class="lbl">Acceso entrenador</span></button>
   </div>
 </div>
 <main id="app"></main>
@@ -488,7 +496,8 @@ const CONFIG_DEF = {
   entrenadorRol:'Entrenador y fundador',
   entrenadorFoto:'',
   categoria:'',
-  telefono:'', correo:'', instagram:'', ciudad:'',
+  telefono:'', correo:'landresforero@gmail.com', instagram:'', ciudad:'',
+  categorias:'Sub-6\nSub-8\nSub-10\nSub-12\nSub-14\nSub-16\nSub-18\nJuvenil',
   pais:'57',
   logo:'',
   resena:'MF Deportivo nace de una idea sencilla: cada niño aprende a su ritmo y merece un entrenamiento pensado para él. Trabajamos en grupos pequeños y sesiones individuales, con una planificación propia para cada jugador que cubre lo técnico, lo táctico, lo físico, lo coordinativo, lo mental y lo personal.\n\nEvaluamos con una ficha de 54 aspectos en escala de 1 a 5, comparamos cada periodo con el anterior y compartimos con las familias un informe claro de lo que mejoró y lo que sigue. Más que resultados, formamos jugadores disciplinados, seguros y felices con el balón.',
@@ -500,7 +509,7 @@ const CONFIG_DEF = {
 /* ============================ estado ============================ */
 const S = {
   jugadores:[], evals:[], sesiones:[], config:{...CONFIG_DEF},
-  route:{v:'roster', id:null, ev:null, tab:'eval'}, filtro:'', listo:false,
+  route:{v:'inicio', id:null, ev:null, tab:'eval'}, filtro:'', listo:false, admin:false,
 };
 const uid = p => p + Math.random().toString(36).slice(2,9) + Date.now().toString(36).slice(-4);
 const esc = s => String(s??'').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -662,12 +671,56 @@ function resumenJugador(j){
   const p = promGeneral(ult), pa = promGeneral(ant);
   return {ult, ant, p, d:(p != null && pa != null) ? p - pa : null, ses:sesionesDe(j.id)};
 }
+const listaCategorias = extra => { const l = String(S.config.categorias || '').split('\n').map(x => x.trim()).filter(Boolean); if(extra && !l.includes(extra)) l.push(extra); return ['', ...l]; };
 function telWa(j){
   const raw = String(j.telefono || '').replace(/\D/g, ''); if(!raw) return '';
   const pais = String(S.config.pais || '57').replace(/\D/g,'');
   if(raw.length <= 10 && pais && !raw.startsWith(pais)) return pais + raw;
   return raw;
 }
+
+/* ============================ acceso del entrenador ============================ */
+// SHA-256 compacto (sin dependencias). Solo se guarda el hash de las credenciales, nunca la contraseña.
+function sha256(str){
+  const K = new Uint32Array([0x428a2f98,0x71374491,0xb5c0fbcf,0xe9b5dba5,0x3956c25b,0x59f111f1,0x923f82a4,0xab1c5ed5,0xd807aa98,0x12835b01,0x243185be,0x550c7dc3,0x72be5d74,0x80deb1fe,0x9bdc06a7,0xc19bf174,0xe49b69c1,0xefbe4786,0x0fc19dc6,0x240ca1cc,0x2de92c6f,0x4a7484aa,0x5cb0a9dc,0x76f988da,0x983e5152,0xa831c66d,0xb00327c8,0xbf597fc7,0xc6e00bf3,0xd5a79147,0x06ca6351,0x14292967,0x27b70a85,0x2e1b2138,0x4d2c6dfc,0x53380d13,0x650a7354,0x766a0abb,0x81c2c92e,0x92722c85,0xa2bfe8a1,0xa81a664b,0xc24b8b70,0xc76c51a3,0xd192e819,0xd6990624,0xf40e3585,0x106aa070,0x19a4c116,0x1e376c08,0x2748774c,0x34b0bcb5,0x391c0cb3,0x4ed8aa4a,0x5b9cca4f,0x682e6ff3,0x748f82ee,0x78a5636f,0x84c87814,0x8cc70208,0x90befffa,0xa4506ceb,0xbef9a3f7,0xc67178f2]);
+  const bytes = new TextEncoder().encode(str); const l = bytes.length; const N = ((l + 9 + 63) >> 6) << 6;
+  const m = new Uint8Array(N); m.set(bytes); m[l] = 0x80; const dv = new DataView(m.buffer); dv.setUint32(N - 4, l * 8 >>> 0); dv.setUint32(N - 8, Math.floor(l * 8 / 2**32));
+  let H = [0x6a09e667,0xbb67ae85,0x3c6ef372,0xa54ff53a,0x510e527f,0x9b05688c,0x1f83d9ab,0x5be0cd19]; const w = new Uint32Array(64);
+  const rotr = (x, n) => (x >>> n) | (x << (32 - n));
+  for(let i = 0; i < N; i += 64){
+    for(let t = 0; t < 16; t++) w[t] = dv.getUint32(i + t*4);
+    for(let t = 16; t < 64; t++){ const s0 = rotr(w[t-15],7) ^ rotr(w[t-15],18) ^ (w[t-15] >>> 3), s1 = rotr(w[t-2],17) ^ rotr(w[t-2],19) ^ (w[t-2] >>> 10); w[t] = (w[t-16] + s0 + w[t-7] + s1) >>> 0; }
+    let [a,b,c,d,e,f,g,h] = H;
+    for(let t = 0; t < 64; t++){
+      const S1 = rotr(e,6) ^ rotr(e,11) ^ rotr(e,25), ch = (e & f) ^ (~e & g), t1 = (h + S1 + ch + K[t] + w[t]) >>> 0;
+      const S0 = rotr(a,2) ^ rotr(a,13) ^ rotr(a,22), mj = (a & b) ^ (a & c) ^ (b & c), t2 = (S0 + mj) >>> 0;
+      h = g; g = f; f = e; e = (d + t1) >>> 0; d = c; c = b; b = a; a = (t1 + t2) >>> 0;
+    }
+    H = H.map((x, k) => (x + [a,b,c,d,e,f,g,h][k]) >>> 0);
+  }
+  return H.map(x => x.toString(16).padStart(8,'0')).join('');
+}
+const ACCESO_HASH = 'c132976f8b4f932b19f1935ea9edfe0ec5fc558dc2507d9c113906c66d7f3cfd';
+const SESION = 'mf_sesion';
+function sesionActiva(){
+  try{
+    if(sessionStorage.getItem(SESION) === '1') return true;
+    const h = Number(localStorage.getItem(SESION) || 0); if(h && h > Date.now()) return true;
+    if(h) localStorage.removeItem(SESION);
+  }catch(e){}
+  return false;
+}
+function iniciarSesion(usuario, clave, recordar){
+  const ok = sha256('mf-deportivo|' + String(usuario || '').trim().toUpperCase() + '|' + String(clave || '')) === ACCESO_HASH;
+  if(!ok) return false;
+  try{ if(recordar) localStorage.setItem(SESION, String(Date.now() + 30*24*3600*1000)); else sessionStorage.setItem(SESION, '1'); }catch(e){}
+  S.admin = true; return true;
+}
+function cerrarSesion(){
+  try{ localStorage.removeItem(SESION); sessionStorage.removeItem(SESION); }catch(e){}
+  S.admin = false; go('inicio'); toast('Sesión cerrada.');
+}
+const ADMIN_VIEWS = ['roster','jugador','ajustes'];
 
 /* ============================ router / render ============================ */
 const app = document.getElementById('app');
@@ -681,6 +734,7 @@ document.addEventListener('focusout', () => setTimeout(() => { if(pendienteRende
 function go(v, id, ev, tab){
   if(S.route.v === 'ajustes' && v !== 'ajustes' && ajustesSucio && !confirm('Tienes cambios sin guardar en Ajustes. ¿Salir sin guardar?')) return;
   ajustesSucio = false;
+  if(ADMIN_VIEWS.includes(v) && !S.admin) v = 'login';
   S.route = {v, id:id||null, ev:ev||null, tab:tab || S.route.tab || 'eval'}; window.scrollTo({top:0}); render();
 }
 function pintarMarca(){
@@ -690,9 +744,13 @@ function pintarMarca(){
   document.title = clubName();
 }
 function render(){
-  ['Plantel','Nosotros','Ajustes'].forEach(n => document.getElementById('nav'+n).setAttribute('aria-current', S.route.v === n.toLowerCase() || (n === 'Plantel' && S.route.v === 'jugador') ? 'page' : 'false'));
+  document.getElementById('navAdmin').hidden = !S.admin;
+  document.getElementById('navLogin').hidden = S.admin;
+  ['Plantel','Nosotros','Ajustes'].forEach(n => document.getElementById('nav'+n).setAttribute('aria-current', S.route.v === n.toLowerCase() || (n === 'Plantel' && S.route.v === 'jugador') || (n === 'Nosotros' && S.route.v === 'inicio') ? 'page' : 'false'));
   if(!S.listo){ app.innerHTML = '<div class="empty"><div class="ball">⚽</div><h3>Cargando…</h3></div>'; return; }
-  app.innerHTML = S.route.v === 'jugador' ? vistaJugador() : S.route.v === 'nosotros' ? vistaNosotros() : S.route.v === 'ajustes' ? vistaAjustes() : vistaRoster();
+  const v = S.route.v;
+  app.innerHTML = v === 'jugador' ? vistaJugador() : (v === 'nosotros' || v === 'inicio') ? vistaNosotros() : v === 'ajustes' ? vistaAjustes() : v === 'login' ? vistaLogin() : vistaRoster();
+  const u = document.getElementById('lgUser'); if(u) u.focus();
   document.querySelectorAll('.agroup').forEach(d => {
     d.addEventListener('toggle', () => { try{ localStorage.setItem('mf_open_'+d.dataset.area, d.open?'1':'0'); }catch(e){} });
   });
@@ -982,9 +1040,43 @@ function vistaNosotros(){
           ${!waFull && !c.correo && !c.instagram ? '<span style="color:var(--faint);font-size:14px">Agrega WhatsApp, correo e Instagram en Ajustes.</span>' : ''}
         </div>
       </div>
-      <button class="btn ghost" onclick="go('ajustes')">${ICONS.edit} Editar esta sección</button>
+      ${S.admin ? `<button class="btn ghost" onclick="go('ajustes')">${ICONS.edit} Editar esta sección</button>` : ''}
+    </div>
+  </div>
+  <div class="card" style="margin-top:14px">
+    <div class="sect-title">Cómo evaluamos</div>
+    <p style="margin:0 0 12px;font-size:15px;max-width:70ch">Cada jugador tiene una ficha propia con <b>${ALLKEYS.length} aspectos</b> repartidos en seis áreas. Se califica de 1 a 5 al iniciar y en cada periodo; la comparación con el periodo anterior muestra exactamente qué mejoró. Las familias reciben el informe en PDF por correo o WhatsApp.</p>
+    <div class="areas">${AREAS.map(a => `<div class="areabox"><div class="an">${esc(a.nombre)}</div><div class="av"><b>${a.items.length}</b><span>aspectos</span></div><div style="font-size:12.5px;color:var(--muted);line-height:1.4">${esc(a.items.slice(0,3).join(' · '))}…</div></div>`).join('')}</div>
+    <div class="escala">${ESCALA.map(([n,t,d]) => `<div><b style="background:var(--s${n})">${n}</b><strong>${t}:</strong> ${d}</div>`).join('')}</div>
+  </div>
+  ${S.admin ? '' : `<p class="legend" style="text-align:center">¿Eres el entrenador? <a href="#" onclick="event.preventDefault();go('login')">Ingresa aquí</a> para gestionar el plantel y los informes.</p>`}`;
+}
+
+/* ---------- vista: acceso ---------- */
+function vistaLogin(){
+  return `
+  <div style="max-width:420px;margin:24px auto 0">
+    <div class="card" style="padding:24px">
+      <div style="display:flex;flex-direction:column;align-items:center;text-align:center;gap:6px;margin-bottom:18px">
+        <div class="logo" style="width:84px;height:100px">${logoHtml()}</div>
+        <h2 style="font-size:26px;text-transform:uppercase;margin-top:6px">Acceso del entrenador</h2>
+        <div style="color:var(--muted);font-size:14px">Solo para el equipo de ${esc(clubName())}. Aquí se gestionan el plantel, los avances y los informes.</div>
+      </div>
+      <form onsubmit="event.preventDefault();entrar(this)" class="settings" style="gap:12px">
+        <label class="f"><span>Usuario</span><input id="lgUser" name="usuario" type="text" autocomplete="username" autocapitalize="characters" required></label>
+        <label class="f"><span>Contraseña</span><input name="clave" type="password" autocomplete="current-password" required></label>
+        <label style="display:flex;align-items:center;gap:8px;font-size:14px;color:var(--muted)"><input type="checkbox" name="recordar" checked style="width:16px;height:16px"> Mantener la sesión en este dispositivo (30 días)</label>
+        <div id="lgErr" class="state err" hidden>Usuario o contraseña incorrectos.</div>
+        <button type="submit" class="btn primary" style="justify-content:center;padding:11px">Entrar</button>
+        <button type="button" class="btn ghost" style="justify-content:center" onclick="go('inicio')">Volver a la página</button>
+      </form>
     </div>
   </div>`;
+}
+function entrar(form){
+  const d = Object.fromEntries(new FormData(form).entries());
+  if(iniciarSesion(d.usuario, d.clave, !!d.recordar)){ toast('Bienvenido, ' + (S.config.entrenador || 'entrenador') + ' ⚽'); go('roster'); }
+  else{ const e = document.getElementById('lgErr'); if(e){ e.hidden = false; } form.querySelector('[name=clave]').value = ''; form.querySelector('[name=clave]').focus(); }
 }
 
 /* ---------- vista: ajustes ---------- */
@@ -1004,7 +1096,9 @@ function vistaAjustes(){
       <h3>Escuela</h3>
       <div class="settings">
         <div class="two">${inp('club','Nombre de la escuela',c.club)}${inp('lema','Lema / subtítulo',c.lema,'text','Entrenamientos personalizados de fútbol')}</div>
-        <div class="two">${inp('ciudad','Ciudad / sede',c.ciudad,'text','Bogotá')}${inp('categoria','Categoría por defecto',c.categoria,'text','Sub-8, Sub-10…')}</div>
+        <div class="two">${inp('ciudad','Ciudad / sede',c.ciudad,'text','Bogotá')}
+          <label class="f"><span>Categoría por defecto</span><select name="categoria" onchange="ajustesSucio=true">${listaCategorias(c.categoria).map(o => `<option value="${esc(o)}" ${o === (c.categoria||'') ? 'selected' : ''}>${esc(o || '—')}</option>`).join('')}</select></label></div>
+        ${ta('categorias','Categorías disponibles (una por línea)',c.categorias,110,'Aparecen como lista al crear o editar un jugador.')}
         <div class="two">${inp('telefono','WhatsApp de la escuela',c.telefono,'tel','300 123 4567','Va en el PDF y en Nosotros.')}${inp('pais','Código de país para WhatsApp',c.pais || '57','text','57')}</div>
         <div class="two">${inp('correo','Correo de la escuela',c.correo,'email','mfdeportivo@gmail.com')}${inp('instagram','Instagram',c.instagram,'text','@mfdeportivo')}</div>
         <div class="logo-prev">
@@ -1046,8 +1140,8 @@ function vistaAjustes(){
       <div class="note ${correoListo ? '' : 'warn'}" style="margin-bottom:12px"><span>${correoListo ? '✅' : 'ℹ️'}</span><span>${correoListo ? 'Correo configurado: los informes salen desde tu Gmail con el PDF adjunto.' : 'Sin configurar. Mientras tanto, “Enviar por correo” descarga el PDF y abre tu app de correo con el mensaje listo (tú adjuntas el archivo).'}</span></div>
       <p style="margin:0 0 6px;font-size:14px;color:var(--muted)">Usa <b>EmailJS</b> (gratis hasta 200 correos al mes; no necesita servidor). Configuración única, unos 5 minutos:</p>
       <ol class="steps">
-        <li>Crea una cuenta en <a href="https://www.emailjs.com" target="_blank" rel="noopener">emailjs.com</a>.</li>
-        <li><b>Email Services → Add New Service → Gmail</b>, conecta la cuenta de la escuela y copia el <code>Service ID</code>.</li>
+        <li>Entra a <a href="https://www.emailjs.com" target="_blank" rel="noopener">emailjs.com</a> → <b>Sign Up</b> y crea la cuenta con el correo de la escuela (<code>${esc(c.correo || 'correo de la escuela')}</code>).</li>
+        <li><b>Email Services → Add New Service → Gmail → Connect Account</b>, autoriza ese mismo Gmail y copia el <code>Service ID</code>.</li>
         <li><b>Email Templates → Create New Template</b>. En <b>Settings</b> copia el <code>Template ID</code>. En <b>Content</b> pon:
           <br>· To email: <code>{{to_email}}</code> &nbsp;· From name: <code>{{from_name}}</code> &nbsp;· Reply to: <code>{{reply_to}}</code> &nbsp;· Subject: <code>{{subject}}</code>
           <br>· Content (modo código): <code>{{{message_html}}}</code></li>
@@ -1217,7 +1311,7 @@ const fotoExtra = j => `<div class="photo-row">
 const camposJugador = j => [
   {name:'nombre', label:'Nombre del jugador', valor:j.nombre, ph:'Nombre y apellido'},
   [{name:'edad', label:'Edad', tipo:'number', valor:j.edad, attrs:'min="3" max="25"'},
-   {name:'categoria', label:'Categoría', valor:j.categoria ?? S.config.categoria, ph:'Sub-8, Sub-10…'}],
+   {name:'categoria', label:'Categoría', tipo:'select', opciones:listaCategorias(j.categoria ?? S.config.categoria), valor:j.categoria ?? S.config.categoria}],
   [{name:'posicion', label:'Posición', tipo:'select', opciones:POSICIONES.includes(j.posicion || '') ? POSICIONES : [...POSICIONES, j.posicion], valor:j.posicion},
    {name:'pie', label:'Pie dominante', tipo:'select', opciones:['','Derecho','Izquierdo','Ambos'], valor:j.pie}],
   {name:'tiempo', label:'Tiempo entrenando', valor:j.tiempo, ph:'3 meses, 1 año…'},
@@ -1625,7 +1719,7 @@ async function enviarWhatsApp(){
   descargarBlob(nombre, blob);
   const w = window.open(url, '_blank', 'noopener');
   const el = document.getElementById('mailState');
-  if(el){ el.className = 'state'; el.innerHTML = 'PDF descargado. ' + (w ? 'Se abrió el chat de WhatsApp; ' : '') + `<a href="${url}" target="_blank" rel="noopener" style="color:var(--wa);font-weight:700">abrir chat de WhatsApp</a> y adjunta el PDF desde el clip 📎.`; }
+  if(el){ el.className = 'state'; el.innerHTML = 'PDF descargado (' + esc(nombre) + '). ' + (w ? 'Se abrió el chat con el mensaje listo: ' : '') + `<a href="${url}" target="_blank" rel="noopener" style="color:var(--wa);font-weight:700">abrir chat de WhatsApp</a>, envía el mensaje y arrastra el PDF al chat (o clip 📎 → Documento). Desde el celular el PDF se adjunta solo.`; }
 }
 
 /* ============================ exportar CSV ============================ */
@@ -1663,9 +1757,9 @@ function toast(msg, err){
 /* ============================ arranque ============================ */
 Object.assign(window, {go, S, render, nuevoJugador, editarJugador, confirmarBorrarJugador, nuevoAvance, editarAvance, borrarAvance,
   nuevaSesion, editarSesion, borrarSesion, descargarPdf, enviarCorreo, enviarWhatsApp, exportarCsv, exportarRespaldo, importarRespaldo,
-  cambiarFotoJugador, cambiarLogo, cambiarFotoCoach, guardarAjustes, borrarTodo, probarCorreo, avatarHtml, logoSvg, toast});
-document.getElementById('brandBtn').onclick = () => go('roster');
-cargar(); pintarMarca(); render();
+  cambiarFotoJugador, cambiarLogo, cambiarFotoCoach, guardarAjustes, borrarTodo, probarCorreo, avatarHtml, logoSvg, toast, entrar, cerrarSesion, iniciarSesion});
+document.getElementById('brandBtn').onclick = () => go(S.admin ? 'roster' : 'inicio');
+cargar(); S.admin = sesionActiva(); S.route.v = S.admin ? 'roster' : 'inicio'; pintarMarca(); render();
 </script>
 </body>
 </html>
