@@ -6,6 +6,10 @@
 <meta name="theme-color" content="#0F1F4B">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="MF Deportivo">
+<meta name="mobile-web-app-capable" content="yes">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 <meta name="description" content="MF Deportivo · Entrenamientos personalizados de fútbol. Evaluación y avances de jugadores, seguimiento de sesiones e informes para las familias.">
 <title>MF Deportivo</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 240'%3E%3Cpath d='M100 6 L190 32 V128 C190 190 142 224 100 236 C58 224 10 190 10 128 V32 Z' fill='%23D9A93C'/%3E%3Cpath d='M100 16 L180 39 V128 C180 182 138 212 100 224 C62 212 20 182 20 128 V39 Z' fill='%230F1F4B'/%3E%3Ctext x='100' y='150' text-anchor='middle' font-family='Arial Narrow,Arial' font-weight='900' font-style='italic' font-size='90' fill='%23D9A93C'%3EMF%3C/text%3E%3C/svg%3E">
@@ -422,6 +426,9 @@ dialog::backdrop{background:rgba(6,12,30,.55); backdrop-filter:blur(2px)}
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 17l5-5-5-5M15 12H3M13 3h6a2 2 0 012 2v14a2 2 0 01-2 2h-6"/></svg>
       <span class="lbl">Salir</span></button>
     </span>
+    <button class="btn ghost" id="btnInstalar" onclick="instalarApp()" title="Instalar como aplicación" hidden>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2" width="12" height="20" rx="2"/><path d="M12 7v7m0 0l-3-3m3 3l3-3M10 18h4"/></svg>
+      <span class="lbl">Instalar app</span></button>
     <button class="btn ghost" id="navLogin" onclick="go('login')" title="Acceso del entrenador" hidden>
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 018 0v3"/></svg>
       <span class="lbl">Acceso entrenador</span></button>
@@ -503,7 +510,7 @@ const CONFIG_DEF = {
   resena:'MF Deportivo nace de una idea sencilla: cada niño aprende a su ritmo y merece un entrenamiento pensado para él. Trabajamos en grupos pequeños y sesiones individuales, con una planificación propia para cada jugador que cubre lo técnico, lo táctico, lo físico, lo coordinativo, lo mental y lo personal.\n\nEvaluamos con una ficha de 54 aspectos en escala de 1 a 5, comparamos cada periodo con el anterior y compartimos con las familias un informe claro de lo que mejoró y lo que sigue. Más que resultados, formamos jugadores disciplinados, seguros y felices con el balón.',
   resenaEntrenador:'Marlon Andrés Forero es el entrenador y fundador de MF Deportivo. Apasionado por el fútbol formativo, diseña cada sesión a partir de la evaluación individual del jugador y acompaña de cerca su proceso: técnica, toma de decisiones, condición física y, sobre todo, actitud y valores.\n\nSu método combina exigencia y cercanía: objetivos claros por periodo, seguimiento sesión a sesión y comunicación constante con las familias.',
   valores:'Disciplina|Constancia en cada entrenamiento.\nRespeto|Con compañeros, rivales y entrenador.\nConfianza|Jugadores seguros de sí mismos.\nAlegría|El fútbol se disfruta.',
-  ejsService:'', ejsTemplate:'', ejsKey:'', ejsAdjunto:false,
+  ejsService:'service_vaf5fxl', ejsTemplate:'template_informe_mf', ejsKey:'wUd9DlwY1HVQUaA6A', ejsAdjunto:false,
 };
 
 /* ============================ estado ============================ */
@@ -604,7 +611,8 @@ function cargar(){
     const raw = localStorage.getItem(LS) || localStorage.getItem('mf_avances_v2') || localStorage.getItem('mf_avances_v1');
     if(raw){ const d = JSON.parse(raw);
       S.jugadores = d.jugadores || []; S.evals = d.evals || []; S.sesiones = d.sesiones || [];
-      S.config = {...CONFIG_DEF, ...(d.config || {})}; }
+      S.config = {...CONFIG_DEF, ...(d.config || {})};
+      ['ejsService','ejsTemplate','ejsKey','correo'].forEach(k => { if(!S.config[k]) S.config[k] = CONFIG_DEF[k]; }); }
   }catch(e){}
   if(!S.jugadores.length){
     S.jugadores = PLANTEL_INICIAL.map((n,i) => ({id:'j_' + n.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/\s+/g,'_'), nombre:n, orden:i+1, creado:Date.now()}));
@@ -1049,7 +1057,7 @@ function vistaNosotros(){
     <div class="areas">${AREAS.map(a => `<div class="areabox"><div class="an">${esc(a.nombre)}</div><div class="av"><b>${a.items.length}</b><span>aspectos</span></div><div style="font-size:12.5px;color:var(--muted);line-height:1.4">${esc(a.items.slice(0,3).join(' · '))}…</div></div>`).join('')}</div>
     <div class="escala">${ESCALA.map(([n,t,d]) => `<div><b style="background:var(--s${n})">${n}</b><strong>${t}:</strong> ${d}</div>`).join('')}</div>
   </div>
-  ${S.admin ? '' : `<p class="legend" style="text-align:center">¿Eres el entrenador? <a href="#" onclick="event.preventDefault();go('login')">Ingresa aquí</a> para gestionar el plantel y los informes.</p>`}`;
+  ${S.admin ? '' : `<p class="legend" style="text-align:center">¿Eres el entrenador? <a href="#" onclick="event.preventDefault();go('login')">Ingresa aquí</a> para gestionar el plantel y los informes. También puedes <a href="#" onclick="event.preventDefault();instalarApp()">instalar la app</a> en tu celular.</p>`}`;
 }
 
 /* ---------- vista: acceso ---------- */
@@ -1800,10 +1808,23 @@ function toast(msg, err){
   clearTimeout(toastT); toastT = setTimeout(() => el.remove(), err ? 6500 : 3200);
 }
 
+/* ============================ app instalable (PWA) ============================ */
+let promptInstalar = null;
+window.addEventListener('beforeinstallprompt', e => { e.preventDefault(); promptInstalar = e; const b = document.getElementById('btnInstalar'); if(b) b.hidden = false; });
+window.addEventListener('appinstalled', () => { promptInstalar = null; const b = document.getElementById('btnInstalar'); if(b) b.hidden = true; toast('MF Deportivo quedó instalada en tu dispositivo 📱'); });
+async function instalarApp(){
+  if(promptInstalar){ promptInstalar.prompt(); const r = await promptInstalar.userChoice.catch(() => null); if(r?.outcome === 'accepted') promptInstalar = null; return; }
+  const ios = /iphone|ipad|ipod/i.test(navigator.userAgent);
+  alert(ios ? 'En iPhone: toca el botón Compartir (cuadro con flecha) y luego "Agregar a pantalla de inicio".' : 'En el menú del navegador (⋮) elige "Instalar aplicación" o "Agregar a pantalla de inicio".');
+}
+if('serviceWorker' in navigator && location.protocol.startsWith('http')){
+  window.addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(() => {}));
+}
+
 /* ============================ arranque ============================ */
 Object.assign(window, {go, S, render, nuevoJugador, editarJugador, confirmarBorrarJugador, nuevoAvance, editarAvance, borrarAvance,
   nuevaSesion, editarSesion, borrarSesion, descargarPdf, enviarCorreo, enviarWhatsApp, exportarCsv, exportarRespaldo, importarRespaldo,
-  cambiarFotoJugador, cambiarLogo, cambiarFotoCoach, guardarAjustes, borrarTodo, probarCorreo, avatarHtml, logoSvg, toast, entrar, cerrarSesion, iniciarSesion});
+  cambiarFotoJugador, cambiarLogo, cambiarFotoCoach, guardarAjustes, borrarTodo, probarCorreo, avatarHtml, logoSvg, toast, entrar, cerrarSesion, iniciarSesion, instalarApp});
 document.getElementById('brandBtn').onclick = () => go(S.admin ? 'roster' : 'inicio');
 cargar(); S.admin = sesionActiva(); S.route.v = S.admin ? 'roster' : 'inicio'; pintarMarca(); render();
 </script>

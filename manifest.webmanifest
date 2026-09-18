@@ -1,0 +1,19 @@
+{
+  "name": "MF Deportivo · Avances",
+  "short_name": "MF Deportivo",
+  "description": "Evaluación y avances de jugadores de MF Deportivo. Entrenamientos personalizados de fútbol.",
+  "lang": "es",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0F1F4B",
+  "theme_color": "#0F1F4B",
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icons/maskable-192.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable" },
+    { "src": "icons/maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+  "categories": ["sports", "education", "productivity"]
+}
