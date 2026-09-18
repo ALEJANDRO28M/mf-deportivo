@@ -1080,6 +1080,7 @@ function vistaLogin(){
         <button type="button" class="btn ghost" style="justify-content:center" onclick="go('inicio')">Volver a la página</button>
       </form>
     </div>
+    <p class="legend" style="text-align:center">Versión ${APP_VERSION} · <a href="#" onclick="event.preventDefault();actualizarApp()">Buscar actualización</a></p>
   </div>`;
 }
 function entrar(form){
@@ -1173,6 +1174,14 @@ function vistaAjustes(){
         <span class="btn filebtn">${ICONS.csv} Restaurar copia<input type="file" accept="application/json,.json" onchange="importarRespaldo(this)"></span>
         <button type="button" class="btn" onclick="exportarCsv()">Exportar a Excel (CSV)</button>
         <button type="button" class="btn danger sm" style="margin-left:auto" onclick="borrarTodo()">${ICONS.trash} Borrar todos los datos</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Versión de la app</h3>
+      <div class="actions">
+        <span style="font-size:14px;color:var(--muted)">Versión <b>${APP_VERSION}</b>. La app busca actualizaciones sola al abrirse; si quieres forzarla, pulsa aquí.</span>
+        <button type="button" class="btn navy sm" style="margin-left:auto" onclick="actualizarApp()">Buscar actualización</button>
       </div>
     </div>
 
@@ -1830,6 +1839,17 @@ function toast(msg, err){
 }
 
 /* ============================ app instalable (PWA) ============================ */
+const APP_VERSION = '2026.09.18-5';
+async function actualizarApp(silencioso){
+  if(!silencioso) toast('Buscando la versión más reciente…');
+  try{
+    if('serviceWorker' in navigator){ const regs = await navigator.serviceWorker.getRegistrations(); await Promise.all(regs.map(r => r.unregister())); }
+    if(window.caches){ const keys = await caches.keys(); await Promise.all(keys.map(k => caches.delete(k))); }
+  }catch(e){}
+  location.replace(location.pathname + '?v=' + Date.now());
+}
+if(/[?&]actualizar/.test(location.search)){ actualizarApp(true); }
+else if(/[?&]v=/.test(location.search)){ try{ history.replaceState(null, '', location.pathname); }catch(e){} setTimeout(() => toast('App actualizada · versión ' + APP_VERSION + ' ✅'), 600); }
 let promptInstalar = null;
 window.addEventListener('beforeinstallprompt', e => { e.preventDefault(); promptInstalar = e; const b = document.getElementById('btnInstalar'); if(b) b.hidden = false; });
 window.addEventListener('appinstalled', () => { promptInstalar = null; const b = document.getElementById('btnInstalar'); if(b) b.hidden = true; toast('MF Deportivo quedó instalada en tu dispositivo 📱'); });
@@ -1838,14 +1858,25 @@ async function instalarApp(){
   const ios = /iphone|ipad|ipod/i.test(navigator.userAgent);
   alert(ios ? 'En iPhone: toca el botón Compartir (cuadro con flecha) y luego "Agregar a pantalla de inicio".' : 'En el menú del navegador (⋮) elige "Instalar aplicación" o "Agregar a pantalla de inicio".');
 }
-if('serviceWorker' in navigator && location.protocol.startsWith('http')){
-  window.addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(() => {}));
+if('serviceWorker' in navigator && location.protocol.startsWith('http') && !/[?&]actualizar/.test(location.search)){
+  window.addEventListener('load', () => navigator.serviceWorker.register('sw.js').then(reg => {
+    // Si llega una versión nueva, avisa y ofrece recargar.
+    reg.addEventListener('updatefound', () => { const nw = reg.installing; if(!nw) return;
+      nw.addEventListener('statechange', () => { if(nw.state === 'activated' && navigator.serviceWorker.controller) avisoNuevaVersion(); }); });
+    setInterval(() => reg.update().catch(() => {}), 30 * 60 * 1000);
+  }).catch(() => {}));
+}
+function avisoNuevaVersion(){
+  document.querySelectorAll('.toast').forEach(t => t.remove());
+  const el = document.createElement('div'); el.className = 'toast'; el.setAttribute('role','status');
+  el.innerHTML = 'Hay una versión nueva de la app. <button class="btn primary sm" style="margin-left:8px" onclick="location.reload()">Actualizar</button>';
+  document.body.appendChild(el);
 }
 
 /* ============================ arranque ============================ */
 Object.assign(window, {go, S, render, nuevoJugador, editarJugador, confirmarBorrarJugador, nuevoAvance, editarAvance, borrarAvance,
   nuevaSesion, editarSesion, borrarSesion, descargarPdf, enviarCorreo, enviarWhatsApp, exportarCsv, exportarRespaldo, importarRespaldo, compartirPdf,
-  cambiarFotoJugador, cambiarLogo, cambiarFotoCoach, guardarAjustes, borrarTodo, probarCorreo, avatarHtml, logoSvg, toast, entrar, cerrarSesion, iniciarSesion, instalarApp});
+  cambiarFotoJugador, cambiarLogo, cambiarFotoCoach, guardarAjustes, borrarTodo, probarCorreo, avatarHtml, logoSvg, toast, entrar, cerrarSesion, iniciarSesion, instalarApp, actualizarApp});
 document.getElementById('brandBtn').onclick = () => go(S.admin ? 'roster' : 'inicio');
 cargar(); S.admin = sesionActiva(); S.route.v = S.admin ? 'roster' : 'inicio'; pintarMarca(); render();
 </script>
