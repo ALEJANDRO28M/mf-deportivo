@@ -506,6 +506,7 @@ const CONFIG_DEF = {
   telefono:'', correo:'landresforero@gmail.com', instagram:'', ciudad:'',
   categorias:'Sub-6\nSub-8\nSub-10\nSub-12\nSub-14\nSub-16\nSub-18\nJuvenil',
   pais:'57',
+  waApp:'normal',
   logo:'',
   resena:'MF Deportivo nace de una idea sencilla: cada niño aprende a su ritmo y merece un entrenamiento pensado para él. Trabajamos en grupos pequeños y sesiones individuales, con una planificación propia para cada jugador que cubre lo técnico, lo táctico, lo físico, lo coordinativo, lo mental y lo personal.\n\nEvaluamos con una ficha de 54 aspectos en escala de 1 a 5, comparamos cada periodo con el anterior y compartimos con las familias un informe claro de lo que mejoró y lo que sigue. Más que resultados, formamos jugadores disciplinados, seguros y felices con el balón.',
   resenaEntrenador:'Marlon Andrés Forero es el entrenador y fundador de MF Deportivo. Apasionado por el fútbol formativo, diseña cada sesión a partir de la evaluación individual del jugador y acompaña de cerca su proceso: técnica, toma de decisiones, condición física y, sobre todo, actitud y valores.\n\nSu método combina exigencia y cercanía: objetivos claros por periodo, seguimiento sesión a sesión y comunicación constante con las familias.',
@@ -679,6 +680,16 @@ function resumenJugador(j){
   const p = promGeneral(ult), pa = promGeneral(ant);
   return {ult, ant, p, d:(p != null && pa != null) ? p - pa : null, ses:sesionesDe(j.id)};
 }
+/* Enlace a WhatsApp. En Android fuerza la app elegida (normal o Business); en otros equipos usa wa.me. */
+function urlWhatsApp(numero, texto){
+  const android = /android/i.test(navigator.userAgent);
+  const app = S.config.waApp || 'normal';
+  if(android && app !== 'auto'){
+    const pkg = app === 'business' ? 'com.whatsapp.w4b' : 'com.whatsapp';
+    return 'intent://send?phone=' + numero + '&text=' + encodeURIComponent(texto) + '#Intent;scheme=whatsapp;package=' + pkg + ';S.browser_fallback_url=' + encodeURIComponent('https://wa.me/' + numero + '?text=' + encodeURIComponent(texto)) + ';end';
+  }
+  return 'https://wa.me/' + numero + (texto ? '?text=' + encodeURIComponent(texto) : '');
+}
 const listaCategorias = extra => { const l = String(S.config.categorias || '').split('\n').map(x => x.trim()).filter(Boolean); if(extra && !l.includes(extra)) l.push(extra); return ['', ...l]; };
 function telWa(j){
   const raw = String(j.telefono || '').replace(/\D/g, ''); if(!raw) return '';
@@ -835,7 +846,7 @@ function vistaRoster(){
         ${r.d != null ? `<span class="chip ${cls(r.d)}">${signo(r.d)}</span>` : r.ult ? `<span class="chip">${esc(r.ult.periodo || fechaCorta(r.ult.fecha))}</span>` : ''}
       </span>
       <span class="quick">
-        ${wa ? `<a class="iconbtn wa" href="https://wa.me/${wa}" target="_blank" rel="noopener" title="WhatsApp del acudiente" onclick="event.stopPropagation()">${ICONS.wa}</a>` : ''}
+        ${wa ? `<a class="iconbtn wa" href="${esc(urlWhatsApp(wa, ''))}" target="_blank" rel="noopener" title="WhatsApp del acudiente" onclick="event.stopPropagation()">${ICONS.wa}</a>` : ''}
         <span class="iconbtn" title="Editar datos y foto" onclick="event.stopPropagation();editarJugador('${j.id}')">${ICONS.edit}</span>
       </span>
     </button>`;
@@ -870,7 +881,7 @@ function vistaJugador(){
       </div>
     </div>
     <div class="right">
-      ${wa ? `<a class="btn ghost sm" href="https://wa.me/${wa}" target="_blank" rel="noopener">${ICONS.wa} ${esc(j.acudiente || 'Acudiente')}</a>` : ''}
+      ${wa ? `<a class="btn ghost sm" href="${esc(urlWhatsApp(wa, ''))}" target="_blank" rel="noopener">${ICONS.wa} ${esc(j.acudiente || 'Acudiente')}</a>` : ''}
       <button class="btn ghost sm" onclick="editarJugador('${j.id}')">${ICONS.edit} Editar</button>
     </div>
   </div>
@@ -1110,6 +1121,7 @@ function vistaAjustes(){
           <label class="f"><span>Categoría por defecto</span><select name="categoria" onchange="ajustesSucio=true">${listaCategorias(c.categoria).map(o => `<option value="${esc(o)}" ${o === (c.categoria||'') ? 'selected' : ''}>${esc(o || '—')}</option>`).join('')}</select></label></div>
         ${ta('categorias','Categorías disponibles (una por línea)',c.categorias,110,'Aparecen como lista al crear o editar un jugador.')}
         <div class="two">${inp('telefono','WhatsApp de la escuela',c.telefono,'tel','300 123 4567','Va en el PDF y en Nosotros.')}${inp('pais','Código de país para WhatsApp',c.pais || '57','text','57')}</div>
+        <label class="f"><span>App de WhatsApp para enviar (Android)</span><select name="waApp" onchange="ajustesSucio=true">${[['normal','WhatsApp normal'],['business','WhatsApp Business'],['auto','La que el celular tenga como predeterminada']].map(([v,l]) => `<option value="${v}" ${(c.waApp || 'normal') === v ? 'selected' : ''}>${l}</option>`).join('')}</select><span class="hint">Si el celular tiene las dos apps instaladas, aquí eliges cuál se abre.</span></label>
         <div class="two">${inp('correo','Correo de la escuela',c.correo,'email','mfdeportivo@gmail.com')}${inp('instagram','Instagram',c.instagram,'text','@mfdeportivo')}</div>
         <div class="logo-prev">
           <div class="logo" id="cfgLogo">${logoHtml()}</div>
@@ -1769,10 +1781,10 @@ let pendienteAdjuntar = null;
 function enviarWhatsApp(){
   const a = evalActual(); if(!a) return;
   if(!telWa(a.j)) return pedirContacto(a, 'telefono', 'WhatsApp', 'tel', enviarWhatsApp);
-  const url = 'https://wa.me/' + telWa(a.j) + '?text=' + encodeURIComponent(mensajeWhatsApp(a));
+  const url = urlWhatsApp(telWa(a.j), mensajeWhatsApp(a));
   pendienteAdjuntar = a.ev.id;
-  const w = window.open(url, '_blank', 'noopener');
-  if(!w) location.href = url;
+  if(url.startsWith('intent:')) location.href = url;
+  else { const w = window.open(url, '_blank', 'noopener'); if(!w) location.href = url; }
   saveEval({...a.ev, enviado:{fecha:hoy(), a:'WhatsApp +' + telWa(a.j)}});
   avisoAdjuntar(a, url);
 }
@@ -1839,7 +1851,7 @@ function toast(msg, err){
 }
 
 /* ============================ app instalable (PWA) ============================ */
-const APP_VERSION = '2026.09.18-5';
+const APP_VERSION = '2026.09.18-6';
 async function actualizarApp(silencioso){
   if(!silencioso) toast('Buscando la versión más reciente…');
   try{
