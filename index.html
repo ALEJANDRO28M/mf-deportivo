@@ -977,6 +977,7 @@ function vistaJugador(){
       <button type="button" class="btn navy" onclick="descargarPdf()">${ICONS.pdf} Descargar PDF</button>
       <button type="button" class="btn primary" onclick="enviarCorreo()">${ICONS.mail} Enviar por correo</button>
       <button type="button" class="btn wa" onclick="enviarWhatsApp()">${ICONS.wa} Enviar por WhatsApp</button>
+      <button type="button" class="btn" id="btnCompartir" onclick="compartirPdf()" title="Compartir el PDF por WhatsApp u otra app">${ICONS.share} Compartir PDF</button>
       <span id="mailState" class="state"></span>
     </div>
     <p class="legend">Destinatarios: ${j.email ? '<b>' + esc(j.email) + '</b>' : '<i>sin correo</i>'} · ${wa ? '<b>+' + wa + '</b>' : '<i>sin WhatsApp</i>'}${j.acudiente ? ' (' + esc(j.acudiente) + ')' : ''}.
@@ -1746,34 +1747,54 @@ async function probarCorreo(){
   S.config = prevCfg;
   set(err || ('Prueba enviada a ' + d.correo + ' ✅ Revisa la bandeja (y spam). Recuerda guardar los ajustes.'), !!err);
 }
-async function enviarWhatsApp(){
+function mensajeWhatsApp(a){
+  const t = textoInforme(a);
+  return '⚽ *' + clubName() + '*\n' + t.saludo + '\n\n' + t.intro + '\n\n*' + t.prom + '*\n\n' + t.areas +
+    ((a.ev.resumen?.avances || '').trim() ? '\n\n✅ *Avances más importantes:* ' + a.ev.resumen.avances.trim() : '') +
+    ((a.ev.resumen?.casa || '').trim() ? '\n\n🏠 *Recomendación para casa:* ' + a.ev.resumen.casa.trim() : '') +
+    ((a.ev.resumen?.comentario || '').trim() ? '\n\n💬 ' + a.ev.resumen.comentario.trim() : '') +
+    '\n\nEn seguida les compartimos el informe completo en PDF.\n\n' + t.firma;
+}
+let pendienteAdjuntar = null;
+/* Abre directo el chat del acudiente con el mensaje del informe. El PDF se adjunta con "Compartir PDF" (WhatsApp no permite adjuntar a un número desde una web). */
+function enviarWhatsApp(){
   const a = evalActual(); if(!a) return;
   if(!telWa(a.j)) return pedirContacto(a, 'telefono', 'WhatsApp', 'tel', enviarWhatsApp);
-  const t = textoInforme(a);
-  const msg = '⚽ *' + clubName() + '*\n' + t.saludo + '\n\n' + t.intro + '\n\n*' + t.prom + '*\n\n' + t.areas +
-    ((a.ev.resumen?.casa || '').trim() ? '\n\n🏠 *Recomendación para casa:* ' + a.ev.resumen.casa.trim() : '') +
-    '\n\nLes adjuntamos el informe completo en PDF.\n\n' + t.firma;
-  const url = 'https://wa.me/' + telWa(a.j) + '?text=' + encodeURIComponent(msg);
-
+  const url = 'https://wa.me/' + telWa(a.j) + '?text=' + encodeURIComponent(mensajeWhatsApp(a));
+  pendienteAdjuntar = a.ev.id;
+  const w = window.open(url, '_blank', 'noopener');
+  if(!w) location.href = url;
+  saveEval({...a.ev, enviado:{fecha:hoy(), a:'WhatsApp +' + telWa(a.j)}});
+  avisoAdjuntar(a, url);
+}
+function avisoAdjuntar(a, url){
+  const el = document.getElementById('mailState'); if(!el) return;
+  el.className = 'state';
+  el.innerHTML = `<div class="note" style="margin:6px 0 0;align-items:center;flex-wrap:wrap"><span>📎</span>
+    <span style="flex:1;min-width:200px">Mensaje listo en el chat de <b>${esc(a.j.acudiente || a.j.nombre)}</b>. Ahora adjunta el informe: toca el botón, elige <b>WhatsApp</b> y el mismo chat (aparece de primero).</span>
+    <button type="button" class="btn wa sm" onclick="compartirPdf()">${ICONS.share} Adjuntar PDF ahora</button>
+    ${url ? `<a class="btn ghost sm" href="${url}" target="_blank" rel="noopener">Abrir chat</a>` : ''}</div>`;
+}
+document.addEventListener('visibilitychange', () => {
+  if(document.visibilityState === 'visible' && pendienteAdjuntar){ const b = document.getElementById('btnCompartir'); if(b){ b.classList.add('wa'); b.scrollIntoView({block:'center', behavior:'smooth'}); } }
+});
+/* Comparte el PDF: en celular abre el menú de compartir (WhatsApp, correo, Drive…); en computador lo descarga. */
+async function compartirPdf(){
+  const a = evalActual(); if(!a) return;
   setEstado('Generando el PDF…');
   let blob;
   try{ blob = (await construirPdf(a.j, a.ev)).output('blob'); }catch(e){ return setEstado('No se pudo generar el PDF.', true); }
   const nombre = nombreArchivo(a.j, a.ev);
-
-  // En celular: compartir el PDF directo a WhatsApp con el mensaje.
   try{
     const file = new File([blob], nombre, {type:'application/pdf'});
     if(navigator.canShare && navigator.canShare({files:[file]})){
-      await navigator.share({files:[file], title:t.asunto, text:msg});
-      setEstado('Compartido ✅'); saveEval({...a.ev, enviado:{fecha:hoy(), a:'WhatsApp'}}); return;
+      await navigator.share({files:[file], title:'Informe de avance · ' + a.j.nombre});
+      pendienteAdjuntar = null; setEstado('PDF compartido ✅'); return;
     }
   }catch(e){ if(e?.name === 'AbortError'){ setEstado(''); return; } }
-
-  // En computador: descarga el PDF y abre el chat con el mensaje listo; el PDF se adjunta desde WhatsApp.
   descargarBlob(nombre, blob);
-  const w = window.open(url, '_blank', 'noopener');
-  const el = document.getElementById('mailState');
-  if(el){ el.className = 'state'; el.innerHTML = 'PDF descargado (' + esc(nombre) + '). ' + (w ? 'Se abrió el chat con el mensaje listo: ' : '') + `<a href="${url}" target="_blank" rel="noopener" style="color:var(--wa);font-weight:700">abrir chat de WhatsApp</a>, envía el mensaje y arrastra el PDF al chat (o clip 📎 → Documento). Desde el celular el PDF se adjunta solo.`; }
+  pendienteAdjuntar = null;
+  setEstado('PDF descargado (' + nombre + '). En WhatsApp Web: clip 📎 → Documento, o arrástralo al chat.');
 }
 
 /* ============================ exportar CSV ============================ */
@@ -1823,7 +1844,7 @@ if('serviceWorker' in navigator && location.protocol.startsWith('http')){
 
 /* ============================ arranque ============================ */
 Object.assign(window, {go, S, render, nuevoJugador, editarJugador, confirmarBorrarJugador, nuevoAvance, editarAvance, borrarAvance,
-  nuevaSesion, editarSesion, borrarSesion, descargarPdf, enviarCorreo, enviarWhatsApp, exportarCsv, exportarRespaldo, importarRespaldo,
+  nuevaSesion, editarSesion, borrarSesion, descargarPdf, enviarCorreo, enviarWhatsApp, exportarCsv, exportarRespaldo, importarRespaldo, compartirPdf,
   cambiarFotoJugador, cambiarLogo, cambiarFotoCoach, guardarAjustes, borrarTodo, probarCorreo, avatarHtml, logoSvg, toast, entrar, cerrarSesion, iniciarSesion, instalarApp});
 document.getElementById('brandBtn').onclick = () => go(S.admin ? 'roster' : 'inicio');
 cargar(); S.admin = sesionActiva(); S.route.v = S.admin ? 'roster' : 'inicio'; pintarMarca(); render();
