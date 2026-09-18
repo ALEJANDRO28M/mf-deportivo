@@ -503,7 +503,7 @@ const CONFIG_DEF = {
   resena:'MF Deportivo nace de una idea sencilla: cada niño aprende a su ritmo y merece un entrenamiento pensado para él. Trabajamos en grupos pequeños y sesiones individuales, con una planificación propia para cada jugador que cubre lo técnico, lo táctico, lo físico, lo coordinativo, lo mental y lo personal.\n\nEvaluamos con una ficha de 54 aspectos en escala de 1 a 5, comparamos cada periodo con el anterior y compartimos con las familias un informe claro de lo que mejoró y lo que sigue. Más que resultados, formamos jugadores disciplinados, seguros y felices con el balón.',
   resenaEntrenador:'Marlon Andrés Forero es el entrenador y fundador de MF Deportivo. Apasionado por el fútbol formativo, diseña cada sesión a partir de la evaluación individual del jugador y acompaña de cerca su proceso: técnica, toma de decisiones, condición física y, sobre todo, actitud y valores.\n\nSu método combina exigencia y cercanía: objetivos claros por periodo, seguimiento sesión a sesión y comunicación constante con las familias.',
   valores:'Disciplina|Constancia en cada entrenamiento.\nRespeto|Con compañeros, rivales y entrenador.\nConfianza|Jugadores seguros de sí mismos.\nAlegría|El fútbol se disfruta.',
-  ejsService:'', ejsTemplate:'', ejsKey:'',
+  ejsService:'', ejsTemplate:'', ejsKey:'', ejsAdjunto:false,
 };
 
 /* ============================ estado ============================ */
@@ -972,7 +972,7 @@ function vistaJugador(){
       <span id="mailState" class="state"></span>
     </div>
     <p class="legend">Destinatarios: ${j.email ? '<b>' + esc(j.email) + '</b>' : '<i>sin correo</i>'} · ${wa ? '<b>+' + wa + '</b>' : '<i>sin WhatsApp</i>'}${j.acudiente ? ' (' + esc(j.acudiente) + ')' : ''}.
-    ${correoListo ? 'El correo sale directo desde tu cuenta con el PDF adjunto.' : 'Sin correo configurado: el botón descarga el PDF y abre tu app de correo con el mensaje listo. Configúralo en <a href="#" onclick="event.preventDefault();go(\'ajustes\')">Ajustes → Correo</a> para que salga con el PDF adjunto automáticamente.'}</p>
+    ${correoListo ? 'El correo sale directo desde la cuenta de la escuela con el informe completo' + (S.config.ejsAdjunto ? ' y el PDF adjunto.' : ' en el cuerpo (el PDF va por WhatsApp o descarga).') : 'Sin correo configurado: el botón descarga el PDF y abre tu app de correo con el mensaje listo. Configúralo en <a href="#" onclick="event.preventDefault();go(\'ajustes\')">Ajustes → Correo</a> para que salga con el PDF adjunto automáticamente.'}</p>
   </div>`;
 }
 
@@ -1138,19 +1138,20 @@ function vistaAjustes(){
     <div class="card">
       <h3>Correo · envío automático con PDF adjunto</h3>
       <div class="note ${correoListo ? '' : 'warn'}" style="margin-bottom:12px"><span>${correoListo ? '✅' : 'ℹ️'}</span><span>${correoListo ? 'Correo configurado: los informes salen desde tu Gmail con el PDF adjunto.' : 'Sin configurar. Mientras tanto, “Enviar por correo” descarga el PDF y abre tu app de correo con el mensaje listo (tú adjuntas el archivo).'}</span></div>
-      <p style="margin:0 0 6px;font-size:14px;color:var(--muted)">Usa <b>EmailJS</b> (gratis hasta 200 correos al mes; no necesita servidor). Configuración única, unos 5 minutos:</p>
+      <p style="margin:0 0 6px;font-size:14px;color:var(--muted)">Usa <b>EmailJS</b> (gratis hasta 200 correos al mes; no necesita servidor). El correo lleva el <b>informe completo en el cuerpo</b> (promedios, cada aspecto con su avance, resumen y mensaje del entrenador); el PDF va por WhatsApp o descarga, porque el plan gratuito de EmailJS no permite adjuntos.</p>
       <ol class="steps">
-        <li>Entra a <a href="https://www.emailjs.com" target="_blank" rel="noopener">emailjs.com</a> → <b>Sign Up</b> y crea la cuenta con el correo de la escuela (<code>${esc(c.correo || 'correo de la escuela')}</code>).</li>
-        <li><b>Email Services → Add New Service → Gmail → Connect Account</b>, autoriza ese mismo Gmail y copia el <code>Service ID</code>.</li>
-        <li><b>Email Templates → Create New Template</b>. En <b>Settings</b> copia el <code>Template ID</code>. En <b>Content</b> pon:
-          <br>· To email: <code>{{to_email}}</code> &nbsp;· From name: <code>{{from_name}}</code> &nbsp;· Reply to: <code>{{reply_to}}</code> &nbsp;· Subject: <code>{{subject}}</code>
-          <br>· Content (modo código): <code>{{{message_html}}}</code></li>
-        <li>En la misma plantilla, <b>Attachments → Add Attachment → Variable Attachment</b>: Parameter Name <code>pdf</code>, Filename <code>{{filename}}</code>. Guarda.</li>
-        <li><b>Account → General</b>: copia la <code>Public Key</code>. Pega los tres valores aquí y guarda.</li>
+        <li>Entra a <a href="https://www.emailjs.com" target="_blank" rel="noopener">emailjs.com</a> con el correo de la escuela (<code>${esc(c.correo || 'correo de la escuela')}</code>).</li>
+        <li><b>Email Services → Add New Service → Gmail → Connect Account</b>, autoriza ese Gmail y copia el <code>Service ID</code>.</li>
+        <li><b>Email Templates → Create New Template</b>. En <b>Settings</b> copia el <code>Template ID</code>. En <b>Content</b>:
+          <br>· To email: <code>{{email_acudiente}}</code> &nbsp;· From name: <code>{{escuela}}</code> &nbsp;· Reply to: <code>{{email_entrenador}}</code> &nbsp;· Subject: <code>{{subject}}</code>
+          <br>· Contenido (botón <b>Editar contenido → &lt;/&gt; código</b>): <code>{{{message_html}}}</code> — así el informe completo llega con el diseño de MF.
+          <br><span style="color:var(--faint)">También puedes armar tu propio diseño con estas variables: <code>{{jugador}}</code> <code>{{periodo}}</code> <code>{{promedio_general}}</code> <code>{{avance_general}}</code> <code>{{tecnica}}</code> <code>{{tactica}}</code> <code>{{fisico}}</code> <code>{{coordinativo}}</code> <code>{{mental}}</code> <code>{{personal}}</code> <code>{{entrenador}}</code> <code>{{acudiente}}</code> <code>{{avances}}</code> <code>{{casa}}</code> <code>{{comentario}}</code>.</span></li>
+        <li><b>Account → General</b>: copia la <code>Public Key</code>. Pega los tres valores aquí, envía la prueba y guarda.</li>
       </ol>
       <div class="settings" style="margin-top:12px">
         <div class="two">${inp('ejsService','Service ID',c.ejsService,'text','service_xxxxxxx')}${inp('ejsTemplate','Template ID',c.ejsTemplate,'text','template_xxxxxxx')}</div>
         ${inp('ejsKey','Public Key',c.ejsKey,'text','xxxxxxxxxxxxxxxxx')}
+        <label style="display:flex;align-items:center;gap:8px;font-size:14px;color:var(--muted)"><input type="checkbox" name="ejsAdjunto" value="1" ${c.ejsAdjunto ? 'checked' : ''} onchange="ajustesSucio=true" style="width:16px;height:16px"> Mi plan de EmailJS permite adjuntar el PDF (plantilla con Variable Attachment <code>pdf</code> / <code>{{filename}}</code>). Déjalo desmarcado en el plan gratuito.</label>
         <div><button type="button" class="btn sm" onclick="probarCorreo()">${ICONS.mail} Enviar correo de prueba a la escuela</button> <span id="testState" class="state" style="display:inline"></span></div>
       </div>
     </div>
@@ -1188,6 +1189,7 @@ async function cambiarFotoCoach(input){
 function guardarAjustes(){
   const d = Object.fromEntries(new FormData(document.getElementById('cfgForm')).entries());
   ['ejsService','ejsTemplate','ejsKey','instagram','correo','telefono','pais'].forEach(k => d[k] = (d[k] || '').trim());
+  d.ejsAdjunto = !!d.ejsAdjunto;
   if(logoPend !== undefined) d.logo = logoPend;
   if(coachFotoPend !== undefined) d.entrenadorFoto = coachFotoPend;
   ajustesSucio = false;
@@ -1599,6 +1601,7 @@ function textoInforme(a){
     firma:(a.ev.entrenador || S.config.entrenador || 'Entrenador') + '\n' + clubName(),
   };
 }
+const mensajePlano = t => t.saludo + '\n\n' + t.intro + '\n' + t.prom + '\n\n' + t.areas + '\n\n' + (S.config.ejsAdjunto ? 'El detalle completo va adjunto en PDF.' : 'Este es el informe del periodo; si desean el PDF, se lo compartimos por WhatsApp.') + '\n\n' + t.firma;
 function htmlCorreo(a, t){
   const filasArea = AREAS.map(x => {
     const p = promArea(a.ev, x.id), pp = promArea(t.prev, x.id); const d = (p != null && pp != null) ? p - pp : null;
@@ -1618,12 +1621,57 @@ function htmlCorreo(a, t){
       <p>${esc(t.intro)}</p>
       <p style="font-size:16px"><b>${esc(t.prom)}</b></p>
       <table style="border-collapse:collapse;font-size:13px;width:100%">${filasArea}</table>
+      ${detalleHtml(a, t)}
+      ${(r.inicio || '').trim() ? '<p><b>Cómo inició</b><br>' + esc(r.inicio) + '</p>' : ''}
+      ${AREAS.filter(x => (r['ar_'+x.id] || '').trim()).map(x => '<p><b>' + esc(x.nombre) + '</b><br>' + esc(r['ar_'+x.id]) + '</p>').join('')}
       ${(r.avances || '').trim() ? '<p><b>Avances más importantes</b><br>' + esc(r.avances) + '</p>' : ''}
+      ${(r.fortalezas || '').trim() ? '<p><b>Fortalezas actuales</b><br>' + esc(r.fortalezas) + '</p>' : ''}
+      ${(r.mejorar || '').trim() ? '<p><b>Aspectos por mejorar</b><br>' + esc(r.mejorar) + '</p>' : ''}
+      ${(r.objetivo || '').trim() ? '<p><b>Objetivos del siguiente periodo</b><br>' + esc(r.objetivo) + '</p>' : ''}
       ${(r.casa || '').trim() ? '<p><b>Recomendación para casa</b><br>' + esc(r.casa) + '</p>' : ''}
       ${(r.comentario || '').trim() ? '<p style="border-left:4px solid #D9A93C;padding-left:12px;font-style:italic">' + esc(r.comentario) + '</p>' : ''}
-      <p>El detalle completo va adjunto en PDF. Quedamos atentos a cualquier inquietud.</p>
+      <p>${S.config.ejsAdjunto ? 'El informe completo va adjunto en PDF.' : 'Este es el informe completo del periodo; si desean el PDF, con gusto se lo compartimos por WhatsApp.'} Quedamos atentos a cualquier inquietud.</p>
       <p style="color:#56618A">${esc(t.firma).replace('\n','<br>')}${S.config.telefono ? '<br>WhatsApp: ' + esc(S.config.telefono) : ''}</p>
     </div></div>`;
+}
+/* Tabla de todos los aspectos evaluados (antes / ahora / avance) para el cuerpo del correo */
+function detalleHtml(a, t){
+  const prev = t.prev; let out = '';
+  AREAS.forEach(x => {
+    const filas = KEYS[x.id].filter(k => a.ev.scores?.[k.k]); if(!filas.length) return;
+    out += '<tr><td colspan="4" style="padding:10px 0 4px;font-weight:700;color:#1A3272;font-size:12px;letter-spacing:1px">' + esc(x.nombre.toUpperCase()) + '</td></tr>';
+    filas.forEach(k => {
+      const v = a.ev.scores[k.k], pv = prev?.scores?.[k.k] || null, d = (v && pv) ? v - pv : null;
+      const nota = (a.ev.notas?.[k.k] || '').trim();
+      out += '<tr><td style="padding:3px 8px 3px 0;border-bottom:1px solid #f0f0f0">' + esc(k.nombre) + (nota ? '<br><span style="color:#56618A;font-size:12px;font-style:italic">' + esc(nota) + '</span>' : '') + '</td>' +
+        '<td style="padding:3px 6px;border-bottom:1px solid #f0f0f0;color:#8A93B3;text-align:center">' + (pv || '–') + '</td>' +
+        '<td style="padding:3px 6px;border-bottom:1px solid #f0f0f0;font-weight:700;text-align:center">' + v + '</td>' +
+        '<td style="padding:3px 0;border-bottom:1px solid #f0f0f0;text-align:center;font-weight:600;color:' + (d > 0 ? '#22945A' : d < 0 ? '#D3503B' : '#8A93B3') + '">' + (d != null ? (d > 0 ? '+' : '') + d : '') + '</td></tr>';
+    });
+  });
+  if(!out) return '';
+  return '<h3 style="font-size:15px;margin:18px 0 6px;color:#0F1F4B">Detalle por aspecto</h3>' +
+    '<table style="border-collapse:collapse;font-size:13px;width:100%"><tr style="color:#8A93B3;font-size:11px"><td></td><td style="text-align:center">ANTES</td><td style="text-align:center">AHORA</td><td style="text-align:center">AVANCE</td></tr>' + out + '</table>';
+}
+/* Variables que recibe la plantilla de EmailJS: se envían con varios nombres para que la plantilla pueda usar cualquiera */
+function paramsCorreo(a, t){
+  const pa = id => n1(promArea(a.ev, id));
+  const sinAcento = x => x.normalize('NFD').replace(/[̀-ͯ]/g,'');
+  const base = {
+    to_email:a.j.email, email_acudiente:a.j.email, to_name:a.j.acudiente || ('Familia de ' + a.j.nombre), acudiente:a.j.acudiente || '',
+    from_name:clubName(), escuela:clubName(), reply_to:S.config.correo || '', email_entrenador:S.config.correo || '',
+    entrenador:a.ev.entrenador || S.config.entrenador || '', telefono:S.config.telefono || '',
+    subject:t.asunto, message:t.mensaje, message_html:htmlCorreo(a, t),
+    jugador:a.j.nombre, player:a.j.nombre, periodo:a.ev.periodo || a.ev.fecha, period:a.ev.periodo || a.ev.fecha, fecha:fechaLarga(a.ev.fecha),
+    promedio_general:n1(t.pg), promedio:n1(t.pg), avance_general:(t.pgp != null && t.pg != null) ? signo(t.pg - t.pgp) : '',
+    técnica:pa('tec'), tecnica:pa('tec'), táctica:pa('tac'), tactica:pa('tac'), físico:pa('fis'), fisico:pa('fis'),
+    coordinativo:pa('coo'), mental:pa('men'), personal:pa('per'),
+    avances:a.ev.resumen?.avances || '', fortalezas:a.ev.resumen?.fortalezas || '', mejorar:a.ev.resumen?.mejorar || '',
+    objetivo:a.ev.resumen?.objetivo || '', casa:a.ev.resumen?.casa || '', comentario:a.ev.resumen?.comentario || '',
+    filename:nombreArchivo(a.j, a.ev),
+  };
+  Object.keys(base).forEach(k => { const sa = sinAcento(k); if(sa !== k && !(sa in base)) base[sa] = base[k]; });
+  return base;
 }
 function pedirContacto(a, campo, label, tipo, luego){
   abrirDlg({titulo:label + ' de la familia de ' + a.j.nombre, campos:[{name:campo, label, tipo, valor:'', ph: tipo === 'email' ? 'familia@correo.com' : '300 123 4567'}],
@@ -1638,7 +1686,7 @@ async function enviarEmailJS(params){
   });
   if(r.ok) return '';
   const txt = await r.text().catch(() => '');
-  if(r.status === 400 && /attachment|size|large/i.test(txt)) return 'El PDF es demasiado grande para el plan gratuito de EmailJS. Quita la foto del jugador o envíalo por WhatsApp.';
+  if(r.status === 400 && /attachment|size|large|limit/i.test(txt)) return 'EmailJS rechazó el tamaño del envío. Si tu plan no permite adjuntos, desmarca "Mi plan permite adjuntar el PDF" en Ajustes → Correo.' + (txt ? ' (' + txt + ')' : '');
   if(r.status === 400 || r.status === 403) return 'EmailJS rechazó el envío: ' + (txt || 'revisa el Service ID, Template ID y Public Key en Ajustes.');
   if(r.status === 429) return 'Se alcanzó el límite de correos del mes en EmailJS.';
   return 'No se pudo enviar (' + r.status + '). ' + txt;
@@ -1646,31 +1694,25 @@ async function enviarEmailJS(params){
 async function enviarCorreo(){
   const a = evalActual(); if(!a) return;
   if(!a.j.email) return pedirContacto(a, 'email', 'Correo', 'email', enviarCorreo);
-  const t = textoInforme(a);
+  const t = textoInforme(a); t.mensaje = mensajePlano(t);
   const configurado = !!(S.config.ejsService && S.config.ejsTemplate && S.config.ejsKey);
-  const texto = t.saludo + '\n\n' + t.intro + '\n' + t.prom + '\n\n' + t.areas + '\n\nEl detalle completo va adjunto en PDF.\n\n' + t.firma;
-
-  setEstado('Generando el PDF…');
-  let doc;
-  try{ doc = await construirPdf(a.j, a.ev); }catch(e){ return setEstado('No se pudo generar el PDF.', true); }
 
   if(!configurado){
+    setEstado('Generando el PDF…');
+    let doc;
+    try{ doc = await construirPdf(a.j, a.ev); }catch(e){ return setEstado('No se pudo generar el PDF.', true); }
     descargarBlob(nombreArchivo(a.j, a.ev), doc.output('blob'));
-    window.location.href = 'mailto:' + encodeURIComponent(a.j.email) + '?subject=' + encodeURIComponent(t.asunto) + '&body=' + encodeURIComponent(texto);
+    window.location.href = 'mailto:' + encodeURIComponent(a.j.email) + '?subject=' + encodeURIComponent(t.asunto) + '&body=' + encodeURIComponent(t.mensaje);
     return setEstado('PDF descargado y correo abierto: adjunta el archivo antes de enviar. Para que salga solo, configura el correo en Ajustes.');
   }
 
   setEstado('Enviando a ' + a.j.email + '…');
-  const dataUri = doc.output('datauristring');
-  const kb = Math.round(dataUri.length * 0.75 / 1024);
-  const err = await enviarEmailJS({
-    to_email:a.j.email, to_name:a.j.acudiente || ('Familia de ' + a.j.nombre),
-    from_name:clubName(), reply_to:S.config.correo || '',
-    subject:t.asunto, message:texto, message_html:htmlCorreo(a, t),
-    player:a.j.nombre, period:a.ev.periodo || a.ev.fecha,
-    filename:nombreArchivo(a.j, a.ev), pdf:dataUri,
-  }).catch(e => 'Sin conexión con EmailJS. Revisa internet e intenta de nuevo.');
-  if(err){ setEstado(err + (kb > 450 ? ' (El PDF pesa ' + kb + ' KB.)' : ''), true); return; }
+  const params = paramsCorreo(a, t);
+  if(S.config.ejsAdjunto){
+    try{ const doc = await construirPdf(a.j, a.ev); params.pdf = doc.output('datauristring'); }catch(e){}
+  }
+  const err = await enviarEmailJS(params).catch(e => 'Sin conexión con EmailJS. Revisa internet e intenta de nuevo.');
+  if(err){ setEstado(err, true); return; }
   setEstado('Enviado a ' + a.j.email + ' ✅');
   toast('Informe enviado a ' + a.j.email);
   saveEval({...a.ev, enviado:{fecha:hoy(), a:a.j.email}});
@@ -1683,12 +1725,16 @@ async function probarCorreo(){
   if(!d.correo) return set('Escribe el correo de la escuela arriba: ahí llegará la prueba.', true);
   const prevCfg = {...S.config}; S.config = {...S.config, ejsService:d.ejsService.trim(), ejsTemplate:d.ejsTemplate.trim(), ejsKey:d.ejsKey.trim()};
   set('Enviando prueba…');
-  const JS = window.jspdf?.jsPDF; let pdf = '';
-  try{ if(JS){ const doc = new JS({unit:'pt', format:'a5'}); doc.setFontSize(16).text('Prueba de envío · ' + (d.club || 'MF Deportivo'), 40, 60); doc.setFontSize(10).text('Si ves este PDF adjunto, el correo quedó bien configurado.', 40, 90); pdf = doc.output('datauristring'); } }catch(e){}
-  const err = await enviarEmailJS({to_email:d.correo.trim(), to_name:d.entrenador || 'Entrenador', from_name:d.club || 'MF Deportivo', reply_to:d.correo.trim(),
-    subject:'Prueba · ' + (d.club || 'MF Deportivo'), message:'Este es un correo de prueba. Si lo recibes con el PDF adjunto, todo quedó configurado.',
-    message_html:'<p>Este es un correo de <b>prueba</b> de ' + esc(d.club || 'MF Deportivo') + '.</p><p>Si lo recibes con el PDF adjunto, todo quedó configurado ✅</p>',
-    player:'Prueba', period:hoy(), filename:'Prueba_MF.pdf', pdf}).catch(() => 'Sin conexión con EmailJS.');
+  const adj = !!d.ejsAdjunto;
+  const params = {to_email:d.correo.trim(), email_acudiente:d.correo.trim(), to_name:d.entrenador || 'Entrenador', acudiente:d.entrenador || 'Entrenador',
+    from_name:d.club || 'MF Deportivo', escuela:d.club || 'MF Deportivo', reply_to:d.correo.trim(), email_entrenador:d.correo.trim(), entrenador:d.entrenador || '',
+    subject:'Prueba · ' + (d.club || 'MF Deportivo'), message:'Este es un correo de prueba. Si lo recibes, el correo quedó configurado.',
+    message_html:'<p>Este es un correo de <b>prueba</b> de ' + esc(d.club || 'MF Deportivo') + '.</p><p>Si lo recibes, el correo quedó configurado ✅</p>',
+    jugador:'Jugador de prueba', player:'Jugador de prueba', periodo:periodoAuto(hoy()), period:periodoAuto(hoy()), fecha:fechaLarga(hoy()),
+    promedio_general:'4.2', promedio:'4.2', avance_general:'+0.3', técnica:'4.1', tecnica:'4.1', táctica:'3.9', tactica:'3.9', físico:'4.5', fisico:'4.5', coordinativo:'4.0', mental:'4.3', personal:'4.6',
+    avances:'(prueba)', fortalezas:'(prueba)', mejorar:'(prueba)', objetivo:'(prueba)', casa:'(prueba)', comentario:'(prueba)', filename:'Prueba_MF.pdf'};
+  if(adj){ try{ const JS = window.jspdf?.jsPDF; const doc = new JS({unit:'pt', format:'a5'}); doc.setFontSize(16).text('Prueba de envío · ' + (d.club || 'MF Deportivo'), 40, 60); params.pdf = doc.output('datauristring'); }catch(e){} }
+  const err = await enviarEmailJS(params).catch(() => 'Sin conexión con EmailJS.');
   S.config = prevCfg;
   set(err || ('Prueba enviada a ' + d.correo + ' ✅ Revisa la bandeja (y spam). Recuerda guardar los ajustes.'), !!err);
 }
